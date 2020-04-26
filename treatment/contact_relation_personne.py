@@ -19,15 +19,14 @@ RCRP = namedtuple("RCRP", "id personne_id_1 personne_id_2 relation_id date_conta
 
 class CRP(DB):
     
-    def add(self, crp, autocommit = True):
+    def add(self, crp):
         r = ("INSERT INTO contact_relation_personnes "
              "(personne_id_1, personne_id_2, relation_id, date_contact, heure_contact) "
              "VALUES "
              "(?, ?, ?, ?, ?)")
         try:
             self.conn.execute(r, crp)
-            if autocommit:
-                self.conn.commit()
+            self.conn.commit()
             return self.get_last_row_id("contact_relation_personnes")
         except sqlite3.IntegrityError as ie:
             print("=> CRP => add => ", ie)

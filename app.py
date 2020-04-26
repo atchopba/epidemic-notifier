@@ -94,7 +94,7 @@ def home_rcp():
 
 @app.route("/crp", methods=["POST"])
 def add_rcp():
-    personne_id_1 = request.form["id_personne_1"]
+    personne_id_1 = request.form["personne_id_1"]
     personne_id_2 = param_and_add_personne(request)
     if personne_id_2 is not None:
         #print("=> utilisateur ajouté : ", personne_id_2)
@@ -140,10 +140,15 @@ def add_test():
     test_id = Test().add(test)
     if test_id:
         print("=> test_id : ", test_id)
-        redirect("/personnes")
+        return redirect("/personnes")
     else:
         print("=> error insertion test")
         return render_template("test.html", Personne().get_one(personne_id), tests=Test().get_all(), error=ERROR_MSG)
+
+@app.route("/tests/delete/<int:id_test>")
+def delete_test(id_test):
+    Test().delete(id_test)
+    return redirect("/tests")
 
 
 if __name__ == '__main__':

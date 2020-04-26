@@ -18,14 +18,13 @@ RPersonne = namedtuple("RPersonne", "id nom prenom date_naiss num_telephone emai
 
 class Personne(DB):
     
-    def add(self, personne, autocommit=True):
+    def add(self, personne):
         r = ("INSERT INTO personnes "
              "(nom, prenom, date_naiss, num_telephone, email) VALUES "
              "(?, ?, ?, ?, ?)")
         try:
             self.conn.execute(r, personne)
-            if autocommit:
-                self.conn.commit()
+            self.conn.commit()
             return self.get_last_row_id("personnes")
         except sqlite3.IntegrityError as ie:
             print("=> Personne => add => ", ie)
