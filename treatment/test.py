@@ -19,25 +19,25 @@ RTest = namedtuple("RTest", "id personne_id date_test heure_test date_resultat h
 class Test(DB):
     
     def add(self, test):
-        r = ("INSERT INTO test "
+        r = ("INSERT INTO tests "
              "(personne_id, date_test, heure_test, date_resultat, heure_resultat, resultat) "
              "VALUES (?, ?, ?, ?, ?, ?)")
         try:
             self.conn.execute(r, test)
             self.conn.commit()
-            return self.get_last_row_id("test")
+            return self.get_last_row_id("tests")
         except sqlite3.IntegrityError:
             return None
         
     def get_one(self, id):
-        self.cur.execute("SELECT  * FROM test WHERE id=? ORDER BY id ASC", id)
+        self.cur.execute("SELECT  * FROM tests WHERE id=? ORDER BY id ASC", id)
         row = self.cur.fetchone()
         if (row != None):
             return RTest(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
         return None
         
     def get_all(self):
-        self.cur.execute("SELECT  * FROM test ORDER BY id ASC")
+        self.cur.execute("SELECT  * FROM tests ORDER BY id ASC")
         rows = self.cur.fetchall()
         return [RTest(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
