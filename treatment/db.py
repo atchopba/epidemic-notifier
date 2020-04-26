@@ -25,6 +25,7 @@ class DB(object):
         self.create_table_personnes
         self.create_table_crp()
         self.create_table_tests()
+        self.create_table_notifications()
         return True
     
     def create_table_relations(self):
@@ -60,7 +61,7 @@ class DB(object):
             UNIQUE (personne_id_1, personne_id_2, relation_id, date_, heure_)
             )''')
         
-    def create_table_test(self):
+    def create_table_tests(self):
         # test
         self.cur.execute("DROP TABLE IF EXISTS tests")
         self.cur.execute(''' CREATE TABLE tests (
@@ -71,7 +72,19 @@ class DB(object):
             date_resultat string,
             heure_resultat string,
             resultat int
-            )''')    
+            )''')
+        
+    def create_table_notifications(self):
+        # notification
+        self.cur.execute("DROP TABLE IF EXISTS notifications")
+        self.cur.execute(''' CREATE TABLE notifications (
+            id integer PRIMARY KEY,
+            personne_id integer,
+            personne_id_due integer,
+            texte string,
+            date_ string,
+            heure_ string
+            )''')
     
     def get_last_row_id(self, table):
         cursor = self.cur.execute("SELECT max(id) FROM "+ table)
