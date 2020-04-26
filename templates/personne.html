@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+ 
+  <head>
+    {% include 'inc/header.html' %}
+  </head>
+ 
+  <body>
+ 
+    <!-- CORPS DE LA PAGE  -->
+    {% include 'inc/header_menu.html' %}
+    
+    Ajout de personne<br/>
+    <form action="/personnes" method="POST">
+      
+      {% if error %}
+        <div class="row" style="color:red;">{{ error }}</div>
+      {% endif %}
+
+      {% include 'inc/form_personne.html' %}
+        
+      	<input type="submit" id="btnvalid_personne" value="Valider" />
+    </form>
+    
+    <br/>
+    Liste de personnes
+    <br/>
+    {% include 'inc/list_personne.html' %}
+ 
+  </body>
+
+</html>

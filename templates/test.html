@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+ 
+  <head>
+    {% include 'inc/header.html' %}
+  </head>
+ 
+  <body>
+ 
+    <!-- CORPS DE LA PAGE  -->
+    {% include 'inc/header_menu.html' %}
+    
+    Ajout de personne<br/>
+    <form action="/tests" method="POST">
+      
+      {% if error %}
+        <div class="row" style="color:red;">{{ error }}</div>
+      {% endif %}
+
+      {% if error %}
+        <div class="row" style="color:red;">{{ error }}</div>
+      {% endif %}
+
+      <div class="row">
+        <label>Personne source : </label><label>{{ personne.nom + ' '+ personne.prenom }}</label>
+        <input type="hidden" id="id_personne_1" name="id_personne_1" value="{{ personne.id }}"
+      </div>
+
+      <div class="row">
+        <label>Date du test : </label>
+        <input type="text" id="date_test" name="date_test" value="" placeholder="10/04/2020" autocomplete="false"/>
+      </div>
+
+      <div class="row">
+        <label>Heure du test : </label>
+        <input type="text" id="heure_test" name="heure_test" value="" placeholder="10:00" autocomplete="false"/>
+      </div>
+
+      <div class="row">
+        <label>Date du resultat : </label>
+        <input type="text" id="date_resultat" name="date_resultat" value="" placeholder="10/04/2020" autocomplete="false"/>
+      </div>
+
+      <div class="row">
+        <label>Heure du resultat : </label>
+        <input type="text" id="heure_resultat" name="heure_resultat" value="" placeholder="10:00" autocomplete="false"/>
+      </div>
+
+      <div class="row">
+        <label>Résultat : </label>
+        <input type="radio" id="resultat" name="resultat" value="0"> Négatif 
+        <input type="radio" id="resultat" name="resultat" value="1"> Positif 
+      </div>
+        
+    	<input type="submit" id="btnvalid_test" value="Valider" />
+    </form>
+    
+    <br/>
+    Liste des tests
+    <br/>
+    <table width="100%">
+      <thead>
+        <td>ID</td>
+        <td>Nom & prenom</td>
+        <td>Date & heure test</td>
+        <td>Date & heure resultat</td>
+        <td></td>
+        <td></td>
+      </thead>
+      <tbody>
+        {% if tests %}
+          {% for r in tests %}
+            <tr>
+              <td>{{ r.id }}</td>
+              <td>{{ r.nom }}</td>
+              <td>{{ r.date_test + ' ' + r.heure_test }}</td>
+              <td>{{ r.date_resultat + ' ' + r.heure_resultat }}</td>
+              <td><a href="crp?personne={{ r.id }}">Relations</a></td>
+              <td><a href="tests/delete/{{ r.id }}" onclick="javascript:return confirm('Etes-vous sûr?');">Supprimer</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td colspan="8">No result!</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+ 
+  </body>
+
+</html>

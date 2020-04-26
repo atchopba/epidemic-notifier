@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+ 
+  <head>
+    {% include 'inc/header.html' %}
+  </head>
+ 
+  <body>
+ 
+    <!-- CORPS DE LA PAGE  -->
+    {% include 'inc/header_menu.html' %}
+    
+    Ajout de personne<br/>
+    <form action="/crp" method="POST">
+
+      {% if error %}
+        <div class="row" style="color:red;">{{ error }}</div>
+      {% endif %}
+
+      <div class="row">
+        <label>Personne source : </label><label>{{ personne.nom + ' '+ personne.prenom }}</label>
+        <input type="hidden" id="id_personne_1" name="id_personne_1" value="{{ personne.id }}"/>
+      </div>
+
+      <div class="row">
+        <label>Relation : </label>
+        <select id="id_relation" name="id_relation">
+          <option value=""></option>
+          {% if relations %}
+            {% for r in relations %}
+              <option value="{{ r.id }}">{{ r.libelle }}</option>
+            {% endfor %}
+          {% endif %}
+        </select>
+      </div>
+
+      {% include 'inc/form_personne.html' %}
+
+      <div class="row"><i>Temps</i></div>
+
+      <div class="row">
+        <label>Date :</label><input type="text" id="date_contact" name="date_contact" value="" placeholder="10/04/2020" autocomplete="false">
+      </div> 
+
+      <div class="row">
+        <label>Heure :</label><input type="text" id="heure_contact" name="heure_contact" value="" placeholder="10:01" autocomplete="false">
+      </div>  
+
+    	<input type="submit" id="btnvalid_crp" value="Valider" />
+
+    </form>
+    
+    <br/>
+    Liste de personnes
+    <br/>
+    {% include 'inc/list_personne.html' %}
+ 
+  </body>
+
+</html>

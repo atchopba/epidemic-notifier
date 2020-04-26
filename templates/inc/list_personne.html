@@ -1,0 +1,32 @@
+<table width="100%">
+      <thead>
+        <td>ID</td>
+        <td>Nom</td>
+        <td>Prénom</td>
+        <td>Date de naissance</td>
+        <td>Numéro de téléphone</td>
+        <td>@mail</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </thead>
+      <tbody>
+        {% if personnes %}
+          {% for p in personnes %}
+            <tr>
+              <td>{{ p.id }}</td>
+              <td>{{ p.nom }}</td>
+              <td>{{ p.prenom }}</td>
+              <td>{{ p.date_naiss }}</td>
+              <td>{{ p.num_telephone }}</td>
+              <td>{{ p.email }}</td>
+              <td><a href="crp?personne={{ p.id }}">Relations</a></td>
+              <td><a href="tests?personne={{ p.id }}">Test</a></td>
+              <td><a href="personnes/delete/{{ p.id }}" onclick="javascript:return confirm('Etes-vous sûr?');">Supprimer</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td colspan="8">No result!</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
