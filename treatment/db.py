@@ -56,8 +56,8 @@ class DB(object):
             personne_id_1 integer,
             personne_id_2 integer,
             relation_id integer,
-            date_ string,
-            heure_ string,
+            date_contact string,
+            heure_contact string,
             UNIQUE (personne_id_1, personne_id_2, relation_id, date_, heure_)
             )''')
         

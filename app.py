@@ -40,14 +40,14 @@ def home_personne():
     personnes = Personne().get_all()
     return render_template("personne.html", personnes=personnes)
     
-def param_and_add_personne(request, autocommit=True):
+def param_and_add_personne(request):
     nom = request.form["nom"]
     prenom = request.form["prenom"]
     date_naiss = request.form["date_naiss"]
     num_telephone = request.form["num_telephone"]
     email = request.form["email"]
     personne = TPersonne(nom, prenom, date_naiss, num_telephone, email)
-    return Personne().add(personne, autocommit)
+    return Personne().add(personne)
     
 @app.route("/personnes", methods=["POST"])
 def add_personne():
@@ -108,8 +108,8 @@ def add_rcp():
             #print("=> CRP_id : ", crp_id)
             #crp.commit_trans()
             return redirect("crp?personne="+str(personne_id_1))
-        else:
-            print("=> CRP_id : None ", crp_id)
+        #else:
+        #    print("=> CRP_id : None ", crp_id)
     return render_template("crp.html", 
                            personne=Personne().get_one(personne_id_1), 
                            relations=Relation().get_all(), 
@@ -139,10 +139,10 @@ def add_test():
     test = TTest(personne_id, date_test, heure_test, date_resultat, heure_resultat, resultat)
     test_id = Test().add(test)
     if test_id:
-        print("=> test_id : ", test_id)
+        #print("=> test_id : ", test_id)
         return redirect("/personnes")
     else:
-        print("=> error insertion test")
+        #print("=> error insertion test")
         return render_template("test.html", Personne().get_one(personne_id), tests=Test().get_all(), error=ERROR_MSG)
 
 @app.route("/tests/delete/<int:id_test>")
