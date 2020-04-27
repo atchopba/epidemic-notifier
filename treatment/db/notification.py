@@ -22,7 +22,7 @@ def get_current_time():
 
 
 TNotification = namedtuple("TNotification", "date_ heure_")
-RNotification = namedtuple("RNotification", "id  date_ heure_")
+RNotification = namedtuple("RNotification", "id date_ heure_")
 
 class Notification(DB):
     

@@ -26,6 +26,7 @@ class DB(object):
         self.create_table_crp()
         self.create_table_tests()
         self.create_table_notifications()
+        self.create_table_personne_notifications()
         return True
     
     def create_table_relations(self):
@@ -73,12 +74,22 @@ class DB(object):
             heure_resultat string,
             resultat int
             )''')
-        
+     
     def create_table_notifications(self):
         # notification
         self.cur.execute("DROP TABLE IF EXISTS notifications")
         self.cur.execute(''' CREATE TABLE notifications (
             id integer PRIMARY KEY,
+            date_ string,
+            heure_ string
+            )''')
+        
+    def create_table_personne_notifications(self):
+        # notification
+        self.cur.execute("DROP TABLE IF EXISTS personne_notifications")
+        self.cur.execute(''' CREATE TABLE personne_notifications (
+            id integer PRIMARY KEY,
+            notification_id integer,
             personne_id integer,
             personne_id_due integer,
             texte string,
