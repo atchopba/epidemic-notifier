@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+ 
+  <head>
+    {% include 'inc/header.html' %}
+  </head>
+ 
+  <body>
+ 
+    <!-- CORPS DE LA PAGE  -->
+    {% include 'inc/header_menu.html' %}
+    
+    Notifier les personnes enregistrées !
+    <form action="/notifications" method="POST">
+    	<input type="submit" value="Commencer" onclick="javascript:return confirm('Etes-vous sûr?');" />
+    </form>
+ 
+  </body>
+
+</html>

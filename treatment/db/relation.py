@@ -10,7 +10,7 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from treatment.db import DB
+from treatment.db.db import DB
 import sqlite3
 
 TRelation = namedtuple("TRelation", "libelle")

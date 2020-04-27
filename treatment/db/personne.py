@@ -10,7 +10,7 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from treatment.db import DB
+from treatment.db.db import DB
 import sqlite3
 
 TPersonne = namedtuple("TPersonne", "nom prenom date_naiss num_telephone email")
@@ -30,8 +30,8 @@ class Personne(DB):
             print("=> Personne => add => ", ie)
             return None
         
-    def get_one(self, id):
-        self.cur.execute("SELECT  * FROM personnes WHERE id=? ORDER BY id ASC", id)
+    def get_one(self, id_):
+        self.cur.execute("SELECT  * FROM personnes WHERE id=? ORDER BY id ASC", id_)
         row = self.cur.fetchone()
         if (row != None):
             return RPersonne(str(row[0]), row[1], row[2], row[3], row[4], row[5])

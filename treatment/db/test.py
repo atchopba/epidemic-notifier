@@ -10,7 +10,7 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from treatment.db import DB
+from treatment.db.db import DB
 import sqlite3
 
 TTest = namedtuple("TTest", "personne_id date_test heure_test date_resultat heure_resultat resultat")

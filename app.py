@@ -11,11 +11,12 @@
 
 from flask import Flask, render_template, request, redirect
 
-from treatment.db import DB
-from treatment.personne import Personne, TPersonne
-from treatment.relation import Relation, TRelation
-from treatment.contact_relation_personne import CRP, TCRP
-from treatment.test import Test, TTest
+from treatment.db.db import DB
+from treatment.db.personne import Personne, TPersonne
+from treatment.db.relation import Relation, TRelation
+from treatment.db.contact_relation_personne import CRP, TCRP
+from treatment.db.test import Test, TTest
+from treatment.db.notification import Notification, TNotification
 
 ERROR_MSG = "Veuillez recommencer!"
 
@@ -123,8 +124,8 @@ def delete_crp(id_crp):
 
 @app.route("/tests", methods=["GET"])
 def home_test():
-    id_personne = request.args.get("personne")
-    personne = Personne().get_one(id_personne)
+    personne_id = request.args.get("personne")
+    personne = Personne().get_one(personne_id) if personne_id is not None else None
     tests = Test().get_all()
     return render_template("test.html", personne=personne, tests=tests)
 
@@ -150,6 +151,22 @@ def delete_test(id_test):
     Test().delete(id_test)
     return redirect("/tests")
 
+@app.route("/notifications")
+def home_notification():
+    notifications = Notification().get_all()
+    return render_template("/notification.html", notifications=notifications)
+
+@app.route("/notifications", methods=["POST"])
+def add_notification():
+    notification_id = Notification().add()
+    if notification_id is not None:
+        return redirect("/notifications")
+    return render_template("notification.html", error=ERROR_MSG)
+    
+@app.route("/notifications/delete/<int:id_notification>")
+def delete_notification(id_notitification):
+    Notification().delete(id_notitification)
+    return redirect("/notifications")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
