@@ -42,6 +42,6 @@ class Relation(DB):
         return [RRelation(row[0], row[1]) for row in rows]
     
     def delete(self, id):
-        self.conn.execute("DELETE FROM relations WHERE id=?", str(id))
+        deleted = self.conn.execute("DELETE FROM relations WHERE id=?", str(id))
         self.conn.commit()
-        return True
+        return deleted

@@ -6,6 +6,7 @@
         <td>Date de naissance</td>
         <td>Numéro de téléphone</td>
         <td>@mail</td>
+        <td>NB contact</td>
         <td></td>
         <td></td>
         <td></td>
@@ -20,6 +21,7 @@
               <td>{{ p.date_naiss }}</td>
               <td>{{ p.num_telephone }}</td>
               <td>{{ p.email }}</td>
+              <td>{{ p.nb_contact }}</td>
               <td><a href="crp?personne={{ p.id }}">Relations</a></td>
               <td><a href="tests?personne={{ p.id }}">Test</a></td>
               <td><a href="personnes/delete/{{ p.id }}" onclick="javascript:return confirm('Etes-vous sûr?');">Supprimer</td>

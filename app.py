@@ -37,7 +37,7 @@ def db_create():
 
 @app.route("/personnes")
 def home_personne():
-    personnes = Personne().get_all()
+    personnes = CRP().get_personnes_crp() #Personne().get_all()
     return render_template("personne.html", personnes=personnes)
     
 def param_and_add_personne(request):
@@ -84,10 +84,10 @@ def delete_relation(id_relation):
 
 @app.route("/crp", methods=["GET"])
 def home_rcp():
-    id_personne = request.args.get("personne")
-    personne = Personne().get_one(id_personne)
+    personne_id = request.args.get("personne")
+    personne = Personne().get_one(personne_id)
     relations = Relation().get_all()
-    personnes = CRP().get_all_crp_with_id_personne(id_personne)
+    personnes = CRP().get_personnes_crp(personne_id)
     #print("=> personnes : ", personnes)
     #print(")> crp : ", CRP().get_all())
     return render_template("crp.html", personne=personne, relations=relations, personnes=personnes)

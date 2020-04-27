@@ -42,6 +42,6 @@ class Test(DB):
         return [RTest(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
     def delete(self, id):
-        self.conn.execute("DELETE FROM relations WHERE id=?", str(id))
+        deleted = self.conn.execute("DELETE FROM relations WHERE id=?", str(id))
         self.conn.commit()
-        return True
+        return deleted
