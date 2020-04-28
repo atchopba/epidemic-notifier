@@ -168,8 +168,8 @@ def add_notification():
     return render_template("notification.html", error=ERROR_MSG)
     
 @app.route("/notifications/delete/<int:id_notification>")
-def delete_notification(id_notitification):
-    Notification().delete(id_notitification)
+def delete_notification(id_notification):
+    Notification().delete(id_notification)
     return redirect("/notifications")
 
 if __name__ == '__main__':

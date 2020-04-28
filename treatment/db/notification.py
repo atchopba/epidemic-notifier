@@ -48,3 +48,8 @@ class Notification(DB):
         self.cur.execute("SELECT  * FROM notifications ORDER BY id ASC")
         rows = self.cur.fetchall()
         return [RNotification(row[0], row[1], row[2]) for row in rows]
+    
+    def delete(self, id_):
+        deleted = self.conn.execute("DELETE FROM notifications WHERE id=?", str(id_))
+        self.conn.commit()
+        return deleted
