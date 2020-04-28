@@ -29,8 +29,8 @@ class Relation(DB):
             print("=> Relations => add => ", ie)
             return None
         
-    def get_one(self, id):
-        self.cur.execute("SELECT  * FROM relations WHERE id=? ORDER BY id ASC", id)
+    def get_one(self, id_):
+        self.cur.execute("SELECT  * FROM relations WHERE id=? ORDER BY id ASC", id_)
         row = self.cur.fetchone()
         if (row != None):
             return RRelation(row[0], row[1])
@@ -41,7 +41,7 @@ class Relation(DB):
         rows = self.cur.fetchall()
         return [RRelation(row[0], row[1]) for row in rows]
     
-    def delete(self, id):
-        deleted = self.conn.execute("DELETE FROM relations WHERE id=?", str(id))
+    def delete(self, id_):
+        deleted = self.conn.execute("DELETE FROM relations WHERE id=?", str(id_))
         self.conn.commit()
         return deleted

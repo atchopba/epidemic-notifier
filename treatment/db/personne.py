@@ -42,7 +42,7 @@ class Personne(DB):
         rows = self.cur.fetchall()
         return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows]
     
-    def delete(self, id):
-        deleted = self.conn.execute("DELETE FROM personnes WHERE id=?", str(id))
+    def delete(self, id_):
+        deleted = self.conn.execute("DELETE FROM personnes WHERE id=?", str(id_))
         self.conn.commit()
         return deleted

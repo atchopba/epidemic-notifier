@@ -29,8 +29,8 @@ class Test(DB):
         except sqlite3.IntegrityError:
             return None
         
-    def get_one(self, id):
-        self.cur.execute("SELECT  * FROM tests WHERE id=? ORDER BY id ASC", id)
+    def get_one(self, id_):
+        self.cur.execute("SELECT  * FROM tests WHERE id=? ORDER BY id ASC", id_)
         row = self.cur.fetchone()
         if (row != None):
             return RTest(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
@@ -41,7 +41,7 @@ class Test(DB):
         rows = self.cur.fetchall()
         return [RTest(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
-    def delete(self, id):
-        deleted = self.conn.execute("DELETE FROM relations WHERE id=?", str(id))
+    def delete(self, id_):
+        deleted = self.conn.execute("DELETE FROM relations WHERE id=?", str(id_))
         self.conn.commit()
         return deleted

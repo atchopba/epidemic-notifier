@@ -11,10 +11,12 @@
 
 from collections import namedtuple
 from treatment.db.db import DB
+from treatment.db.notification import Notification
 import sqlite3
 
 TPNotification = namedtuple("TPNotification", "notification_id personne_id personne_id_due texte date_ heure_")
 RPNotification = namedtuple("RPNotification", "id notification_id personne_id personne_id_due texte date_ heure_")
+RPNNotification = namedtuple("RPNNotification", "id date_ heure_ nb_notifies")
 
 class PNotification(DB):
     
@@ -29,8 +31,8 @@ class PNotification(DB):
         except sqlite3.IntegrityError:
             return None
         
-    def get_one(self, id):
-        self.cur.execute("SELECT  * FROM personne_notifications WHERE id=? ORDER BY id ASC", id)
+    def get_one(self, id_):
+        self.cur.execute("SELECT  * FROM personne_notifications WHERE id=? ORDER BY id ASC", id_)
         row = self.cur.fetchone()
         if (row != None):
             return RPNotification(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
@@ -40,3 +42,18 @@ class PNotification(DB):
         self.cur.execute("SELECT  * FROM personne_notifications ORDER BY id ASC")
         rows = self.cur.fetchall()
         return [RPNotification(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
+    
+    def get_notification_nb_pnotification(self, notification_id):
+        r = "SELECT COUNT(*) FROM personne_notifications WHERE notification_id=?"
+        self.cur.execute(r, str(notification_id))
+        row = self.cur.fetchone()
+        return row[0]
+    
+    def get_notification_pnotifications(self, notification_id=None):
+        notifications = Notification().get_all() if notification_id is None else [Notification().get_one(notification_id)]
+        print("=> notifications : ", notifications)
+        n_dict = []
+        for n in notifications:
+            n_pn = RPNNotification(n.id, n.date_, n.heure_, self.get_notification_nb_pnotification(n.id))
+            n_dict.append(n_pn)
+        return n_dict

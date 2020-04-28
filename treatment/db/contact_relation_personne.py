@@ -11,7 +11,7 @@
 
 from collections import namedtuple
 from treatment.db.db import DB
-from treatment.db.personne import Personne, RPersonne
+from treatment.db.personne import Personne
 import sqlite3
 
 TCRP = namedtuple("TCRP", "personne_id_1 personne_id_2 relation_id date_contact heure_contact")
@@ -33,8 +33,8 @@ class CRP(DB):
             print("=> CRP => add => ", ie)
             return None
         
-    def get_one(self, id):
-        self.cur.execute("SELECT  * FROM contact_relation_personnes WHERE id=? ORDER BY id ASC", id)
+    def get_one(self, id_):
+        self.cur.execute("SELECT  * FROM contact_relation_personnes WHERE id=? ORDER BY id ASC", id_)
         row = self.cur.fetchone()
         if (row != None):
             return RCRP(row[0], row[1], row[2], row[3], row[4], row[5])
@@ -45,14 +45,8 @@ class CRP(DB):
         rows = self.cur.fetchall()
         return [RCRP(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows]
     
-    def get_personne_nb_contact(self, personne_id):
-        r = "SELECT COUNT(*) FROM contact_relation_personnes WHERE personne_id_1=? OR personne_id_2=? LIMIT 1"
-        self.cur.execute(r, (str(personne_id), str(personne_id)))
-        row = self.cur.fetchone()
-        return row[0]
-    
-    def delete(self, id):
-        deleted = self.conn.execute("DELETE FROM contact_relation_personnes WHERE id=?", str(id))
+    def delete(self, id_):
+        deleted = self.conn.execute("DELETE FROM contact_relation_personnes WHERE id=?", str(id_))
         self.conn.commit()
         return deleted
     
@@ -62,6 +56,12 @@ class CRP(DB):
         deleted = self.conn.execute(r, str(id_personne), str(id_personne))
         self.conn.commit()
         return deleted
+    
+    def get_personne_nb_contact(self, personne_id):
+        r = "SELECT COUNT(*) FROM contact_relation_personnes WHERE personne_id_1=? OR personne_id_2=? LIMIT 1"
+        self.cur.execute(r, (str(personne_id), str(personne_id)))
+        row = self.cur.fetchone()
+        return row[0]
     
     def get_personnes_crp(self, personne_id=None):
         personnes = Personne().get_all() if personne_id is None else [Personne().get_one(personne_id)]

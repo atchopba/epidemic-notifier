@@ -16,7 +16,8 @@ from treatment.db.personne import Personne, TPersonne
 from treatment.db.relation import Relation, TRelation
 from treatment.db.contact_relation_personne import CRP, TCRP
 from treatment.db.test import Test, TTest
-from treatment.db.notification import Notification, TNotification
+from treatment.db.notification import Notification
+from treatment.db.personne_notification import PNotification
 
 ERROR_MSG = "Veuillez recommencer!"
 
@@ -153,14 +154,17 @@ def delete_test(id_test):
 
 @app.route("/notifications")
 def home_notification():
-    notifications = Notification().get_all()
+    notifications = PNotification().get_notification_pnotifications() #Notification().get_all()
     return render_template("/notification.html", notifications=notifications)
 
 @app.route("/notifications", methods=["POST"])
 def add_notification():
     notification_id = Notification().add()
     if notification_id is not None:
+        print("=> notification_id : ", notification_id)
         return redirect("/notifications")
+    else:
+        print("=> notification_id : RIEN")
     return render_template("notification.html", error=ERROR_MSG)
     
 @app.route("/notifications/delete/<int:id_notification>")

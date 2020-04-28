@@ -37,14 +37,14 @@ class Notification(DB):
         except sqlite3.IntegrityError:
             return None
         
-    def get_one(self, id):
-        self.cur.execute("SELECT  * FROM notifications WHERE id=? ORDER BY id ASC", id)
+    def get_one(self, id_):
+        self.cur.execute("SELECT  * FROM notifications WHERE id=? ORDER BY id ASC", id_)
         row = self.cur.fetchone()
         if (row != None):
-            return RPNotification(row[0], row[1])
+            return RNotification(row[0], row[1])
         return None
         
     def get_all(self):
         self.cur.execute("SELECT  * FROM notifications ORDER BY id ASC")
         rows = self.cur.fetchall()
-        return [RPNotification(row[0], row[1]) for row in rows]
+        return [RNotification(row[0], row[1], row[2]) for row in rows]
