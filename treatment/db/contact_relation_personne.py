@@ -62,9 +62,34 @@ class CRP(DB):
         return row[0]
     
     def get_personnes_crp(self, personne_id=None):
-        personnes = Personne().get_all() if personne_id is None else [Personne().get_one(personne_id)]
-        p_crp_dict = []
-        for p in personnes:
-            p_crp = RCRPPersonne(p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, self.get_personne_nb_contact(p.id))
-            p_crp_dict.append(p_crp)
-        return p_crp_dict
+        #personnes = Personne().get_all() if personne_id is None else [Personne().get_one(personne_id)]
+        if personne_id is None:
+            personnes = Personne().get_all()
+            p_crp_dict = []
+            for p in personnes:
+                p_crp = RCRPPersonne(p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, self.get_personne_nb_contact(p.id))
+                p_crp_dict.append(p_crp)
+            return p_crp_dict
+        else:
+            r = ('''
+                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email
+                FROM contact_relation_personnes crp 
+                JOIN personnes p ON p.id = crp.personne_id_1
+                WHERE crp.personne_id_2 = ?
+            ''')
+            self.cur.execute(r, str(personne_id))
+            rows_1 = self.cur.fetchall()
+            #
+            r = ('''
+                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email
+                FROM contact_relation_personnes crp 
+                JOIN personnes p ON p.id = crp.personne_id_2
+                WHERE crp.personne_id_1 = ?
+            ''')
+            self.cur.execute(r, str(personne_id))
+            rows_2 = self.cur.fetchall()
+            #
+            rows_1 += rows_2
+            #
+            return [RCRPPersonne(row[0], row[1], row[2], row[3], row[4], row[5], self.get_personne_nb_contact(row[0])) for row in rows_1]
+        

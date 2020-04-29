@@ -47,14 +47,13 @@ class PNotification(DB):
         return super().delete("_personne_notifications", id_)
     
     def get_notification_nb_pnotification(self, notification_id):
-        r = "SELECT COUNT(*) FROM personne_notifications WHERE notification_id=?"
-        self.cur.execute(r, str(notification_id))
+        r = "SELECT COUNT(*) FROM personne_notifications WHERE notification_id={}".format(notification_id) #?"
+        self.cur.execute(r)#, str(notification_id))
         row = self.cur.fetchone()
         return row[0]
     
     def get_notification_pnotifications(self, notification_id=None):
         notifications = Notification().get_all() if notification_id is None else [Notification().get_one(notification_id)]
-        print("=> notifications : ", notifications)
         n_dict = []
         for n in notifications:
             n_pn = RPNNotification(n.id, n.date_, n.heure_, self.get_notification_nb_pnotification(n.id))
