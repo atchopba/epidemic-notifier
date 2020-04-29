@@ -68,6 +68,7 @@
         <td>Nom & prenom</td>
         <td>Date & heure test</td>
         <td>Date & heure resultat</td>
+        <td>Résultat</td>
         <td></td>
         <td></td>
       </thead>
@@ -76,9 +77,16 @@
           {% for r in tests %}
             <tr>
               <td>{{ r.id }}</td>
-              <td>{{ r.nom }}</td>
+              <td>{{ r.p_nom + ' ' + r.p_prenom }}</td>
               <td>{{ r.date_test + ' ' + r.heure_test }}</td>
               <td>{{ r.date_resultat + ' ' + r.heure_resultat }}</td>
+              <td>
+                {% if r.date_resultat %}
+                  {% if r.resultat == '1' %} Positif
+                  {% else %} Négatif
+                  {% endif %}
+                {% endif %}
+              </td>
               <td><a href="crp?personne={{ r.id }}">Relations</a></td>
               <td><a href="tests/delete/{{ r.id }}" onclick="javascript:return confirm('Etes-vous sûr?');">Supprimer</td>
             </tr>

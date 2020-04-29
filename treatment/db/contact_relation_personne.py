@@ -34,7 +34,7 @@ class CRP(DB):
             return None
         
     def get_one(self, id_):
-        self.cur.execute("SELECT  * FROM contact_relation_personnes WHERE id=? ORDER BY id ASC", id_)
+        self.cur.execute("SELECT  * FROM contact_relation_personnes WHERE id=? ORDER BY id ASC", str(id_))
         row = self.cur.fetchone()
         if (row != None):
             return RCRP(row[0], row[1], row[2], row[3], row[4], row[5])
@@ -46,9 +46,7 @@ class CRP(DB):
         return [RCRP(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows]
     
     def delete(self, id_):
-        deleted = self.conn.execute("DELETE FROM contact_relation_personnes WHERE id=?", str(id_))
-        self.conn.commit()
-        return deleted
+        return super().delete("contact_relation_personnes", id_)
     
     def delete_due_2_personne(self, id_personne):
         r = ("DELETE FROM contact_relation_personnes WHERE personne_id_1=? or "

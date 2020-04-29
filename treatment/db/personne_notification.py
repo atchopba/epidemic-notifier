@@ -22,7 +22,7 @@ class PNotification(DB):
     
     def add(self, pnotification):
         r = ("INSERT INTO personne_notifications "
-             "(pnotification_id, personne_id, personne_id_due, texte, date_, heure_) "
+             "(notification_id, personne_id, personne_id_due, texte, date_, heure_) "
              "VALUES (?, ?, ?, ?, ?, ?)")
         try:
             self.conn.execute(r, pnotification)
@@ -43,6 +43,9 @@ class PNotification(DB):
         rows = self.cur.fetchall()
         return [RPNotification(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
+    def delete(self, id_):
+        return super().delete("_personne_notifications", id_)
+    
     def get_notification_nb_pnotification(self, notification_id):
         r = "SELECT COUNT(*) FROM personne_notifications WHERE notification_id=?"
         self.cur.execute(r, str(notification_id))
@@ -57,3 +60,4 @@ class PNotification(DB):
             n_pn = RPNNotification(n.id, n.date_, n.heure_, self.get_notification_nb_pnotification(n.id))
             n_dict.append(n_pn)
         return n_dict
+    

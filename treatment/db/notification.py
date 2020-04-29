@@ -11,15 +11,8 @@
 
 from collections import namedtuple
 from treatment.db.db import DB
+from treatment import common as cm
 import sqlite3
-from datetime import datetime
-
-def get_current_date():
-    return datetime.today().strftime('%d-%m-%Y')
-
-def get_current_time():
-    return datetime.today().strftime('%H:%M:%S')
-
 
 TNotification = namedtuple("TNotification", "date_ heure_")
 RNotification = namedtuple("RNotification", "id date_ heure_")
@@ -31,14 +24,14 @@ class Notification(DB):
              "(date_, heure_) "
              "VALUES (?, ?)")
         try:
-            self.conn.execute(r, (get_current_date(), get_current_time()))
+            self.conn.execute(r, (cm.get_current_date(), cm.get_current_time()))
             self.conn.commit()
             return self.get_last_row_id("notifications")
         except sqlite3.IntegrityError:
             return None
         
     def get_one(self, id_):
-        self.cur.execute("SELECT  * FROM notifications WHERE id=? ORDER BY id ASC", id_)
+        self.cur.execute("SELECT  * FROM notifications WHERE id=? ORDER BY id ASC", str(id_))
         row = self.cur.fetchone()
         if (row != None):
             return RNotification(row[0], row[1])
@@ -50,6 +43,4 @@ class Notification(DB):
         return [RNotification(row[0], row[1], row[2]) for row in rows]
     
     def delete(self, id_):
-        deleted = self.conn.execute("DELETE FROM notifications WHERE id=?", str(id_))
-        self.conn.commit()
-        return deleted
+        return super().delete("notifications", id_)

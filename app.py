@@ -18,6 +18,7 @@ from treatment.db.contact_relation_personne import CRP, TCRP
 from treatment.db.test import Test, TTest
 from treatment.db.notification import Notification
 from treatment.db.personne_notification import PNotification
+import treatment.notifier as notifier
 
 ERROR_MSG = "Veuillez recommencer!"
 
@@ -162,6 +163,8 @@ def add_notification():
     notification_id = Notification().add()
     if notification_id is not None:
         print("=> notification_id : ", notification_id)
+        notifier.notifier_personne(notification_id)
+        print("=> fin de la notification")
         return redirect("/notifications")
     else:
         print("=> notification_id : RIEN")

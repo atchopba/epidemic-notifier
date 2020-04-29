@@ -31,7 +31,7 @@ class Personne(DB):
             return None
         
     def get_one(self, id_):
-        self.cur.execute("SELECT  * FROM personnes WHERE id=? ORDER BY id ASC", id_)
+        self.cur.execute("SELECT  * FROM personnes WHERE id=? ORDER BY id ASC", str(id_))
         row = self.cur.fetchone()
         if (row != None):
             return RPersonne(str(row[0]), row[1], row[2], row[3], row[4], row[5])
@@ -43,6 +43,4 @@ class Personne(DB):
         return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows]
     
     def delete(self, id_):
-        deleted = self.conn.execute("DELETE FROM personnes WHERE id=?", str(id_))
-        self.conn.commit()
-        return deleted
+        return super().delete("personnes", id_)

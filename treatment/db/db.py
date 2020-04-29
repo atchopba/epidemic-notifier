@@ -104,6 +104,11 @@ class DB(object):
     def delete_all(self, table):
         return self.cur.execute("DELETE FROM "+ table)
     
+    def delete(self, table_, id_):
+        deleted = self.conn.execute("DELETE FROM "+ table_ +" WHERE id=?", str(id_))
+        self.conn.commit()
+        return deleted
+    
     def commit_trans(self):
         self.conn.commit()
         
