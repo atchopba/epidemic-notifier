@@ -12,7 +12,7 @@
 from datetime import datetime
 
 
-NOTIF = ("Dûe au resultat positif de {}, fait le {} proche de vous (...), "
+NOTIF = ("Dû au resultat positif de {}, fait le {} proche de vous (...), "
          "nous vous encourageons vivement vous {} à vous mettre en quarantaine "
          "et à faire un test dans l'immédiat!\n"
          "Le Maire du quartier")
