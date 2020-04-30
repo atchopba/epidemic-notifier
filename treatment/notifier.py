@@ -32,8 +32,10 @@ def notifier_personne(notification_id):
         for crp in crp_dict:
             print()
             # 3.1. envoyer un message pour le notifier 
-            p_notif = cm.NOTIF.format(p.p_nom +" "+ p.p_prenom, p.date_test, crp.nom +" "+ crp.prenom)
+            p_notif = cm.NOTIF.format(p.p_nom +" "+ p.p_prenom, p.date_test, crp.relation, crp.nom +" "+ crp.prenom)
             print (p_notif)
+            
+            # https://stackoverflow.com/questions/10147455/how-to-send-an-email-with-gmail-as-provider-using-python
             
             # 3.2. + enregistrement de la notification en base 
             pnotif = TPNotification(notification_id, crp.id, p.p_id, p_notif, cm.get_current_date(), cm.get_current_time())
