@@ -14,6 +14,8 @@ from treatment.db.test import Test
 from treatment.db.contact_relation_personne import CRP
 from treatment.db.personne_notification import TPNotification, PNotification
 
+import json
+
 
 notif_sms = cm.load_file(cm.FILE_NOTIF_SMS)
 notif_email = cm.load_file(cm.FILE_NOTIF_EMAIL)
@@ -27,6 +29,9 @@ cm.create_folder(path_email)
 
 
 def notifier_personne(notification_id):
+    
+    notif_dict = []
+    
     # 1. selectionner les personnes avec le test positifs
     personnes_dict = Test().get_all("1")
 
@@ -61,5 +66,9 @@ def notifier_personne(notification_id):
             
             # 3.2. + enregistrement de la notification en base 
             pnotif = TPNotification(notification_id, crp.id, p.p_id, p_notif, cm.get_current_date_fr(), cm.get_current_time())
-            PNotification().add(pnotif)
+            id_notif = PNotification().add(pnotif)
             
+            # ajout de l'id de la nouvelle notification personne
+            notif_dict.append(id_notif)
+    
+    return json.dumps(notif_dict)

@@ -9,7 +9,7 @@
 # __email__ = "Albin TCHOPBA <atchopba @ gmail dot com"
 # __status__ = "Production"
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, make_response
 
 from treatment.db.db import DB
 from treatment.db.personne import Personne, TPersonne
@@ -158,17 +158,20 @@ def home_notification():
     notifications = PNotification().get_notification_pnotifications() #Notification().get_all()
     return render_template("/notification.html", notifications=notifications)
 
-@app.route("/notifications", methods=["POST"])
+@app.route("/notifications/add", methods=["POST"])
 def add_notification():
     notification_id = Notification().add()
     if notification_id is not None:
-        print("=> notification_id : ", notification_id)
-        notifier.notifier_personne(notification_id)
+        print("=> notification_id : ", notification_id) 
+        resp = make_response(notifier.notifier_personne(notification_id))
+        resp.status_code = 200
+        resp.headers["Access-Control-Allow-Origin"] = '*'
         print("=> fin de la notification")
-        return redirect("/notifications")
+        #return redirect("/notifications")
     else:
         print("=> notification_id : RIEN")
-    return render_template("notification.html", error=ERROR_MSG)
+    #return render_template("notification.html", error=ERROR_MSG)
+    return resp
     
 @app.route("/notifications/delete/<int:id_notification>")
 def delete_notification(id_notification):

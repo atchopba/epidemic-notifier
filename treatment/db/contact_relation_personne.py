@@ -67,7 +67,7 @@ class CRP(DB):
             personnes = Personne().get_all()
             p_crp_dict = []
             for p in personnes:
-                p_crp = RCRPPersonne(p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, self.get_personne_nb_contact(p.id))
+                p_crp = RCRPPersonne(p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, "", self.get_personne_nb_contact(p.id))
                 p_crp_dict.append(p_crp)
             return p_crp_dict
         else:
