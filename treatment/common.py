@@ -10,6 +10,7 @@
 # __status__ = "Production"
 
 from datetime import datetime
+import os
 
 
 NOTIF = ("Dû au resultat positif de {}, fait le {} proche de vous ({}), "
@@ -17,8 +18,27 @@ NOTIF = ("Dû au resultat positif de {}, fait le {} proche de vous ({}), "
          "et à faire un test dans l'immédiat!\n"
          "Le Maire du quartier")
 
-def get_current_date():
-    return datetime.today().strftime('%d-%m-%Y')
+FILE_NOTIF_SMS = "./templates/model/notification.sms.model"
+FILE_NOTIF_EMAIL = "./templates/model/notification.email.model"
+
+def get_current_date_fr():
+    return datetime.today().strftime("%d-%m-%Y")
+
+def get_current_date_en():
+    return datetime.today().strftime("%Y/%m/%d")
 
 def get_current_time():
-    return datetime.today().strftime('%H:%M:%S')
+    return datetime.today().strftime("%H:%M:%S")
+
+def load_file(file_):
+    with open(file_,'r') as f:
+        file_content = f.read()
+    return file_content
+
+def write_file(file_, text_):
+    f = open(file_, "a")
+    f.write(text_)
+    f.close()
+
+def create_folder(paths_):
+    os.makedirs(paths_, exist_ok=True)
