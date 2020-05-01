@@ -19,6 +19,7 @@ from treatment.db.test import Test, TTest
 from treatment.db.notification import Notification
 from treatment.db.personne_notification import PNotification
 import treatment.notifier as notifier
+import json
 
 ERROR_MSG = "Veuillez recommencer!"
 
@@ -42,6 +43,16 @@ def db_create():
 def home_personne():
     personnes = CRP().get_personnes_crp() #Personne().get_all()
     return render_template("personne.html", personnes=personnes)
+
+@app.route("/personnes/search", methods=["POST"])
+def search_personne():
+    p_name = request.form["search_name"]
+    print("=> search_personne : "+ p_name)
+    json_ = json.dumps(Personne().find_by_name(p_name))
+    resp = make_response(json_)
+    resp.status_code = 200
+    resp.headers["Access-Control-Allow-Origin"] = '*'
+    return resp
     
 def param_and_add_personne(request):
     nom = request.form["nom"]
@@ -98,7 +109,12 @@ def home_rcp():
 @app.route("/crp", methods=["POST"])
 def add_rcp():
     personne_id_1 = request.form["personne_id_1"]
-    personne_id_2 = param_and_add_personne(request)
+    # test de l'id de la 2e personne
+    try:
+        personne_id_2 = int(request.form["personne_id_2"])
+    except ValueError:
+        personne_id_2 = param_and_add_personne(request)
+    # 
     if personne_id_2 is not None:
         #print("=> utilisateur ajouté : ", personne_id_2)
         id_relation = request.form["id_relation"]

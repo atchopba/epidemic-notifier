@@ -42,5 +42,11 @@ class Personne(DB):
         rows = self.cur.fetchall()
         return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows]
     
+    def find_by_name(self, name_):
+        r = "SELECT * FROM personnes WHERE nom LIKE '%{}%' OR prenom LIKE '%{}%'".format(name_, name_)
+        self.cur.execute(r)
+        rows = self.cur.fetchall()
+        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows]
+    
     def delete(self, id_):
         return super().delete("personnes", id_)

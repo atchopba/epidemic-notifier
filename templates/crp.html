@@ -33,7 +33,14 @@
           {% endif %}
         </select>
       </div>
-
+      <br:>
+      <div class="row">Selectionner une personne</div>
+      <div class="row">
+        <label>Nom & prenom : </label>
+        <input type="text" id="searchname" name="searchname" value="" placeholder="Nom & prenom recherchés" size="64" autocomplete="false">
+        <input type="hidden" id="personne_id_2" name="personne_id_2" value="" autocomplete="false">
+      <br/>
+      <div class="row">OU</div>
       {% include 'inc/form_personne.html' %}
 
       <div class="row"><i>Temps</i></div>

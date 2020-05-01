@@ -23,4 +23,45 @@ $(document).ready(function(){
         });
     });
 
+    // autocompletion
+    $("#searchname").autocomplete({
+
+        source: function(request, response) {
+            
+            $.ajax({
+                url: "/personnes/search",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    search_name: $("#searchname").val()
+                },
+                success: function(data) {
+                    response($.map(data, function(obj) {
+                        return {
+                            "label" : obj[1] +" "+ obj[2] +" - " + obj[3], 
+                            "value" : obj[0]
+                        };
+                    }));
+                },
+                error: function(result, status, error) {
+                    console.log('Extraction du nom erreur : ', error);
+                }
+            });
+
+        },
+        minLength: 3,
+        position : {
+            at : 'bottom',
+            my : 'top'
+        },
+        select : function(event, ui){ // lors de la sélection d'une proposition
+            console.log("=> select : ", ui);
+            console.log("==> selected : ", ui.item.label, ui.item.value);
+            
+            $("#searchname").val(ui.item.label); // display the selected text
+            $("#personne_id_2").val(ui.item.value); // save selected id to hidden input
+            return false;
+        }
+    });
+
 });
