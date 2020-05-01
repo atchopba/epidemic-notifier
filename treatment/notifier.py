@@ -61,6 +61,8 @@ def notifier_personne(notification_id):
             if crp.email is not None and crp.email != "":
                 notif_ = notif_email.format(p.p_nom +" "+ p.p_prenom, p.date_test, crp.relation, crp.nom +" "+ crp.prenom)
                 cm.write_file(path_email + str(crp.id) + ".html", notif_)
+                # envoie du mail
+                cm.send_email(crp.email, notif_)
             
             # https://stackoverflow.com/questions/10147455/how-to-send-an-email-with-gmail-as-provider-using-python
             
