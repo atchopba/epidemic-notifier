@@ -12,7 +12,6 @@
 import config
 from datetime import datetime
 import os
-import smtplib
 
 
 NOTIF = ("Dû au resultat positif de {}, fait le {} proche de vous ({}), "
@@ -50,18 +49,34 @@ def write_file(file_, text_):
 def create_folder(paths_):
     os.makedirs(paths_, exist_ok=True)
     
-    
-def send_email(recipient, body):
-    """ 
-    Source : https://stackoverflow.com/questions/37224073/smtp-auth-extension-not-supported-by-server
-    """
-    s = smtplib.SMTP('64.233.184.108',587)
-    s.ehlo()
-    s.starttls()
-    s.login(config.GMAIL_USER,config.GMAIL_PWD)
-    message = """From: %s\nTo: %s\nSubject: %s\n\n%s
-    """ % (config.GMAIL_USER, recipient, config.SUBJECT, body.encode('utf-8'))
+
+def send_email(recipient, text_):
+    #
+    # Source : https://realpython.com/python-send-email/#sending-a-plain-text-email
+    # 
+    import smtplib, ssl
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+    #
+    sender_email = config.GMAIL_USER
+    receiver_email = recipient
+    password = config.GMAIL_PWD
+    #
+    message = MIMEMultipart("alternative")
+    message["Subject"] = config.SUBJECT
+    message["From"] = sender_email
+    message["To"] = receiver_email
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    part = MIMEText(text_, "html")
+    message.attach(part)
+    # Create secure connection with server and send email
+    context = ssl.create_default_context()
     try:
-        s.sendmail(config.GMAIL_USER,recipient,message)
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(
+                sender_email, receiver_email, message.as_string()
+            )
     except:
-        print("error")
+        print("erreur lors de l'envoi de mail")
