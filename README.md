@@ -21,6 +21,11 @@ You can easily manage:
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+- Rename the config-template.py file to config.py
+- Put the right parameters in the config.py file
+
+Log on to [Gmail](http://www.gmail.com) and activate the option ["Less secure access to applications" ]( https://myaccount.google.com/lesssecureapps ).
+
 ### Prerequisites
 
 * Windows 7+ or Linux kernel version 3.10 or higher
@@ -35,7 +40,7 @@ Pull Docker image on your computer and run:
 ```
 docker pull atchopba/epidemic-notifier
 
-docker run -d -p 5000:5000 --name jobs-web-cli atchopba/epidemic-notifier
+docker run -d -p 5000:5000 --name epidemic-notifier atchopba/epidemic-notifier
 ```
 OR 
 
@@ -69,6 +74,7 @@ Finally, go to your web browser: http://localhost:5000/
 ![Page index](static/images/03-test.PNG)
 
 6. Tab "notifications" where you can trigger notifications and an email can be sent to people who have been in contact with a person who has tested positive...
+
 ![Page index](static/images/04-notification.PNG)
 
 ... and the notification is 
@@ -84,4 +90,3 @@ Otherwise, at each notification, files are created in the "__temp__" directory.
 This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE.md](LICENSE.md) file for details
 
 Set your account less secure
-https://myaccount.google.com/lesssecureapps
