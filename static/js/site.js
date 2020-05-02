@@ -33,6 +33,7 @@ $(document).ready(function(){
                 type: 'POST',
                 dataType: 'json',
                 data: {
+                    personne_id_1: $("#personne_id_1").val(),
                     search_name: $("#searchname").val()
                 },
                 success: function(data) {

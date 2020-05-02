@@ -47,8 +47,8 @@ def home_personne():
 @app.route("/personnes/search", methods=["POST"])
 def search_personne():
     p_name = request.form["search_name"]
-    print("=> search_personne : "+ p_name)
-    json_ = json.dumps(Personne().find_by_name(p_name))
+    personne_id_1 = request.form["personne_id_1"]
+    json_ = json.dumps(Personne().find_by_name(personne_id_1, p_name))
     resp = make_response(json_)
     resp.status_code = 200
     resp.headers["Access-Control-Allow-Origin"] = '*'
@@ -159,7 +159,7 @@ def add_test():
     test_id = Test().add(test)
     if test_id:
         #print("=> test_id : ", test_id)
-        return redirect("/personnes")
+        return redirect("/tests")
     else:
         #print("=> error insertion test")
         return render_template("test.html", Personne().get_one(personne_id), tests=Test().get_all(), error=ERROR_MSG)

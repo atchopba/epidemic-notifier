@@ -22,7 +22,7 @@ class DB(object):
 
     def create_db(self):
         self.create_table_relations()
-        self.create_table_personnes
+        self.create_table_personnes()
         self.create_table_crp()
         self.create_table_tests()
         self.create_table_notifications()
@@ -59,7 +59,7 @@ class DB(object):
             relation_id integer,
             date_contact string,
             heure_contact string,
-            UNIQUE (personne_id_1, personne_id_2, relation_id, date_, heure_)
+            UNIQUE (personne_id_1, personne_id_2, relation_id, date_contact, heure_contact)
             )''')
         
     def create_table_tests(self):
