@@ -65,9 +65,13 @@ Finally, go to your web browser: http://localhost:5000/
 
 ![Page index](static/images/01-relation.PNG)
 
-4. Tab "personnes" where you can manage people and add relationship between people.
+4. Tab "personnes" where you can manage people and ...
 
 ![Page index](static/images/02-personne.PNG)
+
+... add relationship between people.
+
+![Page index](static/images/02-personne_relations.png)
 
 5. Tab "tests" where you can manage people's test.
 
