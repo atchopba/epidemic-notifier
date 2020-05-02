@@ -48,10 +48,10 @@ class CRP(DB):
     def delete(self, id_):
         return super().delete("contact_relation_personnes", id_)
     
-    def delete_due_2_personne(self, id_personne):
-        r = ("DELETE FROM contact_relation_personnes WHERE personne_id_1=? or "
-             "personne_id_2=?")
-        deleted = self.conn.execute(r, str(id_personne), str(id_personne))
+    def delete_due_2_personne(self, personne_id):
+        r = ("DELETE FROM contact_relation_personnes WHERE personne_id_1={} or "
+             "personne_id_2={}").format(personne_id, personne_id)
+        deleted = self.conn.execute(r)
         self.conn.commit()
         return deleted
     
