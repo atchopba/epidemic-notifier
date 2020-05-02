@@ -69,13 +69,15 @@ Finally, go to your web browser: http://localhost:5000/
 ![Page index](static/images/03-test.PNG)
 
 6. Tab "notifications" where you can trigger notifications and an email can be sent to people who have been in contact with a person who has tested positive...
-![Page index](04-notification.PNG)
+![Page index](static/images/04-notification.PNG)
 
 ... and the notification is 
 
-![Page index](05-notif_email.PNG)
+![Page index](static/images/05-notif_email.PNG)
 
 Otherwise, at each notification, files are created in the "__temp__" directory.
+
+![Page index](static/images/06-tree.PNG)
 
 ## License & copyright
 
