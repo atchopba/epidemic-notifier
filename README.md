@@ -1,6 +1,6 @@
 # Overview
 
-Add people with relationship, send them have a test and notify according to result's test
+Manage people with relationships and notify them when the test's result is positive.
 
 You can easily manage:
 - the database: reset data;
