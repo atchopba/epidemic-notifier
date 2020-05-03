@@ -12,7 +12,7 @@
     
     Notifier les personnes enregistrées !
     <form method="POST">
-    	<input type="button" id="btnnotif" name="btnnotif" value="Commencer" onclick="javascript:return confirm('Etes-vous sûr?');" />
+    	<input type="button" id="btnnotif" name="btnnotif" value="Commencer" />
     </form>
 
     <div id="box_searching" style="display: none;"></div>
@@ -33,7 +33,7 @@
               <td>{{ n.date_ }}</td>
               <td>{{ n.heure_ }}</td>
               <td>{{ n.nb_notifies }}</td>
-              <td><a href="notifications/delete/{{ n.id }}" onclick="javascript:return confirm('Etes-vous sûr?');">Supprimer</a></td>
+              <td><a href="javascript:;" onclick="javascript:confirm_delete('notifications/delete/{{ n.id }}');">Supprimer</a></td>
             </tr>
           {% endfor %}
         {% else %}

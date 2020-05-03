@@ -88,7 +88,7 @@
                 {% endif %}
               </td>
               <td><a href="crp?personne={{ r.id }}">Relations</a></td>
-              <td><a href="tests/delete/{{ r.id }}" onclick="javascript:return confirm('Etes-vous sûr?');">Supprimer</td>
+              <td><a href="javascript:;" onclick="javascript:confirm_delete('tests/delete/{{ r.id }}');">Supprimer</td>
             </tr>
           {% endfor %}
         {% else %}

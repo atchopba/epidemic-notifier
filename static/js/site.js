@@ -11,29 +11,51 @@ function confirm_delete(url) {
 $(document).ready(function(){
 
     
+    // bouton reinitialiser la bdd
+    $("#btnreinit_db").click(function() {
 
+        if (confirm("Etes-vous sûr?")) {
+
+            $.ajax({
+                url: "/db",
+                type: "POST",
+                success : function(data) {
+                    alert("Réinitialisation réalisée avec succès !");
+                    location.reload();
+                },
+                error: function(result, status, error) {
+                    alert("Une erreur est survenue. Veuillez ressayer!");
+                }
+            });
+            
+        }
+    });
 
     // bouton commencer notification
     $("#btnnotif").click(function() {
 
-        $("#box_searching").show();
-        $("#box_searching").html("Les notifications sont en cours d'envoie aux personnes concernées ...!");
+        if (confirm("Etes-vous sûr?")) {
 
-        $.ajax({
-            url: "/notifications/add",
-            type: "POST",
-            /*data: {
-                q: search_text
-            },*/
-            success : function(data) {
-                alert("Notification réalisée avec succès !");
-                location.reload();
-            },
-            error: function(result, status, error) {
-                $("#box_searching").css("display", "none");
-                alert("Une erreur est survenue. Veuillez ressayer!");
-            }
-        });
+            $("#box_searching").show();
+            $("#box_searching").html("Les notifications sont en cours d'envoie aux personnes concernées ...!");
+
+            $.ajax({
+                url: "/notifications/add",
+                type: "POST",
+                /*data: {
+                    q: search_text
+                },*/
+                success : function(data) {
+                    alert("Notification réalisée avec succès !");
+                    location.reload();
+                },
+                error: function(result, status, error) {
+                    $("#box_searching").css("display", "none");
+                    alert("Une erreur est survenue. Veuillez ressayer!");
+                }
+            });
+
+        }
     });
 
     // autocompletion

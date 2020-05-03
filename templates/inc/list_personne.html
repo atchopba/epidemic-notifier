@@ -24,7 +24,7 @@
               <td>{{ p.nb_contact }}</td>
               <td><a href="crp?personne={{ p.id }}">Relations</a></td>
               <td><a href="tests?personne={{ p.id }}">Test</a></td>
-              <td><a href="personnes/delete/{{ p.id }}" onclick="javascript:return confirm('Etes-vous sûr?');">Supprimer</td>
+              <td><a href="javascript:;" onclick="javascript:confirm_delete('personnes/delete/{{ p.id }}')";>Supprimer</td>
             </tr>
           {% endfor %}
         {% else %}
