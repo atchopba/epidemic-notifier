@@ -1,4 +1,17 @@
+/**
+ * confirmation de la suppression 
+ * @param url 
+ */
+function confirm_delete(url) {
+    if (confirm("Etes-vous sûr?")) {
+        location(url);
+    }
+}
+
 $(document).ready(function(){
+
+    
+
 
     // bouton commencer notification
     $("#btnnotif").click(function() {
