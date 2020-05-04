@@ -99,6 +99,8 @@ def delete_relation(id_relation):
 @app.route("/crp", methods=["GET"])
 def home_rcp():
     personne_id = request.args.get("personne")
+    if personne_id is None or personne_id == "":
+        return redirect("/personnes")
     personne = Personne().get_one(personne_id)
     relations = Relation().get_all()
     personnes = CRP().get_personnes_crp(personne_id)
