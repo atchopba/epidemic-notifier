@@ -11,7 +11,7 @@
     {% include 'inc/header_menu.html' %}
     
     Ajout de personne<br/>
-    <form action="/personnes" method="POST">
+    <form action="/personnes" method="POST" onsubmit="return validate_form_personne();">
       
       {% if error %}
         <div class="row" style="color:red;">{{ error }}</div>

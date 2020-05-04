@@ -11,7 +11,7 @@
     {% include 'inc/header_menu.html' %}
     
     Ajout de relation<br/>
-    <form action="/relations" method="POST">
+    <form action="/relations" method="POST" onsubmit="return validate_form_relation();">
 
       {% if error %}
         <div class="row" style="color:red;">{{ error }}</div>

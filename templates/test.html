@@ -13,7 +13,7 @@
     {% if personne %}
 
       Ajout de personne<br/>
-      <form action="/tests" method="POST">
+      <form action="/tests" method="POST" onsubmit="return validate_form_test();">
         
         {% if error %}
           <div class="row" style="color:red;">{{ error }}</div>

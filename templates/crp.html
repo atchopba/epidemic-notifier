@@ -11,7 +11,7 @@
     {% include 'inc/header_menu.html' %}
     
     Ajout de personne<br/>
-    <form action="/crp" method="POST">
+    <form action="/crp" method="POST" onsubmit="return validate_form_crp();">
 
       {% if error %}
         <div class="row" style="color:red;">{{ error }}</div>
