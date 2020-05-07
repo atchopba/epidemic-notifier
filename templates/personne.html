@@ -6,8 +6,51 @@
   </head>
  
   <body>
+
+    <div class="page-wrapper bg-dark p-t-100 p-b-50">
+      <div class="wrapper wrapper--w900">
+        
+        <form action="/personnes" method="POST" onsubmit="return validate_form_personne();">
+
+          <div class="card card-6">
+            <div class="card-heading">
+              <!-- CORPS DE LA PAGE  -->
+              {% include 'inc/header_menu.html' %}
+            </div>
+            <div class="card-body">
+              
+              <div class="label-row">Ajout de personne </div>
+              
+              {% if error %}
+                <div style="color:red;">{{ error }}</div>
+              {% endif %}
+            
+              {% include 'inc/form_personne.html' %}
+
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button class="btn btn--radius-2 btn--blue-2" id="btnvalid_personne" type="submit">Valider</button>
+          </div>
+
+        </form>
+        <br/>
  
-    <!-- CORPS DE LA PAGE  -->
+        <!-- Liste -->
+        <div class="card card-6">
+          <div class="card-body">
+
+            <div class="label-row">Liste de relations</div>
+            {% include 'inc/list_personne.html' %}
+        
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CORPS DE LA PAGE  
     {% include 'inc/header_menu.html' %}
     
     Ajout de personne<br/>
@@ -26,7 +69,7 @@
     Liste de personnes
     <br/>
     {% include 'inc/list_personne.html' %}
- 
+ -->
   </body>
 
 </html>

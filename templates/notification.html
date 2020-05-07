@@ -7,39 +7,65 @@
  
   <body>
  
-    <!-- CORPS DE LA PAGE  -->
-    {% include 'inc/header_menu.html' %}
-    
-    Notifier les personnes enregistrées !
-    <form method="POST">
-    	<input type="button" id="btnnotif" name="btnnotif" value="Commencer" />
-    </form>
+    <div class="page-wrapper bg-dark p-t-100 p-b-50">
+      <div class="wrapper wrapper--w900">
 
-    <div id="box_searching" style="display: none;"></div>
- 
-    <table width="100%">
-      <thead>
-        <td>ID</td>
-        <td>Date</td>
-        <td>Heure</td>
-        <td>Nb notifiés</td>
-        <td></td>
-      </thead>
-      <tbody>
-        {% if notifications %}
-          {% for n in notifications %}
-            <tr>
-              <td>{{ n.id }}</td>
-              <td>{{ n.date_ }}</td>
-              <td>{{ n.heure_ }}</td>
-              <td>{{ n.nb_notifies }}</td>
-              <td><a href="javascript:;" onclick="javascript:confirm_delete('notifications/delete/{{ n.id }}');">Supprimer</a></td>
-            </tr>
-          {% endfor %}
-        {% else %}
-          <tr><td colspan="5">No result!</td></tr>
-        {% endif %}
-      </tbody>
+          <div class="card card-6">
+            <div class="card-heading">
+              <!-- CORPS DE LA PAGE  -->
+              {% include 'inc/header_menu.html' %}
+            </div>
+            <div class="card-body">
+              
+              <div class="label-row">Notifier les personnes enregistrées !</div>
+              
+            </div>
+          </div>
+          <br/>
+          <div class="card-footer">
+            <form action="/db" method="POST">
+              <button class="btn btn--radius-2 btn--blue-2" id="btnnotif" name="btnnotif" type="button">Commencer</button>
+            </form>
+          </div>
+
+          <br/>
+          <!-- Liste -->
+          <div class="card card-6">
+            <div class="card-body">
+
+              <div class="label-row">Liste de relations</div>
+              <div id="box_searching" style="display: none;"></div>
+           
+              <table width="100%">
+                <thead>
+                  <td>ID</td>
+                  <td>Date</td>
+                  <td>Heure</td>
+                  <td>Nb notifiés</td>
+                  <td></td>
+                </thead>
+                <tbody>
+                  {% if notifications %}
+                    {% for n in notifications %}
+                      <tr>
+                        <td>{{ n.id }}</td>
+                        <td>{{ n.date_ }}</td>
+                        <td>{{ n.heure_ }}</td>
+                        <td>{{ n.nb_notifies }}</td>
+                        <td><a href="javascript:;" onclick="javascript:confirm_delete('notifications/delete/{{ n.id }}');">Supprimer</a></td>
+                      </tr>
+                    {% endfor %}
+                  {% else %}
+                    <tr><td colspan="5">No result!</td></tr>
+                  {% endif %}
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
   </body>
 
 </html>

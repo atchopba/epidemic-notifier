@@ -7,61 +7,98 @@
  
   <body>
  
-    <!-- CORPS DE LA PAGE  -->
-    {% include 'inc/header_menu.html' %}
+    <div class="page-wrapper bg-dark p-t-100 p-b-50">
+      <div class="wrapper wrapper--w900">
+        
+        <form action="/crp" method="POST" onsubmit="return validate_form_crp();">
+
+          <div class="card card-6">
+            <div class="card-heading">
+              <!-- CORPS DE LA PAGE  -->
+              {% include 'inc/header_menu.html' %}
+            </div>
+            <div class="card-body">
+              
+              {% if error %}
+                <div style="color:red;">{{ error }}</div>
+              {% endif %}
+
+              <div class="label-row">Ajout de personne: </div>
+            
+              <div class="form-row">
+                <div class="name">Personne source : </div>
+                <div class="input--style-6">{{ personne.nom + ' '+ personne.prenom }}
+                  <input type="hidden" id="personne_id_1" name="personne_id_1" value="{{ personne.id }}"/>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="name">Relation : </div>
+                <div class="value">
+                  <select class="select-input" id="id_relation" name="id_relation">
+                    <option value=""></option>
+                    {% if relations %}
+                      {% for r in relations %}
+                        <option value="{{ r.id }}">{{ r.libelle }}</option>
+                      {% endfor %}
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+              
+              <br/>
+              <div class="label-row">Selectionner une personne</div>
+
+              <div class="form-row">
+                <div class="name">Nom & prenom : </div>
+                <div class="value">
+                  <input class="input--style-6" type="text" id="searchname" name="searchname" value="" placeholder="Nom & prenom recherchés" size="64" autocomplete="false">
+                  <input type="hidden" id="personne_id_2" name="personne_id_2" value="" autocomplete="false">
+                </div>
+              </div>
+
+              <br/>
+              <div class="label-row">OU</div>
+
+              {% include 'inc/form_personne.html' %}
+
+              <div class="label-row"><i>Temps</i></div>
+
+              <div class="form-row">
+                <div class="name">Date :</div>
+                <div class="value">
+                  <input class="input--style-6" type="text" id="date_contact" name="date_contact" value="" placeholder="10/04/2020" autocomplete="false">
+                </div>
+              </div> 
+
+              <div class="form-row">
+                <div class="name">Heure :</div>
+                <div class="value">
+                  <input class="input--style-6" type="text" id="heure_contact" name="heure_contact" value="" placeholder="10:01" autocomplete="false">
+                </div>
+              </div>  
+
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button class="btn btn--radius-2 btn--blue-2" id="btnvalid_crp" type="submit">Valider</button>
+          </div>
+
+        </form>
     
-    Ajout de personne<br/>
-    <form action="/crp" method="POST" onsubmit="return validate_form_crp();">
+        <br/>
+        <!-- Liste -->
+        <div class="card card-6">
+          <div class="card-body">
 
-      {% if error %}
-        <div class="row" style="color:red;">{{ error }}</div>
-      {% endif %}
-
-      <div class="row">
-        <label>Personne source : </label><label>{{ personne.nom + ' '+ personne.prenom }}</label>
-        <input type="hidden" id="personne_id_1" name="personne_id_1" value="{{ personne.id }}"/>
+            <div class="label-row">Liste de relations</div>
+            {% include 'inc/list_personne.html' %}
+          
+          </div>
+        </div>
       </div>
-
-      <div class="row">
-        <label>Relation : </label>
-        <select id="id_relation" name="id_relation">
-          <option value=""></option>
-          {% if relations %}
-            {% for r in relations %}
-              <option value="{{ r.id }}">{{ r.libelle }}</option>
-            {% endfor %}
-          {% endif %}
-        </select>
-      </div>
-      <br:>
-      <div class="row">Selectionner une personne</div>
-      <div class="row">
-        <label>Nom & prenom : </label>
-        <input type="text" id="searchname" name="searchname" value="" placeholder="Nom & prenom recherchés" size="64" autocomplete="false">
-        <input type="hidden" id="personne_id_2" name="personne_id_2" value="" autocomplete="false">
-      <br/>
-      <div class="row">OU</div>
-      {% include 'inc/form_personne.html' %}
-
-      <div class="row"><i>Temps</i></div>
-
-      <div class="row">
-        <label>Date :</label><input type="text" id="date_contact" name="date_contact" value="" placeholder="10/04/2020" autocomplete="false">
-      </div> 
-
-      <div class="row">
-        <label>Heure :</label><input type="text" id="heure_contact" name="heure_contact" value="" placeholder="10:01" autocomplete="false">
-      </div>  
-
-    	<input type="submit" id="btnvalid_crp" value="Valider" />
-
-    </form>
-    
-    <br/>
-    Liste de personnes
-    <br/>
-    {% include 'inc/list_personne.html' %}
- 
+    </div>
   </body>
 
 </html>

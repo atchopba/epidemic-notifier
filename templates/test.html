@@ -6,97 +6,129 @@
   </head>
  
   <body>
- 
-    <!-- CORPS DE LA PAGE  -->
-    {% include 'inc/header_menu.html' %}
     
-    {% if personne %}
-
-      Ajout de personne<br/>
-      <form action="/tests" method="POST" onsubmit="return validate_form_test();">
+    <div class="page-wrapper bg-dark p-t-100 p-b-50">
+      <div class="wrapper wrapper--w900">
         
-        {% if error %}
-          <div class="row" style="color:red;">{{ error }}</div>
-        {% endif %}
+        <form action="/tests" method="POST" onsubmit="return validate_form_test();">
 
-        {% if error %}
-          <div class="row" style="color:red;">{{ error }}</div>
-        {% endif %}
+          <div class="card card-6">
+            <div class="card-heading">
+              <!-- CORPS DE LA PAGE  -->
+              {% include 'inc/header_menu.html' %}
+            </div>
 
-        <div class="row">
-          <label>Personne source : </label><label>{{ personne.nom + ' '+ personne.prenom }}</label>
-          <input type="hidden" id="personne_id" name="personne_id" value="{{ personne.id }}"
-        </div>
-
-        <div class="row">
-          <label>Date du test : </label>
-          <input type="text" id="date_test" name="date_test" value="" placeholder="10/04/2020" autocomplete="false"/>
-        </div>
-
-        <div class="row">
-          <label>Heure du test : </label>
-          <input type="text" id="heure_test" name="heure_test" value="" placeholder="10:00" autocomplete="false"/>
-        </div>
-
-        <div class="row">
-          <label>Date du resultat : </label>
-          <input type="text" id="date_resultat" name="date_resultat" value="" placeholder="10/04/2020" autocomplete="false"/>
-        </div>
-
-        <div class="row">
-          <label>Heure du resultat : </label>
-          <input type="text" id="heure_resultat" name="heure_resultat" value="" placeholder="10:00" autocomplete="false"/>
-        </div>
-
-        <div class="row">
-          <label>Résultat : </label>
-          <input type="radio" id="resultat" name="resultat" value="0"> Négatif 
-          <input type="radio" id="resultat" name="resultat" value="1"> Positif 
-        </div>
-          
-      	<input type="submit" id="btnvalid_test" value="Valider" />
-      </form>
-
-    {% endif %}
-    
-    <br/>
-    Liste des tests
-    <br/>
-    <table width="100%">
-      <thead>
-        <td>ID</td>
-        <td>Nom & prenom</td>
-        <td>Date & heure test</td>
-        <td>Date & heure resultat</td>
-        <td>Résultat</td>
-        <td></td>
-        <td></td>
-      </thead>
-      <tbody>
-        {% if tests %}
-          {% for r in tests %}
-            <tr>
-              <td>{{ r.id }}</td>
-              <td>{{ r.p_nom + ' ' + r.p_prenom }}</td>
-              <td>{{ r.date_test + ' ' + r.heure_test }}</td>
-              <td>{{ r.date_resultat + ' ' + r.heure_resultat }}</td>
-              <td>
-                {% if r.date_resultat %}
-                  {% if r.resultat == '1' %} Positif
-                  {% else %} Négatif
-                  {% endif %}
+            {% if personne %}
+              <div class="card-body">
+                
+                <div class="label-row">Ajout de personne: </div>
+                
+                {% if error %}
+                  <div style="color:red;">{{ error }}</div>
                 {% endif %}
-              </td>
-              <td><a href="crp?personne={{ r.id }}">Relations</a></td>
-              <td><a href="javascript:;" onclick="javascript:confirm_delete('tests/delete/{{ r.id }}');">Supprimer</td>
-            </tr>
-          {% endfor %}
-        {% else %}
-          <tr><td colspan="8">No result!</td></tr>
-        {% endif %}
-      </tbody>
-    </table>
- 
+              
+                <div class="form-row">
+                  <div class="name">Personne source : </div>
+                  <div  class="input--style-6">{{ personne.nom + ' '+ personne.prenom }}
+                    <input type="hidden" id="personne_id" name="personne_id" value="{{ personne.id }}" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="name">Date du test : </div>
+                  <div class="value">
+                    <input class="input--style-6" type="text" id="date_test" name="date_test" value="" placeholder="10/04/2020" autocomplete="false"/>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="name">Heure du test : </div>
+                  <div class="value">
+                    <input class="input--style-6" type="text" id="heure_test" name="heure_test" value="" placeholder="10:00" autocomplete="false"/>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="name">Date du resultat : </div>
+                  <div class="value">
+                    <input class="input--style-6" type="text" id="date_resultat" name="date_resultat" value="" placeholder="10/04/2020" autocomplete="false"/>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="name">Heure du resultat : </div>
+                  <div class="value">
+                    <input class="input--style-6" type="text" id="heure_resultat" name="heure_resultat" value="" placeholder="10:00" autocomplete="false"/>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="name">Résultat : </div>
+                  <div class="value">
+                    <input type="radio" id="resultat" name="resultat" value="0"> Négatif 
+                    <input type="radio" id="resultat" name="resultat" value="1"> Positif 
+                  </div>
+                </div>
+
+              </div>
+
+              {% endif %}
+          </div>
+
+          {% if personne %}
+
+          <div class="card-footer">
+            <button class="btn btn--radius-2 btn--blue-2" id="btnvalid_test" value="Valider" type="submit">Valider</button>
+          </div>
+
+          {% endif %}
+
+        </form>
+  
+        <br/>
+        <!-- Liste -->
+        <div class="card card-6">
+          <div class="card-body">
+
+            <div class="label-row">Liste de relations</div>
+            <table width="100%">
+              <thead>
+                <td>ID</td>
+                <td>Nom & prenom</td>
+                <td>Date & heure test</td>
+                <td>Date & heure resultat</td>
+                <td>Résultat</td>
+                <td></td>
+                <td></td>
+              </thead>
+              <tbody>
+                {% if tests %}
+                  {% for r in tests %}
+                    <tr>
+                      <td>{{ r.id }}</td>
+                      <td>{{ r.p_nom + ' ' + r.p_prenom }}</td>
+                      <td>{{ r.date_test + ' ' + r.heure_test }}</td>
+                      <td>{{ r.date_resultat + ' ' + r.heure_resultat }}</td>
+                      <td>
+                        {% if r.date_resultat %}
+                          {% if r.resultat == '1' %} Positif
+                          {% else %} Négatif
+                          {% endif %}
+                        {% endif %}
+                      </td>
+                      <td><a href="crp?personne={{ r.id }}">Relations</a></td>
+                      <td><a href="javascript:;" onclick="javascript:confirm_delete('tests/delete/{{ r.id }}');">Supprimer</a></td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr><td colspan="8">No result!</td></tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 
 </html>

@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
  
-  <head>
-    {% include 'inc/header.html' %}
-  </head>
+  	<head>
+    	{% include 'inc/header.html' %}
+  	</head>
  
-  <body>
- 
-    <!-- CORPS DE LA PAGE  -->
-    {% include 'inc/header_menu.html' %}
-    
-    Cette application permet de notifier des personnes qui ont été en contact avec une autre personne après validation du résultat du test en laboratoire.
- 
-  </body>
+  	<body>
+	    <div class="page-wrapper bg-dark p-t-100 p-b-50">
+	        <div class="wrapper wrapper--w900">
+	            <div class="card card-6">
+	                <div class="card-heading">
+	                    <!-- CORPS DE LA PAGE  -->
+					    {% include 'inc/header_menu.html' %}
+					    
+					    Cette application permet de notifier des personnes qui ont été en contact avec une autre personne après validation du résultat du test en laboratoire.
+	                </div>
+                </div>
+	        </div>
+		</div>
+
+  	</body>
 
 </html>

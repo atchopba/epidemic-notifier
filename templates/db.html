@@ -7,14 +7,33 @@
  
   <body>
  
-    <!-- CORPS DE LA PAGE  -->
+    <div class="page-wrapper bg-dark p-t-100 p-b-50">
+      <div class="wrapper wrapper--w900">
+        <div class="card card-6">
+          <div class="card-heading">
+            <!-- CORPS DE LA PAGE  -->
+            {% include 'inc/header_menu.html' %}
+          </div>
+          <div class="card-body">
+            <div class="name">Reinitaliser la base de données. </div>
+          </div>
+        </div>
+        <br/>
+        <div class="card-footer">
+          <form action="/db" method="POST">
+            <button class="btn btn--radius-2 btn--blue-2" id="btnreinit_db" name="btnreinit_db" type="button">Commencer</button>
+          </form>
+        </div>
+      </div>
+    </div>
+<!--
     {% include 'inc/header_menu.html' %}
     
     Reinitaliser la base de données. 
     <form action="/db" method="POST">
     	<input type="button" id="btnreinit_db" name="btnreinit_db" value="Commencer" />
     </form>
- 
+ -->
   </body>
 
 </html>
