@@ -1,6 +1,6 @@
 # Overview
 
-Manage people with relationships and notify them when the test's result is positive.
+During an epidemic period, manage the people in contact and notify them when the test result is positive!
 
 You can easily manage:
 - the database: reset data;
