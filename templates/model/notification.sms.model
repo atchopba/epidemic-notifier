@@ -1,2 +1,3 @@
-Dû au resultat positif de {}, fait le {} proche de vous ({}), nous vous encourageons vivement vous {} à vous mettre en quarantaine et à faire un test dans l'immédiat!\n
+Bonjour,\n
+Dû au resultat positif de #PERSONNE_DUE#, fait le #DATE_TEST_DUE# proche de vous (#RELATION#), nous vous encourageons vivement vous #PERSONNE_INFORMED# à vous mettre en quarantaine et à faire un test dans l'immédiat!\n
 Le Maire du quartier!
