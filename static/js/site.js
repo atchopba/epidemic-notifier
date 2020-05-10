@@ -8,6 +8,31 @@ function confirm_delete(url) {
     }
 }
 
+/**
+ * Return the current date
+ * @return date
+ */
+function get_current_date() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    return dd + '/' + mm + '/' + yyyy;
+}
+
+/**
+ * Compare 2 date
+ * @param str_date_1    
+ * @param str_date_2
+ * @return boolean
+ */:
+function compare_date(str_date_1, str_date_2) {
+    var date_1 = new Date(str_date_1);
+    var date_2 = new Date(str_date_2);
+    return date_1.getTime() > date_2.getTime();
+}
+
 /** 
  * Validates that the input string is a valid date formatted as "mm/dd/yyyy"
  * @source : https://stackoverflow.com/questions/6177975/how-to-validate-date-with-format-mm-dd-yyyy-in-javascript
@@ -36,7 +61,7 @@ function is_valid_date(dateString) {
         monthLength[1] = 29;
 
     // Check the range of the day
-    return day > 0 && day <= monthLength[month - 1];
+    return day > 0 && day <= monthLength[month - 1] && compare_date(get_current_date(), dateString);
 }
 
 /**
