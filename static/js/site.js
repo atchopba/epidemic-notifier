@@ -26,7 +26,7 @@ function get_current_date() {
  * @param str_date_1    
  * @param str_date_2
  * @return boolean
- */:
+ */
 function compare_date(str_date_1, str_date_2) {
     var date_1 = new Date(str_date_1);
     var date_2 = new Date(str_date_2);
