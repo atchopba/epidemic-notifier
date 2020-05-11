@@ -72,47 +72,6 @@
       </div>
     </div> 
  
-    <!--
-    {% include 'inc/header_menu.html' %}
-    
-    Ajout de relation<br/>
-    <form action="/relations" method="POST" onsubmit="return validate_form_relation();">
-
-      {% if error %}
-        <div class="row" style="color:red;">{{ error }}</div>
-      {% endif %}
-
-      <div class="row">
-        <label>Libellé : </label><input type="text" id="libelle" name="libelle" value="" placeholder="Nom de la personne" size="32" autocomplete="false">
-      </div>
-        
-      	<input type="submit" id="btnvalid_relation" value="Valider" />
-    </form>
-    
-    <br/>
-    Liste de relations
-    <br/>
-    <table width="100%">
-      <thead>
-        <td>ID</td>
-        <td>Libelle</td>
-        <td></td>
-      </thead>
-      <tbody>
-        {% if relations %}
-          {% for r in relations %}
-            <tr>
-              <td>{{ r.id }}</td>
-              <td>{{ r.libelle }}</td>
-              <td><a href="javascript:;" onclick="javascript:confirm_delete('relations/delete/{{ r.id }}');">Supprimer</td>
-            </tr>
-          {% endfor %}
-        {% else %}
-          <tr><td colspan="7">No result!</td></tr>
-        {% endif %}
-      </tbody>
-    </table>
- -->
   </body>
 
 </html>
