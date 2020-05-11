@@ -22,6 +22,10 @@ NOTIF = ("Dû au resultat positif de {}, fait le {} proche de vous ({}), "
 FILE_NOTIF_SMS = "./templates/model/notification.sms.model"
 FILE_NOTIF_EMAIL = "./templates/model/notification.email.model"
 
+SUSPECT_CHECKBOX = "suspect"
+SUSPECT_VALUE_POS = "oui"
+SUSPECT_VALUE_NEG = "non"
+
 def get_current_date_fr():
     return datetime.today().strftime("%d-%m-%Y")
 

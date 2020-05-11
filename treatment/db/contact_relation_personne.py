@@ -16,7 +16,7 @@ import sqlite3
 
 TCRP = namedtuple("TCRP", "personne_id_1 personne_id_2 relation_id date_contact heure_contact")
 RCRP = namedtuple("RCRP", "id personne_id_1 personne_id_2 relation_id date_contact heure_contact")
-RCRPPersonne = namedtuple("RCRPPersonne", "id nom prenom date_naiss num_telephone email relation nb_contact")
+RCRPPersonne = namedtuple("RCRPPersonne", "id nom prenom date_naiss num_telephone email suspect relation nb_contact")
 
 class CRP(DB):
     
@@ -67,12 +67,12 @@ class CRP(DB):
             personnes = Personne().get_all()
             p_crp_dict = []
             for p in personnes:
-                p_crp = RCRPPersonne(p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, "", self.get_personne_nb_contact(p.id))
+                p_crp = RCRPPersonne(p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, p.suspect if p.suspect != None else "", "", self.get_personne_nb_contact(p.id))
                 p_crp_dict.append(p_crp)
             return p_crp_dict
         else:
             r = ('''
-                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, r.libelle
+                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, p.suspect, r.libelle
                 FROM contact_relation_personnes crp 
                 JOIN personnes p ON p.id = crp.personne_id_1 
                 JOIN relations r on r.id = crp.relation_id 
@@ -82,7 +82,7 @@ class CRP(DB):
             rows_1 = self.cur.fetchall()
             #
             r = ('''
-                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, r.libelle
+                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, p.suspect, r.libelle
                 FROM contact_relation_personnes crp 
                 JOIN personnes p ON p.id = crp.personne_id_2 
                 JOIN relations r on r.id = crp.relation_id 
@@ -93,5 +93,5 @@ class CRP(DB):
             #
             rows_1 += rows_2
             #
-            return [RCRPPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6], self.get_personne_nb_contact(row[0])) for row in rows_1]
+            return [RCRPPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], self.get_personne_nb_contact(row[0])) for row in rows_1]
         

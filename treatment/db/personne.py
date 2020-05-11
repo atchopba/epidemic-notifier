@@ -13,15 +13,15 @@ from collections import namedtuple
 from treatment.db.db import DB
 import sqlite3
 
-TPersonne = namedtuple("TPersonne", "nom prenom date_naiss num_telephone email")
-RPersonne = namedtuple("RPersonne", "id nom prenom date_naiss num_telephone email")
+TPersonne = namedtuple("TPersonne", "nom prenom date_naiss num_telephone email suspect")
+RPersonne = namedtuple("RPersonne", "id nom prenom date_naiss num_telephone email suspect")
 
 class Personne(DB):
     
     def add(self, personne):
         r = ("INSERT INTO personnes "
-             "(nom, prenom, date_naiss, num_telephone, email) VALUES "
-             "(?, ?, ?, ?, ?)")
+             "(nom, prenom, date_naiss, num_telephone, email, suspect) VALUES "
+             "(?, ?, ?, ?, ?, ?)")
         try:
             self.conn.execute(r, personne)
             self.conn.commit()
@@ -34,19 +34,19 @@ class Personne(DB):
         self.cur.execute("SELECT  * FROM personnes WHERE id=? ORDER BY id ASC", str(id_))
         row = self.cur.fetchone()
         if (row != None):
-            return RPersonne(str(row[0]), row[1], row[2], row[3], row[4], row[5])
+            return RPersonne(str(row[0]), row[1], row[2], row[3], row[4], row[5], row[6])
         return None
         
     def get_all(self):
         self.cur.execute("SELECT  * FROM personnes ORDER BY id ASC")
         rows = self.cur.fetchall()
-        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows]
+        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
     def find_by_name(self, id_, name_):
         r = "SELECT * FROM personnes WHERE (nom LIKE '%{}%' OR prenom LIKE '%{}%') AND id is not {} ".format(name_, name_, id_)
         self.cur.execute(r)
         rows = self.cur.fetchall()
-        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows]
+        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
     def delete(self, id_):
         return super().delete("personnes", id_)

@@ -19,6 +19,7 @@ from treatment.db.test import Test, TTest
 from treatment.db.notification import Notification
 from treatment.db.personne_notification import PNotification
 import treatment.notifier as notifier
+import treatment.common as cm
 import json
 
 ERROR_MSG = "Veuillez recommencer!"
@@ -60,14 +61,17 @@ def param_and_add_personne(request):
     date_naiss = request.form["date_naiss"]
     num_telephone = request.form["num_telephone"]
     email = request.form["email"]
-    personne = TPersonne(nom, prenom, date_naiss, num_telephone, email)
+    try:
+        suspect = cm.SUSPECT_VALUE_POS if request.form["suspect"] == cm.SUSPECT_CHECKBOX else cm.SUSPECT_VALUE_NEG
+    except:
+        suspect = cm.SUSPECT_VALUE_NEG
+    personne = TPersonne(nom, prenom, date_naiss, num_telephone, email, suspect)
     return Personne().add(personne)
     
 @app.route("/personnes", methods=["POST"])
 def add_personne():
     personne_id = param_and_add_personne(request)
     if personne_id is not None:
-        print("=> personne id : ", personne_id)
         return redirect("/personnes")
     return render_template("personne.html", error=ERROR_MSG)
 

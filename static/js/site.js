@@ -30,7 +30,7 @@ function get_current_date() {
 function compare_date(str_date_1, str_date_2) {
     var date_1 = new Date(str_date_1);
     var date_2 = new Date(str_date_2);
-    return date_1.getTime() > date_2.getTime();
+    return date_1.getTime() >= date_2.getTime();
 }
 
 /** 

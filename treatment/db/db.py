@@ -17,8 +17,7 @@ class DB(object):
     
     def __init__(self):
         self.conn = sqlite3.connect(DB_EPIDEMIC)
-        self.cur = self.conn.cursor() 
-        
+        self.cur = self.conn.cursor()   
 
     def create_db(self):
         self.create_table_relations()
@@ -46,6 +45,7 @@ class DB(object):
             date_naiss text,
             num_telephone text,
             email text,
+            suspect text,
             UNIQUE (nom, prenom, date_naiss)
             )''')
         
@@ -97,8 +97,8 @@ class DB(object):
             heure_ string
             )''')
     
-    def get_last_row_id(self, table):
-        cursor = self.cur.execute("SELECT max(id) FROM "+ table)
+    def get_last_row_id(self, table_):
+        cursor = self.cur.execute("SELECT max(id) FROM "+ table_)
         return cursor.fetchone()[0]
     
     def delete_all(self, table):
@@ -109,6 +109,10 @@ class DB(object):
         deleted = self.conn.execute(r)
         self.conn.commit()
         return deleted
+    
+    def get_count(self, table_):
+        cursor = self.cur.execute("SELECT count(*) FROM "+ table_)
+        return cursor.fecthone()[0]
     
     def commit_trans(self):
         self.conn.commit()

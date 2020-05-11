@@ -39,7 +39,7 @@ def notifier_personne(notification_id):
     notif_dict = []
     
     # 1. selectionner les personnes avec le test positifs
-    personnes_dict = Test().get_all("1")
+    personnes_dict = Test().get_supposes_malades()
 
     # 2. pour chaque (1), selectionner les personnes avec qui il a été en "contact"
     for p in personnes_dict:
