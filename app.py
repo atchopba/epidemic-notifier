@@ -42,7 +42,7 @@ def db_create():
 @app.route("/personnes")
 def home_personne():
     personnes = CRP().get_personnes_crp() #Personne().get_all()
-    return render_template("personne.html", personnes=personnes)
+    return render_template("personne.html", personnes=personnes, nb_personnes=len(personnes))
 
 @app.route("/personnes/search", methods=["POST"])
 def search_personne():

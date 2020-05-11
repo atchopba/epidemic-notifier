@@ -50,3 +50,6 @@ class Personne(DB):
     
     def delete(self, id_):
         return super().delete("personnes", id_)
+    
+    def get_count(self):
+        return super().get_count("personnes")
