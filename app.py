@@ -66,7 +66,7 @@ def set_guerison_personne():
     gueri_ = cm.PERSONNE_GUERI_1 if request.form["gueri"] == "1" else cm.PERSONNE_GUERI_2
     update_ = Personne().update_gueri(id_, gueri_)
     if update_ :
-        return redirect("/personnes")
+        return redirect("/tests")
     return render_template("/personne/guerison/"+ id_, error=ERROR_MSG)
 
 def param_and_add_personne(request):
