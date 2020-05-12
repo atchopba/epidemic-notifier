@@ -54,7 +54,21 @@ def search_personne():
     resp.status_code = 200
     resp.headers["Access-Control-Allow-Origin"] = '*'
     return resp
-    
+
+@app.route("/personnes/guerison/<int:id_personne>", methods=["GET"])
+def guerison_personne(id_personne):
+    personne = Personne().get_one(id_personne)
+    return render_template("personne_guerison.html", personne=personne)
+
+@app.route("/personnes/guerison", methods=["POST"])
+def set_guerison_personne():
+    id_ = request.form["personne_id"]
+    gueri_ = cm.PERSONNE_GUERI_1 if request.form["gueri"] == "1" else cm.PERSONNE_GUERI_2
+    update_ = Personne().update_gueri(id_, gueri_)
+    if update_ :
+        return redirect("/personnes")
+    return render_template("/personne/guerison/"+ id_, error=ERROR_MSG)
+
 def param_and_add_personne(request):
     nom = request.form["nom"]
     prenom = request.form["prenom"]

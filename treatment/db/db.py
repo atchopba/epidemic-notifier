@@ -46,6 +46,7 @@ class DB(object):
             num_telephone text,
             email text,
             suspect text,
+            gueri text,
             UNIQUE (nom, prenom, date_naiss)
             )''')
         

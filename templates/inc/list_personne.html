@@ -24,9 +24,9 @@
               <td>{{ p.email }}</td>
               <td>{{ p.suspect }}</td>
               <td>{{ p.nb_contact }}</td>
-              <td><a href="crp?personne={{ p.id }}">Relations</a></td>
-              <td><a href="tests?personne={{ p.id }}">Test</a></td>
-              <td><a href="javascript:;" onclick="javascript:confirm_delete('personnes/delete/{{ p.id }}')">Supprimer</a></td>
+              <td>&nbsp;<a href="crp?personne={{ p.id }}">Relations</a>&nbsp;</td>
+              <td>&nbsp;<a href="tests?personne={{ p.id }}">Test</a>&nbsp;</td>
+              <td>&nbsp;<a href="javascript:;" onclick="javascript:confirm_delete('personnes/delete/{{ p.id }}')">Supprimer</a>&nbsp;</td>
             </tr>
           {% endfor %}
         {% else %}

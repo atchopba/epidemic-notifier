@@ -98,6 +98,7 @@
                 <td>Date & heure test</td>
                 <td>Date & heure resultat</td>
                 <td>Résultat</td>
+                <td>Gu&eacute;ri?</td>
                 <td></td>
                 <td></td>
               </thead>
@@ -116,7 +117,17 @@
                           {% endif %}
                         {% endif %}
                       </td>
-                      <td><a href="crp?personne={{ r.id }}">Relations</a></td>
+                      <td>
+                        {% if r.date_resultat %}
+                          {% if r.resultat == '1' %}
+                            {% if r.p_gueri == '' or r.p_gueri == None %} <a href="personnes/guerison/{{ r.p_id }}">Gu&eacute;rison</a>
+                            {% else %} {{ r.p_gueri }}
+                            {% endif %} 
+                          {% else %} Pas besoin !
+                          {% endif %}
+                        {% endif %}
+                      </td>
+                      <td><a href="crp?personne={{ r.p_id }}">Relations</a></td>
                       <td><a href="javascript:;" onclick="javascript:confirm_delete('tests/delete/{{ r.id }}');">Supprimer</a></td>
                     </tr>
                   {% endfor %}

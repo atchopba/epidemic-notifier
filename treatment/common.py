@@ -26,6 +26,9 @@ SUSPECT_CHECKBOX = "suspect"
 SUSPECT_VALUE_POS = "oui"
 SUSPECT_VALUE_NEG = "non"
 
+PERSONNE_GUERI_1 = "clinique"
+PERSONNE_GUERI_2 = "biologique"
+
 def get_current_date_fr():
     return datetime.today().strftime("%d-%m-%Y")
 

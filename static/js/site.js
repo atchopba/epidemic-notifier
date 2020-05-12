@@ -150,6 +150,24 @@ function validate_form_personne() {
 }
 
 /**
+ * Validate form guerison of personne
+ * @return boolean
+ */
+function validate_form_personne_guerison() {
+    //
+    if ($("#personne_id").val() == "") {
+        alert("Il faut impérativement une personne renseignée!");
+        return false;
+    }
+    //
+    if (!($('input[name=gueri]:checked').length > 0)) {
+        alert("Veuillez faire un choix sur la guérison!");
+        return false;
+    }
+    return true;
+}
+
+/**
  * Validate form crp
  * @return boolean
  */

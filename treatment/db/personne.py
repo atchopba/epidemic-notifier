@@ -53,3 +53,10 @@ class Personne(DB):
     
     def get_count(self):
         return super().get_count("personnes")
+    
+    def update_gueri(self, id_, gueri_):
+        r = "UPDATE personnes SET gueri='{}' WHERE id={}".format(gueri_, id_)
+        print("===> r : "+ r)
+        return_ = self.cur.execute(r)
+        self.conn.commit()
+        return return_
