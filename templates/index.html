@@ -16,6 +16,36 @@
 					    Cette application permet de notifier des personnes qui ont été en contact avec une autre personne après validation du résultat du test en laboratoire.
 	                </div>
                 </div>
+                <br/>
+                <div class="card card-6">
+            		<table class="table table-bordered">
+            			<tr>
+            				<td>Nombre de personnes enregistr&eacute;es :</td>
+            				<td>{{ cpersonne.nb_personnes }}</td>
+            			</tr>
+            			<tr>
+            				<td>Nombre de personnes dont le cas suspect : </td>
+            				<td>{{ cpersonne.nb_p_suspects }}</td>
+            			</tr>
+            			<tr>
+            				<td>Nombre de personnes dont le test&eacute;es :</td>
+            				<td>{{ ctest.nb_t_tests }}</td>
+            			</tr>
+            			<tr>
+            				<td>Nombre de personnes dont le test positif : </td>
+            				<td>{{ ctest.nb_t_positifs }}</td>
+            			</tr>
+            			<tr>
+            				<td>Nombre de personnes dont le test n&eacute;gatif : </td>
+            				<td>{{ ctest.nb_t_negatifs }}</td>
+            			</tr>
+            			<tr>
+            				<td>Nombre de personnes gueries : </td>
+            				<td>{{ cpersonne.nb_p_gueris }}</td>
+            			</tr>
+            		</table>
+                	
+                </div>
 	        </div>
 		</div>
 

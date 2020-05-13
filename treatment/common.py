@@ -12,6 +12,7 @@
 import config
 from datetime import datetime
 import os
+from collections import namedtuple
 
 
 NOTIF = ("Dû au resultat positif de {}, fait le {} proche de vous ({}), "
@@ -28,6 +29,9 @@ SUSPECT_VALUE_NEG = "non"
 
 PERSONNE_GUERI_1 = "clinique"
 PERSONNE_GUERI_2 = "biologique"
+
+CPersonne = namedtuple("CPersonne", "nb_personnes nb_p_gueris nb_p_suspects")
+CTest = namedtuple("CTest", "nb_t_tests nb_t_positifs nb_t_negatifs")
 
 def get_current_date_fr():
     return datetime.today().strftime("%d-%m-%Y")

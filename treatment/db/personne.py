@@ -56,7 +56,14 @@ class Personne(DB):
     
     def update_gueri(self, id_, gueri_):
         r = "UPDATE personnes SET gueri='{}' WHERE id={}".format(gueri_, id_)
-        print("===> r : "+ r)
         return_ = self.cur.execute(r)
         self.conn.commit()
         return return_
+    
+    def get_count_suspect(self):
+        r = "SELECT * FROM personnes WHERE suspect='1'"
+        return self.get_count_r(r)
+    
+    def get_count_gueri(self):
+        r = "SELECT * FROM personnes WHERE gueri IS NOT NULL or gueri=''"
+        return self.get_count_r(r)

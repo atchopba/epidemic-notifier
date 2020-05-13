@@ -58,3 +58,16 @@ class Test(DB):
     
     def delete(self, id_):
         return super().delete("tests", id_)
+
+    def get_count(self):
+        #return super().get_count("tests")
+        r = "SELECT DISTINCT personne_id FROM tests"
+        return self.get_count_r(r)
+    
+    def get_count_positif(self):
+        r = "SELECT DISTINCT personne_id FROM tests WHERE resultat='1'"
+        return self.get_count_r(r)
+    
+    def get_count_negatif(self):
+        r = "SELECT DISTINCT personne_id FROM tests WHERE resultat='0'"
+        return self.get_count_r(r)

@@ -112,8 +112,12 @@ class DB(object):
         return deleted
     
     def get_count(self, table_):
-        cursor = self.cur.execute("SELECT count(*) FROM "+ table_)
-        return cursor.fecthone()[0]
+        cursor = self.cur.execute("SELECT * FROM "+ table_)
+        return len(cursor.fetchall()) 
+    
+    def get_count_r(self, r):
+        cursor = self.cur.execute(r)
+        return len(cursor.fetchall()) 
     
     def commit_trans(self):
         self.conn.commit()

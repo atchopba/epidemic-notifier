@@ -25,11 +25,12 @@ import json
 ERROR_MSG = "Veuillez recommencer!"
 
 app = Flask(__name__)
- 
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    cpersonne_ = cm.CPersonne(Personne().get_count(), Personne().get_count_gueri(), Personne().get_count_suspect())
+    ctest_ = cm.CTest(Test().get_count(), Test().get_count_positif(), Test().get_count_negatif())
+    return render_template("index.html", cpersonne=cpersonne_, ctest=ctest_)
 
 @app.route("/db")
 def db_home():
