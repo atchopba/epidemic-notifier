@@ -28,9 +28,22 @@ function get_current_date() {
  * @return boolean
  */
 function compare_date(str_date_1, str_date_2) {
-    var date_1 = new Date(str_date_1);
-    var date_2 = new Date(str_date_2);
+    var date_1 = new Date(convert_date_fr_2_en(str_date_1));
+    var date_2 = new Date(convert_date_fr_2_en(str_date_2));
     return date_1.getTime() >= date_2.getTime();
+}
+
+/**
+ * Convert date fr to en
+ * @param str_date  Date in fr
+ * @return boolean
+ */
+function convert_date_fr_2_en(str_date) {
+    var parts = str_date.split("/");
+    var day = parseInt(parts[0], 10);
+    var month = parseInt(parts[1], 10);
+    var year = parseInt(parts[2], 10);
+    return month + "/" + day + "/" + year;
 }
 
 /** 
