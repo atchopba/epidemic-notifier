@@ -30,11 +30,11 @@ app = Flask(__name__)
 def home():
     cpersonne_ = cm.CPersonne(Personne().get_count(), Personne().get_count_gueri(), Personne().get_count_suspect())
     ctest_ = cm.CTest(Test().get_count(), Test().get_count_positif(), Test().get_count_negatif())
-    return render_template("index.html", cpersonne=cpersonne_, ctest=ctest_)
+    return render_template("myapp/index.html", cpersonne=cpersonne_, ctest=ctest_)
 
 @app.route("/db")
 def db_home():
-    return render_template("db.html")
+    return render_template("myapp/db.html")
 
 @app.route("/db", methods=["POST"])
 def db_create():
@@ -44,7 +44,7 @@ def db_create():
 @app.route("/personnes")
 def home_personne():
     personnes = CRP().get_personnes_crp() #Personne().get_all()
-    return render_template("personne.html", personnes=personnes, nb_personnes=len(personnes))
+    return render_template("myapp/personne.html", personnes=personnes, nb_personnes=len(personnes))
 
 @app.route("/personnes/search", methods=["POST"])
 def search_personne():
@@ -59,7 +59,7 @@ def search_personne():
 @app.route("/personnes/guerison/<int:id_personne>", methods=["GET"])
 def guerison_personne(id_personne):
     personne = Personne().get_one(id_personne)
-    return render_template("personne_guerison.html", personne=personne)
+    return render_template("myapp/personne_guerison.html", personne=personne)
 
 @app.route("/personnes/guerison", methods=["POST"])
 def set_guerison_personne():
@@ -88,7 +88,7 @@ def add_personne():
     personne_id = param_and_add_personne(request)
     if personne_id is not None:
         return redirect("/personnes")
-    return render_template("personne.html", error=ERROR_MSG)
+    return render_template("myapp/personne.html", error=ERROR_MSG)
 
 @app.route("/personnes/delete/<int:id_personne>")
 def delete_personne(id_personne):
@@ -99,7 +99,7 @@ def delete_personne(id_personne):
 @app.route("/relations")
 def home_relation():
     relations = Relation().get_all()
-    return render_template("relation.html", relations=relations)
+    return render_template("myapp/relation.html", relations=relations)
     
 @app.route("/relations", methods=["POST"])
 def add_relation():
@@ -108,7 +108,7 @@ def add_relation():
     relation_id = Relation().add(relation)
     if relation_id is not None:
         return redirect("/relations")
-    return render_template("relation.html", error=ERROR_MSG)
+    return render_template("myapp/relation.html", error=ERROR_MSG)
     
 @app.route("/relations/delete/<int:id_relation>")
 def delete_relation(id_relation):
@@ -125,7 +125,7 @@ def home_rcp():
     personnes = CRP().get_personnes_crp(personne_id)
     #print("=> personnes : ", personnes)
     #print(")> crp : ", CRP().get_all())
-    return render_template("crp.html", personne=personne, relations=relations, personnes=personnes)
+    return render_template("myapp/crp.html", personne=personne, relations=relations, personnes=personnes)
 
 @app.route("/crp", methods=["POST"])
 def add_rcp():
@@ -150,7 +150,7 @@ def add_rcp():
             return redirect("crp?personne="+str(personne_id_1))
         #else:
         #    print("=> CRP_id : None ", crp_id)
-    return render_template("crp.html", 
+    return render_template("myapp/crp.html", 
                            personne=Personne().get_one(personne_id_1), 
                            relations=Relation().get_all(), 
                            personnes=Personne().get_all(),
@@ -166,7 +166,7 @@ def home_test():
     personne_id = request.args.get("personne")
     personne = Personne().get_one(personne_id) if personne_id is not None else None
     tests = Test().get_all()
-    return render_template("test.html", personne=personne, tests=tests)
+    return render_template("myapp/test.html", personne=personne, tests=tests)
 
 @app.route("/tests", methods=["POST"])
 def add_test():
@@ -183,7 +183,7 @@ def add_test():
         return redirect("/tests")
     else:
         #print("=> error insertion test")
-        return render_template("test.html", Personne().get_one(personne_id), tests=Test().get_all(), error=ERROR_MSG)
+        return render_template("myapp/test.html", Personne().get_one(personne_id), tests=Test().get_all(), error=ERROR_MSG)
 
 @app.route("/tests/delete/<int:id_test>")
 def delete_test(id_test):
@@ -193,7 +193,7 @@ def delete_test(id_test):
 @app.route("/notifications")
 def home_notification():
     notifications = PNotification().get_notification_pnotifications() #Notification().get_all()
-    return render_template("/notification.html", notifications=notifications)
+    return render_template("myapp/notification.html", notifications=notifications)
 
 @app.route("/notifications/add", methods=["POST"])
 def add_notification():
@@ -207,7 +207,7 @@ def add_notification():
         #return redirect("/notifications")
     else:
         print("=> notification_id : RIEN")
-    #return render_template("notification.html", error=ERROR_MSG)
+    #return render_template("myapp/notification.html", error=ERROR_MSG)
     return resp
     
 @app.route("/notifications/delete/<int:id_notification>")
