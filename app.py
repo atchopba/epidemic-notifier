@@ -50,7 +50,7 @@ def home_personne():
 def search_personne():
     p_name = request.form["search_name"]
     personne_id_1 = request.form["personne_id_1"]
-    json_ = json.dumps(Personne().find_by_name(personne_id_1, p_name))
+    json_ = json.dumps(Personne().find_by_name_in_crp(personne_id_1, p_name))
     resp = make_response(json_)
     resp.status_code = 200
     resp.headers["Access-Control-Allow-Origin"] = '*'
