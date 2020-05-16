@@ -4,7 +4,7 @@
  */
 function confirm_delete(url) {
     if (confirm("Etes-vous sûr?")) {
-        location(url);
+        window.location.href = url;
     }
 }
 
