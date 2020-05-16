@@ -18,6 +18,8 @@ TCRP = namedtuple("TCRP", "personne_id_1 personne_id_2 relation_id date_contact 
 RCRP = namedtuple("RCRP", "id personne_id_1 personne_id_2 relation_id date_contact heure_contact")
 RCRPPersonne = namedtuple("RCRPPersonne", "id nom prenom date_naiss num_telephone email suspect relation nb_contact")
 
+RCRPPersonneG = namedtuple("RCRPPersonneG", "id nom prenom date_naiss num_telephone email suspect relation id_2 nom_2 prenom_2 nb_contact")
+
 class CRP(DB):
     
     def add(self, crp):
@@ -95,3 +97,15 @@ class CRP(DB):
             #
             return [RCRPPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], self.get_personne_nb_contact(row[0])) for row in rows_1]
         
+    def find_for_graph(self):
+        r = ('''
+            SELECT 
+            p_1.id, p_1.nom, p_1.prenom, p_1.date_naiss, p_1.num_telephone, p_1.email, p_1.suspect, crp.relation_id,
+            p_2.id, p_2.nom, p_2.prenom 
+            FROM contact_relation_personnes crp 
+            JOIN personnes p_1 ON p_1.id = crp.personne_id_1
+            JOIN personnes p_2 ON p_2.id = crp.personne_id_2         
+        ''')
+        self.cur.execute(r)
+        rows = self.cur.fetchall()
+        return [RCRPPersonneG(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], self.get_personne_nb_contact(row[0])) for row in rows]

@@ -19,6 +19,7 @@ from treatment.db.test import Test, TTest
 from treatment.db.notification import Notification
 from treatment.db.personne_notification import PNotification
 import treatment.notifier as notifier
+from treatment.personne_graph import get_graph
 import treatment.common as cm
 import json
 
@@ -45,6 +46,12 @@ def db_create():
 def home_personne():
     personnes = CRP().get_personnes_crp() #Personne().get_all()
     return render_template("myapp/personne.html", personnes=personnes, nb_personnes=len(personnes))
+
+@app.route("/personnes/graph")
+def graph_personne():
+    # selection des personnes pour construire le graphe
+    get_graph()
+    return render_template("myapp/personne-graph.html")
 
 @app.route("/personnes/search", methods=["POST"])
 def search_personne():

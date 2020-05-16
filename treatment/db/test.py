@@ -16,6 +16,7 @@ import sqlite3
 TTest = namedtuple("TTest", "personne_id date_test heure_test date_resultat heure_resultat resultat")
 RTest = namedtuple("RTest", "id p_id p_nom p_prenom p_suspect p_gueri date_test heure_test date_resultat heure_resultat resultat")
 
+RTestPersonne = namedtuple("RTestPersonne", "p_id p_nom p_prenom p_date_naiss p_suspect t_id t_personne_id t_resultat")
 
 class Test(DB):
     
@@ -55,6 +56,16 @@ class Test(DB):
         self.cur.execute(r)
         rows = self.cur.fetchall()
         return [RTest(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], str(row[10])) for row in rows]
+        
+    def find_for_graph(self):
+        r = (''' 
+            SELECT p.id, p.nom, p.prenom, p.date_naiss, p.suspect, t.id, t.personne_id, t.resultat 
+            FROM personnes p 
+            LEFT JOIN tests t ON t.personne_id = p.id
+        ''')
+        self.cur.execute(r)
+        rows = self.cur.fetchall()
+        return [RTestPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]) for row in rows]
     
     def delete(self, id_):
         return super().delete("tests", id_)
