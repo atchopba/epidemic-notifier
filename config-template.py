@@ -9,7 +9,7 @@
 # __email__ = "Albin TCHOPBA <atchopba @ gmail dot com"
 # __status__ = "Production"
 
-GMAIL_USER = "xxxxxxxxxxx@╚gmail.com"
+GMAIL_USER = "xxxxxxxxxxx@gmail.com"
 GMAIL_PWD = "xxxxxxxxxxxxxxxxxxxxx"
 
 # sujet des mails
