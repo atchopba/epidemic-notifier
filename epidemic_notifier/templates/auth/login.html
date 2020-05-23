@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+ 
+  <head>
+    {% include 'inc/header.html' %}
+  </head>
+ 
+  <body>
+
+    <div class="page-wrapper bg-dark p-t-100 p-b-50">
+      <div class="wrapper wrapper--w900">
+      
+        <form action="/login" method="POST" onsubmit="return validate_form_login();">
+
+          <div class="card card-6">
+            <div class="card-heading">
+              <h3>Bienvenue sur Epidemic notifier</h3>
+            </div>
+            <div class="card-body">
+              <br/>
+              <br/>
+              <div class="label-row">Connexion </div>
+              
+              {% if error %}
+                <div style="color:red;">{{ error }}</div>
+              {% endif %}
+            
+              <div class="form-row">
+                <div class="name">Identifiant : </div>
+                <div class="value">
+                  <input class="input--style-6" type="text" id="login" name="login" value="" placeholder="Identifiant" size="32" autocomplete="false">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="name">Mot de passe : </div>
+                <div class="value">
+                  <input class="input--style-6" type="password" id="mdp" name="mdp" value="" placeholder="Mot de passe" size="32" autocomplete="false">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button class="btn btn--radius-2 btn--blue-2" id="btnvalid_connexion" type="submit">Me connecter</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </body>
+
+</html>

@@ -21,8 +21,10 @@ You can easily manage:
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-- Rename the config-template.py file to config.py
-- Put the right parameters in the config.py file
+- Rename "init.env" to ".env"
+- Edit ".env" file and put the right values.
+- Account to log in: medec1 / medec1
+
 
 Log on to [Gmail](http://www.gmail.com) and activate the option ["Less secure access to applications" ]( https://myaccount.google.com/lesssecureapps ).
 
@@ -53,7 +55,11 @@ docker run -p 5000:5000 epidemic-notifier
 Finally, go to your web browser: http://localhost:5000/
 
 #### Screenshots
-1. When lauching page in your web browser. 
+1. When lauching page in your web browser, you arrive to the log in page. (medec1/medec1) to log in.
+
+![Page index](static/images/00-0-login.PNG)
+
+Then, the home page.
 
 ![Page index](static/images/00-accueil.PNG)
 
