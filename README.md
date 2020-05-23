@@ -57,51 +57,51 @@ Finally, go to your web browser: http://localhost:5000/
 #### Screenshots
 1. When lauching page in your web browser, you arrive to the log in page. (medec1/medec1) to log in.
 
-![Page index](static/images/00-0-login.PNG)
+![Page index](epidemic_notifier/static/images/00-0-login.PNG)
 
 Then, the home page.
 
-![Page index](static/images/00-accueil.PNG)
+![Page index](epidemic_notifier/static/images/00-accueil.PNG)
 
 2. Tab "Database" where you can reset the database. 
 
-![Page index](static/images/01-db.PNG)
+![Page index](epidemic_notifier/static/images/01-db.PNG)
 
 3. Tab "Relations" where you can manage people's relationship.
 
-![Page index](static/images/02-relation.PNG)
+![Page index](epidemic_notifier/static/images/02-relation.PNG)
 
 4. Tab "personnes" where you can manage people and ...
 
-![Page index](static/images/03-personne.PNG)
+![Page index](epidemic_notifier/static/images/03-personne.PNG)
 
 ... add relationship between people.
 
-![Page index](static/images/04-personne_relations.png)
+![Page index](epidemic_notifier/static/images/04-personne_relations.png)
 
 The "guerison" is to set how personne was healed
 
-![Page index](static/images/07-guerison.PNG)
+![Page index](epidemic_notifier/static/images/07-guerison.PNG)
 
 5. Tab "Graphe personnes" where you visualize relations between all personnes.
 
-![Page index](static/images/05-graph.PNG)
+![Page index](epidemic_notifier/static/images/05-graph.PNG)
 
 6. Tab "tests" where you can manage people's test.
 
-![Page index](static/images/06-test.PNG)
+![Page index](epidemic_notifier/static/images/06-test.PNG)
 
 7. Tab "notifications" where you can trigger notifications and an email can be sent to people who have been in contact with a person who has tested positive...
 
-![Page index](static/images/08-notification.PNG)
+![Page index](epidemic_notifier/static/images/08-notification.PNG)
 
 ... and the notification is 
 
-![Page index](static/images/09-notif_email.PNG)
+![Page index](epidemic_notifier/static/images/09-notif_email.PNG)
 
 Otherwise, at each notification, files are created in the "__temp__" directory.
 
-![Page index](static/images/10-tree.PNG)
+![Page index](epidemic_notifier/static/images/10-tree.PNG)
 
 ## License & copyright
 
