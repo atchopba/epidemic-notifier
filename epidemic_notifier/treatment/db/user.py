@@ -13,7 +13,7 @@ from collections import namedtuple
 from .db import DB
 
 TUser = namedtuple("TUser", "login mdp profil")
-RUser = namedtuple("RUserr", "id login mdp name profil email is_authenticated is_active is_anonymous")
+RUser = namedtuple("RUser", "id login mdp name profil email is_authenticated is_active is_anonymous")
 
 class EUser(DB):
     
