@@ -29,13 +29,6 @@ class Config:
     FILE_NOTIF_SMS = "./epidemic_notifier/templates/model/notification.sms.model"
     FILE_NOTIF_EMAIL = "./epidemic_notifier/templates/model/notification.email.model"
     
-    SUSPECT_CHECKBOX = "suspect"
-    SUSPECT_VALUE_POS = "oui"
-    SUSPECT_VALUE_NEG = "non"
-    
-    PERSONNE_GUERI_1 = "clinique"
-    PERSONNE_GUERI_2 = "biologique"
-    
     PATH_GRAPH = "./epidemic_notifier/static/__temp__/graph/graph.json"
 
     FLASK_APP = "wsgi.py"

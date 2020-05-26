@@ -89,7 +89,7 @@ def guerison_personne(id_personne):
 @login_required
 def set_guerison_personne():
     id_ = request.form["personne_id"]
-    gueri_ = Config.PERSONNE_GUERI_1 if request.form["gueri"] == "1" else Config.PERSONNE_GUERI_2
+    gueri_ = cm.PERSONNE_GUERI_1 if request.form["gueri"] == "1" else cm.PERSONNE_GUERI_2
     update_ = Personne().update_gueri(id_, gueri_)
     if update_ :
         return redirect("/tests")
@@ -102,9 +102,9 @@ def param_and_add_personne(request):
     num_telephone = request.form["num_telephone"]
     email = request.form["email"]
     try:
-        suspect = Config.SUSPECT_VALUE_POS if request.form["suspect"] == Config.SUSPECT_CHECKBOX else Config.SUSPECT_VALUE_NEG
+        suspect = cm.SUSPECT_VALUE_POS if request.form["suspect"] == cm.SUSPECT_CHECKBOX else cm.SUSPECT_VALUE_NEG
     except:
-        suspect = Config.SUSPECT_VALUE_NEG
+        suspect = cm.SUSPECT_VALUE_NEG
     personne = TPersonne(nom, prenom, date_naiss, num_telephone, email, suspect)
     return Personne().add(personne)
     
