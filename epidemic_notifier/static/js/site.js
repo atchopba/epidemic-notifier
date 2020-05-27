@@ -359,12 +359,27 @@ $(document).ready(function(){
             my : 'top'
         },
         select : function(event, ui){ // lors de la sélection d'une proposition
-            console.log("=> select : ", ui);
-            console.log("==> selected : ", ui.item.label, ui.item.value);
-            
             $("#searchname").val(ui.item.label); // display the selected text
             $("#personne_id_2").val(ui.item.value); // save selected id to hidden input
+            if ($("#personne_id_2").val().trim() == "") {
+                $("#new_personne").show();
+            } else {
+                $("#new_personne").hide();
+            }
             return false;
+        }
+    });
+
+    // change crp add contact
+    $("#searchname").on("input propertychange change keyup paste", function() {
+        if ($(this).val().trim() == "") {
+            $("#personne_id_2").val("");
+        }
+        if ($(this).val().trim() == "" && $("#personne_id_2").val().trim() == "") {
+            $("#personne_id_2").val("");
+            $("#new_personne").show();
+        } else if ($("#personne_id_2").val().trim() !== "") {
+            $("#new_personne").hide();
         }
     });
 
