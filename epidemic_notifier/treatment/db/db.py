@@ -12,7 +12,7 @@
 import sqlite3
 from config import Config
 
-DB_EPIDEMIC = Config.DATABASE_URI #"static/data/epidemic.db"
+DB_EPIDEMIC = Config.DATABASE_URI
 
 class DB(object):
     
