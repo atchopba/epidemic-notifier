@@ -20,7 +20,7 @@ from .treatment.db.test import Test, TTest
 from .treatment.db.notification import Notification
 from .treatment.db.personne_notification import PNotification
 from .treatment import notifier as notifier
-from .treatment.personne_graph import get_graph
+from .treatment.personne_graph import build_graph
 from .treatment import common as cm
 from config import Config
 import json
@@ -65,8 +65,10 @@ def home_personne():
 @login_required
 def graph_personne():
     # selection des personnes pour construire le graphe
-    get_graph()
-    return render_template("myapp/personne-graph.html")
+    p_ = Personne().get_all()
+    graph_msg = "Aucune personne enregistrée pour tracer le graphe!" if len(p_) == 0 else ""
+    build_graph()
+    return render_template("myapp/personne-graph.html", graph_msg=graph_msg)
 
 @main_bp.route("/personnes/search", methods=["POST"])
 @login_required

@@ -9,6 +9,7 @@
 # __email__ = "Albin TCHOPBA <atchopba @ gmail dot com"
 # __status__ = "Production"
 
+import os
 import json
 from epidemic_notifier.treatment.db.test import Test
 from epidemic_notifier.treatment.db.contact_relation_personne import CRP
@@ -55,7 +56,9 @@ def get_links_graph():
         })
     return crp_dict
 
-def get_graph():
+def build_graph():
+    if os.path.exists(Config.PATH_GRAPH):
+        os.remove(Config.PATH_GRAPH)
     with open(Config.PATH_GRAPH, "w") as outfile: 
           json.dump({
                 "nodes": get_nodes_graph(),
