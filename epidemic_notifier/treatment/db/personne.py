@@ -26,8 +26,7 @@ class Personne(DB):
             self.conn.execute(r, personne)
             self.conn.commit()
             return self.get_last_row_id("personnes")
-        except sqlite3.IntegrityError as ie:
-            print("=> Personne => add => ", ie)
+        except sqlite3.IntegrityError:
             return None
         
     def get_one(self, id_):
