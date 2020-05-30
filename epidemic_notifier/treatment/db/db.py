@@ -52,6 +52,7 @@ class DB(object):
             email text,
             suspect text,
             gueri text,
+            presente_signe string,
             UNIQUE (nom, prenom, date_naiss)
             )''')
         
@@ -72,7 +73,7 @@ class DB(object):
         # test
         self.cur.execute("DROP TABLE IF EXISTS tests")
         self.cur.execute(''' CREATE TABLE tests (
-            id integer PRIMARY KEY,    
+            id integer PRIMARY KEY,
             personne_id integer,
             date_test string,
             heure_test string,

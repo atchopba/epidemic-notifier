@@ -14,9 +14,9 @@ from epidemic_notifier.treatment.db.db import DB
 import sqlite3
 
 TTest = namedtuple("TTest", "personne_id date_test heure_test date_resultat heure_resultat resultat")
-RTest = namedtuple("RTest", "id p_id p_nom p_prenom p_suspect p_gueri date_test heure_test date_resultat heure_resultat resultat")
+RTest = namedtuple("RTest", "id p_id p_nom p_prenom p_suspect p_gueri p_presente_signe date_test heure_test date_resultat heure_resultat resultat")
 
-RTestPersonne = namedtuple("RTestPersonne", "p_id p_nom p_prenom p_date_naiss p_suspect t_id t_personne_id t_resultat")
+RTestPersonne = namedtuple("RTestPersonne", "p_id p_nom p_prenom p_date_naiss p_suspect p_presente_signe t_id t_personne_id t_resultat")
 
 class Test(DB):
     
@@ -39,33 +39,33 @@ class Test(DB):
         return None
        
     def get_all(self):
-        r = ("SELECT t.id, p.id, p.nom, p.prenom, p.suspect, p.gueri, t.date_test, t.heure_test, t.date_resultat, t.heure_resultat, t.resultat "
+        r = ("SELECT t.id, p.id, p.nom, p.prenom, p.suspect, p.gueri, p.presente_signe, t.date_test, t.heure_test, t.date_resultat, t.heure_resultat, t.resultat "
             "FROM tests t "
             "JOIN personnes p ON p.id = t.personne_id "
             "ORDER BY t.id ASC")
         self.cur.execute(r)
         rows = self.cur.fetchall()
-        return [RTest(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], str(row[10])) for row in rows]
+        return [RTest(row[0], row[1], row[2], row[3], row[4], row[5], row[6] if row[6] is not None else "", row[7], row[8], row[9], row[10], str(row[11])) for row in rows]
     
     def get_supposes_malades(self):
-        r = ("SELECT t.id, p.id, p.nom, p.prenom, p.suspect, p.gueri, t.date_test, t.heure_test, t.date_resultat, t.heure_resultat, t.resultat "
+        r = ("SELECT t.id, p.id, p.nom, p.prenom, p.suspect, p.gueri, p.presente_signe, t.date_test, t.heure_test, t.date_resultat, t.heure_resultat, t.resultat "
                 "FROM tests t "
                 "JOIN personnes p ON p.id = t.personne_id "
                 "WHERE t.resultat = '1' "
                 "ORDER BY t.id ASC")
         self.cur.execute(r)
         rows = self.cur.fetchall()
-        return [RTest(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], str(row[10])) for row in rows]
+        return [RTest(row[0], row[1], row[2], row[3], row[4], row[5], row[6] if row[6] is not None else "", row[7], row[8], row[9], row[10], str(row[11])) for row in rows]
         
     def find_for_graph(self):
         r = (''' 
-            SELECT p.id, p.nom, p.prenom, p.date_naiss, p.suspect, t.id, t.personne_id, t.resultat 
+            SELECT p.id, p.nom, p.prenom, p.date_naiss, p.suspect, p.presente_signe, t.id, t.personne_id, t.resultat 
             FROM personnes p 
             LEFT JOIN tests t ON t.personne_id = p.id
         ''')
         self.cur.execute(r)
         rows = self.cur.fetchall()
-        return [RTestPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]) for row in rows]
+        return [RTestPersonne(row[0], row[1], row[2], row[3], row[4], row[5] if row[5] is not None else "", row[6], row[7], row[8]) for row in rows]
     
     def delete(self, id_):
         return super().delete("tests", id_)

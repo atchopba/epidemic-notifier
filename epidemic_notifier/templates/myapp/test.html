@@ -102,6 +102,7 @@
                 <td>Date & heure test</td>
                 <td>Date & heure resultat</td>
                 <td>Cas suspect ?</td>
+                <td>Pr&eacute;sente signe ?</td>
                 <td>Résultat</td>
                 <td>Gu&eacute;ri?</td>
                 <td></td>
@@ -116,6 +117,7 @@
                       <td>{{ r.date_test + ' ' + r.heure_test }}</td>
                       <td>{{ r.date_resultat + ' ' + r.heure_resultat }}</td>
                       <td>{{ r.p_suspect }}</td>
+                      <td>{{ r.p_presente_signe }}</td>
                       <td>
                         {% if r.date_resultat %}
                           {% if r.resultat == '1' %} Positif

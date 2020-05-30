@@ -107,7 +107,11 @@ def param_and_add_personne(request):
         suspect = cm.SUSPECT_VALUE_POS if request.form["suspect"] == cm.SUSPECT_CHECKBOX else cm.SUSPECT_VALUE_NEG
     except:
         suspect = cm.SUSPECT_VALUE_NEG
-    personne = TPersonne(nom, prenom, date_naiss, num_telephone, email, suspect)
+    try:
+        p_signe = cm.P_SIGNE_VALUE_POS if request.form["presente_signe"] == cm.P_SIGNE_CHECKBOX else cm.P_SIGNE_VALUE_NEG
+    except:
+        p_signe = cm.P_SIGNE_VALUE_NEG
+    personne = TPersonne(nom, prenom, date_naiss, num_telephone, email, suspect, p_signe)
     return Personne().add(personne)
     
 @main_bp.route("/personnes", methods=["POST"])

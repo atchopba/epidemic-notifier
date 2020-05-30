@@ -27,6 +27,10 @@ SUSPECT_CHECKBOX = "suspect"
 SUSPECT_VALUE_POS = "oui"
 SUSPECT_VALUE_NEG = "non"
 
+P_SIGNE_CHECKBOX = "presente_signe"
+P_SIGNE_VALUE_POS = "oui"
+P_SIGNE_VALUE_NEG = "non"
+
 PERSONNE_GUERI_1 = "clinique"
 PERSONNE_GUERI_2 = "biologique"
 
