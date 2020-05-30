@@ -10,13 +10,16 @@
 # __status__ = "Production"
 
 import sqlite3
-from config import Config
-
-DB_EPIDEMIC = Config.DATABASE_URI
+from flask import current_app
 
 class DB(object):
     
     def __init__(self):
+        _config = current_app.config
+        if _config.get("MULTI_DATABASE"):
+            DB_EPIDEMIC = _config.get("DATABASE_CLIENT") if not _config.get("DATABASE_CLIENT") is None else _config.get("DATABASE_URI")
+        else:
+            DB_EPIDEMIC = _config.get("DATABASE_URI")
         self.conn = sqlite3.connect(DB_EPIDEMIC)
         self.cur = self.conn.cursor()   
 

@@ -13,7 +13,7 @@ from collections import namedtuple
 from .db import DB
 
 TUser = namedtuple("TUser", "login mdp profil")
-RUser = namedtuple("RUser", "id login mdp name profil email is_authenticated is_active is_anonymous")
+RUser = namedtuple("RUser", "id login mdp name profil email is_authenticated is_active is_anonymous db")
 
 class EUser(DB):
     
@@ -40,8 +40,7 @@ class EUser(DB):
         cursor = self.cur.execute(r)
         row = cursor.fetchone()
         if row:
-            self.set_id(row[0])
-            return RUser(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+            return RUser(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9])
         return None
     
     def get_by_user(self, u_):
@@ -49,8 +48,7 @@ class EUser(DB):
         cursor = self.cur.execute(r)
         row = cursor.fetchone()
         if row:
-            self.set_id(row[0])
-            return RUser(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+            return RUser(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9])
         return None
     
     def __repr__(self):

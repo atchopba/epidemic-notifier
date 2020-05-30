@@ -40,5 +40,7 @@ class Config:
     TEMPLATES_FOLDER = "templates"
     COMPRESSOR_DEBUG = environ.get('COMPRESSOR_DEBUG')
 
-    # Flask-SQLAlchemy
-    DATABASE_URI = "./epidemic_notifier/static/data/epidemic.db"
+    # Databases
+    MULTI_DATABASE = False
+    DATABASE_URI = "./epidemic_notifier/static/data/main.db"
+    DATABASE_CLIENT = None
