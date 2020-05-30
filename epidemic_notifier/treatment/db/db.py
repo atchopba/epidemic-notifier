@@ -115,11 +115,12 @@ class DB(object):
             profil string,
             is_authenticated integer DEFAULT 1,
             is_active integer DEFAULT 1,
-            is_anonymous integer DEFAULT 0
+            is_anonymous integer DEFAULT 0,
+            db string
             )''')
-        self.cur.execute("insert into users(login, mdp, name, profil, email) values('medec1','medec1','medec1', 'medecin', 'medec1@hopital.fr')")
+        self.cur.execute("insert into users(login, mdp, name, profil, email, db) values('medec1','medec1','medec1', 'medecin', 'medec1@hopital.fr', './epidemic_notifier/static/data/epidemic-c1.db')")
         self.conn.commit()
-        self.cur.execute("insert into users(login, mdp, name, profil, email) values('medec2','medec2','medec2', 'medecin', 'medec2@hopital.fr')")
+        self.cur.execute("insert into users(login, mdp, name, profil, email, db) values('medec2','medec2','medec2', 'medecin', 'medec2@hopital.fr', './epidemic_notifier/static/data/epidemic-c2.db')")
         self.conn.commit()
     
     def get_last_row_id(self, table_):
