@@ -12,6 +12,9 @@
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
       </thead>
       <tbody>
         {% if personnes %}
@@ -26,13 +29,16 @@
               <td>{{ p.suspect }}</td>
               <td>{{ p.presente_signe }}</td>
               <td>{{ p.nb_contact }}</td>
-              <td>&nbsp;<a href="crp?personne={{ p.id }}">Relations</a>&nbsp;</td>
-              <td>&nbsp;<a href="tests?personne={{ p.id }}">Test</a>&nbsp;</td>
+              <td>&nbsp;<a href="/crp?personne={{ p.id }}">Relation contacts</a>&nbsp;</td>
+              <td>&nbsp;<a href="/personnes/consultation/{{ p.id }}">Consultation</a>&nbsp;</td>
+              <td>&nbsp;<a href="/personnes/viecondition/{{ p.id }}">Conditions de vie</a>&nbsp;</td>
+              <td>&nbsp;<a href="#">Pr&eacute;sente signes</a>&nbsp;</td>
+              <td>&nbsp;<a href="/tests?personne={{ p.id }}">Test</a>&nbsp;</td>
               <td>&nbsp;<a href="javascript:;" onclick="javascript:confirm_delete('personnes/delete/{{ p.id }}')">Supprimer</a>&nbsp;</td>
             </tr>
           {% endfor %}
         {% else %}
-          <tr><td colspan="8">Aucune donn&eacute;e!!</td></tr>
+          <tr><td colspan="15">Aucune donn&eacute;e!!</td></tr>
         {% endif %}
       </tbody>
     </table>

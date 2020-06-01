@@ -26,6 +26,9 @@ class DB(object):
     def create_db(self):
         self.create_table_relations()
         self.create_table_personnes()
+        self.create_table_type_consultations()
+        self.create_table_personne_consultations()
+        self.create_table_personne_vie_conditions()
         self.create_table_crp()
         self.create_table_tests()
         self.create_table_notifications()
@@ -40,6 +43,12 @@ class DB(object):
             id integer PRIMARY KEY,    
             libelle text UNIQUE
             )''')
+        self.cur.execute("INSERT INTO relations (libelle) VALUES ('collègue')")
+        self.cur.execute("INSERT INTO relations (libelle) VALUES ('famille')")
+        self.cur.execute("INSERT INTO relations (libelle) VALUES ('hôpital')")
+        self.cur.execute("INSERT INTO relations (libelle) VALUES ('quartier')")
+        self.cur.execute("INSERT INTO relations (libelle) VALUES ('voisin')")
+        self.conn.commit()
         
     def create_table_personnes(self):
         self.cur.execute("DROP TABLE IF EXISTS personnes")
@@ -50,10 +59,49 @@ class DB(object):
             date_naiss text,
             num_telephone text,
             email text,
-            suspect text,
-            gueri text,
-            presente_signe string,
             UNIQUE (nom, prenom, date_naiss)
+            )''')
+    
+    def create_table_personne_vie_conditions(self):
+        self.cur.execute("DROP TABLE IF EXISTS personne_vie_conditions")
+        self.cur.execute(''' CREATE TABLE personne_vie_conditions (
+            id integer PRIMARY KEY,    
+            personne_id integer UNIQUE,
+            is_en_couple text DEFAULT 'non',
+            has_enfant text DEFAULT 'non',
+            nb_enfant int DEFAULT 0,
+            has_personne_agee text DEFAULT 'non',
+            nb_personne_agee int DEFAULT 0,
+            has_been_in_contact_personne_risque text DEFAULT 'non'
+            )''')
+        
+    def create_table_signes(self):
+        self.cur.execute("DROP TABLE IF EXISTS signes")
+        self.cur.execute(''' CREATE TABLE signes (
+            id integer PRIMARY KEY,    
+            libelle text UNIQUE
+            )''')
+    
+    def create_table_type_consultations(self):
+        # relation
+        self.cur.execute("DROP TABLE IF EXISTS type_consultations")
+        self.cur.execute(''' CREATE TABLE type_consultations ( 
+            id integer PRIMARY KEY,    
+            libelle text UNIQUE
+            )''')
+        self.cur.execute("INSERT INTO type_consultations (libelle) VALUES ('cabinet')")
+        self.cur.execute("INSERT INTO type_consultations (libelle) VALUES ('centre médical')")
+        self.cur.execute("INSERT INTO type_consultations (libelle) VALUES ('télé-consultation')")
+        self.conn.commit()
+    
+    def create_table_personne_consultations(self):
+        self.cur.execute("DROP TABLE IF EXISTS personne_consultations")
+        self.cur.execute(''' CREATE TABLE personne_consultations (
+            id integer PRIMARY KEY,    
+            type_consultation_id integer,
+            personne_id integer,
+            date_consultation string,
+            heure_consultation string
             )''')
         
     def create_table_crp(self):
@@ -68,18 +116,39 @@ class DB(object):
             heure_contact string,
             UNIQUE (personne_id_1, personne_id_2, relation_id, date_contact, heure_contact)
             )''')
+     
+    def create_table_type_tests(self):
+        # test
+        self.cur.execute("DROP TABLE IF EXISTS type_tests")
+        self.cur.execute(''' CREATE TABLE type_tests (
+            id integer PRIMARY KEY,    
+            libelle string
+            )''')
+        self.cur.execute("INSERT INTO type_tests (libelle) VALUES ('scanner/radio')")
+        self.cur.execute("INSERT INTO type_tests (libelle) VALUES ('test naso-pharingé')")
+        self.cur.execute("INSERT INTO type_tests (libelle) VALUES ('test salivaire')")
+        self.cur.execute("INSERT INTO type_tests (libelle) VALUES ('test sérologique')")
+        self.conn.commit()
+        
         
     def create_table_tests(self):
         # test
         self.cur.execute("DROP TABLE IF EXISTS tests")
         self.cur.execute(''' CREATE TABLE tests (
-            id integer PRIMARY KEY,
+            id integer PRIMARY KEY,  
+            type_test_id_1 int,
+            type_test_id_2 int,
+            type_test_id_3 int,
+            type_test_id_4 int,
             personne_id integer,
+            lieu_test text,
+            adresse_test text,
             date_test string,
             heure_test string,
             date_resultat string,
             heure_resultat string,
-            resultat int
+            resultat int,
+            resultat_text text,
             )''')
      
     def create_table_notifications(self):

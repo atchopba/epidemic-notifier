@@ -17,7 +17,11 @@ from .treatment.db.personne import Personne, TPersonne
 from .treatment.db.relation import Relation, TRelation
 from .treatment.db.contact_relation_personne import CRP, TCRP
 from .treatment.db.test import Test, TTest
+from .treatment.db.type_test import TypeTest, TTypeTest
 from .treatment.db.notification import Notification
+from .treatment.db.type_consultation import TConsultation
+from .treatment.db.personne_consultation import PConsultation, TPConsultation
+from .treatment.db.personne_vie_condition import TPVCondition, PVCondition
 from .treatment.db.personne_notification import PNotification
 from .treatment import notifier as notifier
 from .treatment.personne_graph import build_graph
@@ -40,7 +44,7 @@ def logout():
 @main_bp.route("/")
 @login_required
 def home():
-    cpersonne_ = cm.CPersonne(Personne().get_count(), Personne().get_count_gueri(), Personne().get_count_suspect())
+    cpersonne_ = cm.CPersonne(Personne().get_count(), 0, 0)
     ctest_ = cm.CTest(Test().get_count(), Test().get_count_positif(), Test().get_count_negatif())
     return render_template("myapp/index.html", cpersonne=cpersonne_, ctest=ctest_)
 
@@ -53,12 +57,12 @@ def db_home():
 @login_required
 def db_create():
     DB().create_db()
-    return redirect("/relations")
+    return redirect("/personnes")
 
 @main_bp.route("/personnes")
 @login_required
 def home_personne():
-    personnes = CRP().get_personnes_crp() #Personne().get_all()
+    personnes = CRP().get_personnes_crp() #Personne().get_all() #
     return render_template("myapp/personne.html", personnes=personnes, nb_personnes=len(personnes))
 
 @main_bp.route("/personnes/graph")
@@ -97,21 +101,96 @@ def set_guerison_personne():
         return redirect("/tests")
     return render_template("/personne/guerison/"+ id_, error=Config.ERROR_MSG_INSERT)
 
+@main_bp.route("/personnes/consultation/<int:id_personne>", methods=["GET"])
+@login_required
+def consultation_personne(id_personne):
+    personne = Personne().get_one(id_personne)
+    type_consultations = TConsultation().get_all()
+    pconsultations = PConsultation().get_by_personne_id(id_personne)
+    return render_template("myapp/personne_consultation.html", 
+                           personne=personne, 
+                           type_consultations=type_consultations, 
+                           date_consultation=cm.get_current_date_fr(), 
+                           heure_consultation=cm.get_current_time(),
+                           pconsultations=pconsultations)
+
+@main_bp.route("/personnes/consultation", methods=["POST"])
+@login_required
+def add_consultation_personne():
+    personne_id = request.form["personne_id"]
+    type_consultation_id = request.form["type_consultation_id"]
+    date_consultation = request.form["date_consultation"]
+    heure_consultation = request.form["heure_consultation"]
+    pconsultation_id = PConsultation().add(TPConsultation(type_consultation_id, personne_id, date_consultation, heure_consultation))
+    if pconsultation_id :
+        return redirect("/personnes/consultation/"+personne_id)
+    return render_template("/personnes/consultation/"+ personne_id, error=Config.ERROR_MSG_INSERT)
+
+@main_bp.route("/personnes/consultation/delete/<int:id_personne>")
+@login_required
+def delete_consultation_personne(id_personne):
+    PConsultation().delete(id_personne)
+    return redirect("/personnes/consultation/"+ str(id_personne))
+
+def get_request_checkbox_value(request_, field_):
+    try:
+        value = request_.form[field_]
+    except:
+        value = "non"
+    return value
+
+@main_bp.route("/personnes/viecondition/<int:id_personne>", methods=["GET"])
+@login_required
+def vie_condition_personne(id_personne):
+    personne = Personne().get_one(id_personne)
+    pvconditions = PVCondition().get_by_personne_id(id_personne)
+    relations = Relation().get_all()
+    return render_template("myapp/personne_vie_condition.html", 
+                           personne=personne,
+                           relations=relations,
+                           pvconditions=pvconditions)
+
+@main_bp.route("/personnes/viecondition", methods=["POST"])
+@login_required
+def add_vie_condition_personne():
+    personne_id = request.form["personne_id"]
+    is_en_couple = get_request_checkbox_value(request, "is_en_couple")
+    has_enfant = get_request_checkbox_value(request, "has_enfant")
+    nb_enfant = request.form["nb_enfant"]
+    has_personne_agee = get_request_checkbox_value(request, "has_personne_agee")
+    nb_personne_agee = request.form["nb_personne_agee"]
+    has_been_in_contact_personne_risque = get_request_checkbox_value(request, "has_been_in_contact_personne_risque")
+    tpvcondition = TPVCondition(personne_id, is_en_couple, has_enfant, nb_enfant, has_personne_agee, nb_personne_agee, has_been_in_contact_personne_risque)
+    pvcondition_id = PVCondition().add(tpvcondition)
+    if pvcondition_id :
+        if has_been_in_contact_personne_risque == "oui":
+            personne_id_2 = param_and_add_personne(request)
+            #print("=> ajout personne 2")
+            # add crp
+            if personne_id_2:
+                id_relation = request.form["relation_id"]
+                date_ = request.form["date_contact"]
+                heure_ = request.form["heure_contact"]
+                crp_ = TCRP(personne_id, personne_id_2, id_relation, date_, heure_)
+                crp = CRP()
+                crp_id = crp.add(crp_)
+                #print("=> ajout fr trlztion entre 2")
+        return redirect("/personnes/viecondition/"+personne_id)
+    return render_template("/personnes/viecondition/"+ personne_id, error=Config.ERROR_MSG_INSERT)
+
+@main_bp.route("/personnes/viecondition/delete/<int:id_personne>")
+@login_required
+def delete_vie_condition_personne(id_personne):
+    PVCondition().delete(id_personne)
+    return redirect("/personnes/viecondition/"+str(id_personne))
+
 def param_and_add_personne(request):
     nom = request.form["nom"]
     prenom = request.form["prenom"]
     date_naiss = request.form["date_naiss"]
     num_telephone = request.form["num_telephone"]
     email = request.form["email"]
-    try:
-        suspect = cm.SUSPECT_VALUE_POS if request.form["suspect"] == cm.SUSPECT_CHECKBOX else cm.SUSPECT_VALUE_NEG
-    except:
-        suspect = cm.SUSPECT_VALUE_NEG
-    try:
-        p_signe = cm.P_SIGNE_VALUE_POS if request.form["presente_signe"] == cm.P_SIGNE_CHECKBOX else cm.P_SIGNE_VALUE_NEG
-    except:
-        p_signe = cm.P_SIGNE_VALUE_NEG
-    personne = TPersonne(nom, prenom, date_naiss, num_telephone, email, suspect, p_signe)
+    personne = TPersonne(nom, prenom, date_naiss, num_telephone, email)
     return Personne().add(personne)
     
 @main_bp.route("/personnes", methods=["POST"])
@@ -128,7 +207,7 @@ def delete_personne(id_personne):
     Personne().delete(id_personne)
     CRP().delete_due_2_personne(id_personne)
     return redirect("/personnes")
-
+'''
 @main_bp.route("/relations")
 @login_required
 def home_relation():
@@ -150,7 +229,7 @@ def add_relation():
 def delete_relation(id_relation):
     Relation().delete(id_relation)
     return redirect("/relations")
-
+'''
 @main_bp.route("/crp", methods=["GET"])
 @login_required
 def home_rcp():
@@ -160,10 +239,8 @@ def home_rcp():
     personne = Personne().get_one(personne_id)
     relations = Relation().get_all()
     personnes = CRP().get_personnes_crp(personne_id)
-    #print("=> personnes : ", personnes)
-    #print(")> crp : ", CRP().get_all())
     return render_template("myapp/crp.html", personne=personne, relations=relations, personnes=personnes)
-
+'''
 @main_bp.route("/crp", methods=["POST"])
 @login_required
 def add_rcp():
@@ -193,12 +270,12 @@ def add_rcp():
                            relations=Relation().get_all(), 
                            personnes=Personne().get_all(),
                            error=Config.ERROR_MSG_INSERT)
-
+'''
 @main_bp.route("/crp/delete/<int:id_crp>")
 @login_required
 def delete_crp(id_crp):
     CRP().delete(id_crp)
-    return redirect("/relations")
+    return redirect("/crp")
 
 @main_bp.route("/tests", methods=["GET"])
 @login_required
@@ -206,7 +283,8 @@ def home_test():
     personne_id = request.args.get("personne")
     personne = Personne().get_one(personne_id) if personne_id is not None else None
     tests = Test().get_all()
-    return render_template("myapp/test.html", personne=personne, tests=tests)
+    type_tests = TypeTest().get_all()
+    return render_template("myapp/test.html", personne=personne, tests=tests, type_tests=type_tests)
 
 @main_bp.route("/tests", methods=["POST"])
 @login_required
@@ -220,10 +298,8 @@ def add_test():
     test = TTest(personne_id, date_test, heure_test, date_resultat, heure_resultat, resultat)
     test_id = Test().add(test)
     if test_id:
-        #print("=> test_id : ", test_id)
         return redirect("/tests")
     else:
-        #print("=> error insertion test")
         return render_template("myapp/test.html", Personne().get_one(personne_id), tests=Test().get_all(), error=Config.ERROR_MSG_INSERT)
 
 @main_bp.route("/tests/delete/<int:id_test>")
@@ -243,11 +319,10 @@ def home_notification():
 def add_notification():
     notification_id = Notification().add()
     if notification_id is not None:
-        print("=> notification_id : ", notification_id) 
+        #print("=> notification_id : ", notification_id) 
         resp = make_response(notifier.notifier_personne(notification_id))
         resp.status_code = 200
         resp.headers["Access-Control-Allow-Origin"] = '*'
-        print("=> fin de la notification")
         #return redirect("/notifications")
     else:
         print("=> notification_id : RIEN")

@@ -16,9 +16,9 @@ import sqlite3
 
 TCRP = namedtuple("TCRP", "personne_id_1 personne_id_2 relation_id date_contact heure_contact")
 RCRP = namedtuple("RCRP", "id personne_id_1 personne_id_2 relation_id date_contact heure_contact")
-RCRPPersonne = namedtuple("RCRPPersonne", "id nom prenom date_naiss num_telephone email suspect presente_signe relation nb_contact")
+RCRPPersonne = namedtuple("RCRPPersonne", "id nom prenom date_naiss num_telephone email relation nb_contact")
 
-RCRPPersonneG = namedtuple("RCRPPersonneG", "id nom prenom date_naiss num_telephone email suspect presente_signe relation id_2 nom_2 prenom_2 nb_contact")
+RCRPPersonneG = namedtuple("RCRPPersonneG", "id nom prenom date_naiss num_telephone email relation id_2 nom_2 prenom_2 nb_contact")
 
 class CRP(DB):
     
@@ -64,18 +64,16 @@ class CRP(DB):
         return row[0]
     
     def get_personnes_crp(self, personne_id=None):
-        #personnes = Personne().get_all() if personne_id is None else [Personne().get_one(personne_id)]
         if personne_id is None:
-            print("=> passe là")
             personnes = Personne().get_all()
             p_crp_dict = []
             for p in personnes:
-                p_crp = RCRPPersonne(p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, p.suspect if p.suspect != None else "", p.presente_signe if p.presente_signe != None else "", "", self.get_personne_nb_contact(p.id))
+                p_crp = RCRPPersonne(p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, "", self.get_personne_nb_contact(p.id))
                 p_crp_dict.append(p_crp)
             return p_crp_dict
         else:
             r = ('''
-                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, p.suspect, p.presente_signe, r.libelle
+                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, r.libelle
                 FROM contact_relation_personnes crp 
                 JOIN personnes p ON p.id = crp.personne_id_1 
                 JOIN relations r on r.id = crp.relation_id 
@@ -85,7 +83,7 @@ class CRP(DB):
             rows_1 = self.cur.fetchall()
             #
             r = ('''
-                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, p.suspect, p.presente_signe, r.libelle
+                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, r.libelle
                 FROM contact_relation_personnes crp 
                 JOIN personnes p ON p.id = crp.personne_id_2 
                 JOIN relations r on r.id = crp.relation_id 
@@ -96,12 +94,12 @@ class CRP(DB):
             #
             rows_1 += rows_2
             #
-            return [RCRPPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], self.get_personne_nb_contact(row[0])) for row in rows_1]
+            return [RCRPPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6], self.get_personne_nb_contact(row[0])) for row in rows_1]
         
     def find_for_graph(self):
         r = ('''
             SELECT 
-            p_1.id, p_1.nom, p_1.prenom, p_1.date_naiss, p_1.num_telephone, p_1.email, p_1.suspect, p_1.presente_suspect, crp.relation_id,
+            p_1.id, p_1.nom, p_1.prenom, p_1.date_naiss, p_1.num_telephone, p_1.email, crp.relation_id,
             p_2.id, p_2.nom, p_2.prenom 
             FROM contact_relation_personnes crp 
             JOIN personnes p_1 ON p_1.id = crp.personne_id_1
@@ -109,4 +107,4 @@ class CRP(DB):
         ''')
         self.cur.execute(r)
         rows = self.cur.fetchall()
-        return [RCRPPersonneG(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11], self.get_personne_nb_contact(row[0])) for row in rows]
+        return [RCRPPersonneG(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], self.get_personne_nb_contact(row[0])) for row in rows]

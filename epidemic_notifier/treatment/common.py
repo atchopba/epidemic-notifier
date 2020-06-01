@@ -35,33 +35,30 @@ PERSONNE_GUERI_1 = "clinique"
 PERSONNE_GUERI_2 = "biologique"
 
 def get_current_date_fr():
-    return datetime.today().strftime("%d-%m-%Y")
-
+    return datetime.today().strftime("%d/%m/%Y")
 
 def get_current_date_en():
     return datetime.today().strftime("%Y/%m/%d")
 
-
 def get_current_time():
-    return datetime.today().strftime("%H:%M:%S")
+    return datetime.today().strftime("%H:%M")
 
+def get_current_timestamp():
+    return datetime.today().strftime("%H:%M:%S")
 
 def load_file(file_):
     with open(file_,'r') as f:
         file_content = f.read().strip()
     return file_content
 
-
 def write_file(file_, text_):
     f = open(file_, "a")
     f.write(text_)
     f.close()
 
-
 def create_folder(paths_):
     os.makedirs(paths_, exist_ok=True)
     
-
 def send_email(recipient, text_):
     #
     # Source : https://realpython.com/python-send-email/#sending-a-plain-text-email
