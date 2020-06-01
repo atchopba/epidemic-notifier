@@ -19,9 +19,9 @@ RPConsultation = namedtuple("RPConsultation", "id type_consultation_id type_cons
 class PConsultation(DB):
     
     def add(self, pconsultation):
-        r = ("INSERT INTO personne_consultations "
-             "(type_consultation_id, personne_id, date_consultation, heure_consultation) VALUES "
-             "(?, ?, ?, ?)")
+        r = ('''INSERT INTO personne_consultations 
+             (type_consultation_id, personne_id, date_consultation, heure_consultation) VALUES 
+             (?, ?, ?, ?)''')
         try:
             self.conn.execute(r, pconsultation)
             self.conn.commit()

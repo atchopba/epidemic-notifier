@@ -21,9 +21,9 @@ RPNNotification = namedtuple("RPNNotification", "id date_ heure_ nb_notifies")
 class PNotification(DB):
     
     def add(self, pnotification):
-        r = ("INSERT INTO personne_notifications "
-             "(notification_id, personne_id, personne_id_due, texte, date_, heure_) "
-             "VALUES (?, ?, ?, ?, ?, ?)")
+        r = ('''INSERT INTO personne_notifications 
+             (notification_id, personne_id, personne_id_due, texte, date_, heure_) 
+             VALUES (?, ?, ?, ?, ?, ?)''')
         try:
             self.conn.execute(r, pnotification)
             self.conn.commit()

@@ -23,10 +23,10 @@ RCRPPersonneG = namedtuple("RCRPPersonneG", "id nom prenom date_naiss num_teleph
 class CRP(DB):
     
     def add(self, crp):
-        r = ("INSERT INTO contact_relation_personnes "
-             "(personne_id_1, personne_id_2, relation_id, date_contact, heure_contact) "
-             "VALUES "
-             "(?, ?, ?, ?, ?)")
+        r = ('''INSERT INTO contact_relation_personnes 
+             (personne_id_1, personne_id_2, relation_id, date_contact, heure_contact) 
+             VALUES 
+             (?, ?, ?, ?, ?)''')
         try:
             self.conn.execute(r, crp)
             self.conn.commit()

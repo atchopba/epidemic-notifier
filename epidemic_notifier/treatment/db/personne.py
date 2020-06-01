@@ -19,9 +19,9 @@ RPersonne = namedtuple("RPersonne", "id nom prenom date_naiss num_telephone emai
 class Personne(DB):
     
     def add(self, personne):
-        r = ("INSERT INTO personnes "
-             "(nom, prenom, date_naiss, num_telephone, email) VALUES "
-             "(?, ?, ?, ?, ?)")
+        r = ('''INSERT INTO personnes 
+             (nom, prenom, date_naiss, num_telephone, email) VALUES 
+             (?, ?, ?, ?, ?)''')
         try:
             self.conn.execute(r, personne)
             self.conn.commit()
