@@ -165,7 +165,6 @@ def add_vie_condition_personne():
     if pvcondition_id :
         if has_been_in_contact_personne_risque == "oui":
             personne_id_2 = param_and_add_personne(request)
-            #print("=> ajout personne 2")
             # add crp
             if personne_id_2:
                 id_relation = request.form["relation_id"]
@@ -174,7 +173,6 @@ def add_vie_condition_personne():
                 crp_ = TCRP(personne_id, personne_id_2, id_relation, date_, heure_)
                 crp = CRP()
                 crp_id = crp.add(crp_)
-                #print("=> ajout fr trlztion entre 2")
         return redirect("/personnes/viecondition/"+personne_id)
     return render_template("/personnes/viecondition/"+ personne_id, error=Config.ERROR_MSG_INSERT)
 
