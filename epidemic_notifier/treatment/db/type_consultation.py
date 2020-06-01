@@ -20,5 +20,4 @@ class TConsultation(DB):
     def get_all(self):
         self.cur.execute("SELECT  * FROM type_consultations ORDER BY id ASC")
         rows = self.cur.fetchall()
-        print(rows)
         return [RTConsultation(row[0], row[1]) for row in rows] 
