@@ -71,7 +71,7 @@ def notifier_personne(notification_id):
                 cm.send_email(crp.email, notif_)
             
             # 3.2. + enregistrement de la notification en base 
-            pnotif = TPNotification(notification_id, crp.id, p.p_id, p_notif, cm.get_current_date_fr(), cm.get_current_time())
+            pnotif = TPNotification(notification_id, crp.id, p.p_id, p_notif, cm.get_current_date_fr(), cm.get_current_timestamp())
             id_notif = PNotification().add(pnotif)
             
             # ajout de l'id de la nouvelle notification personne
