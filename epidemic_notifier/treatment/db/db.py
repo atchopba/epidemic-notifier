@@ -29,6 +29,7 @@ class DB(object):
         self.create_table_type_consultations()
         self.create_table_personne_consultations()
         self.create_table_personne_vie_conditions()
+        self.create_table_type_tests()
         self.create_table_crp()
         self.create_table_tests()
         self.create_table_notifications()
@@ -148,7 +149,7 @@ class DB(object):
             date_resultat string,
             heure_resultat string,
             resultat int,
-            resultat_text text,
+            resultat_text text
             )''')
      
     def create_table_notifications(self):
@@ -189,7 +190,6 @@ class DB(object):
             db string
             )''')
         self.cur.execute("insert into users(login, mdp, name, profil, email, db) values('medec1','medec1','medec1', 'medecin', 'medec1@hopital.fr', './epidemic_notifier/static/data/epidemic-c1.db')")
-        self.conn.commit()
         self.cur.execute("insert into users(login, mdp, name, profil, email, db) values('medec2','medec2','medec2', 'medecin', 'medec2@hopital.fr', './epidemic_notifier/static/data/epidemic-c2.db')")
         self.conn.commit()
     
