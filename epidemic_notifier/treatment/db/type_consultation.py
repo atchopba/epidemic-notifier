@@ -12,7 +12,6 @@
 from collections import namedtuple
 from epidemic_notifier.treatment.db.db import DB
 
-TTConsultation = namedtuple("TTConsultation", "personne_id ")
 RTConsultation = namedtuple("RTConsultation", "id libelle")
 
 class TConsultation(DB):
