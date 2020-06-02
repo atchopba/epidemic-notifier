@@ -87,10 +87,12 @@
                       <td>{{ pc.date_consultation + ' ' + pc.heure_consultation }}</td>
                       <td>{{ pc.type_consultation_lib }}</td>
                       <td>&nbsp;<a href="/personnes/viecondition/{{ pc.personne_id }}">Conditions de vie</a>&nbsp;</td>
-                      <td>&nbsp;<a href="#">Pr&eacute;sente signes</a></td>
+                      <td>&nbsp;<a href="/personnes/diagnostic/{{ pc.personne_id }}">Diagnostic</a></td>
                       <td>&nbsp;<a href="javascript:;" onclick="javascript:confirm_delete('/personnes/consultation/delete/{{ pc.id }}')">Supprimer</a>&nbsp;</td></td>
                     </tr>
                   {% endfor %}
+                {% else %}
+                  <tr><td colspan="6">Aucune donn&eacute;e!!</td></tr>
                 {% endif %}
               </tbody>
             </table>
