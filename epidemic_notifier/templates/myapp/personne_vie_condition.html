@@ -84,7 +84,7 @@
                 </div>
 
                 {% include 'inc/form_personne.html' %}
-                
+
                 <div class="label-row"><i>Moment du contact</i></div>
                 <div class="form-row">
                   <div class="name">Date :</div>
@@ -134,7 +134,7 @@
                       <td>{{ pvc.nb_enfant }}</td>
                       <td>{{ pvc.nb_personne_agee }}</td>
                       <td>&nbsp;<a href="/personnes/consultation/{{ pvc.personne_id }}">Consultation</a>&nbsp;</td>
-                      <td>&nbsp;<a href="#">Pr&eacute;sente signes</a></td>
+                      <td>&nbsp;<a href="/personnes/diagnostic/{{ pvc.personne_id }}">Diagnostic</a></td>
                       <td>&nbsp;<a href="javascript:;" onclick="javascript:confirm_delete('/personnes/viecondition/delete/{{ pvc.id }}')">Supprimer</a>&nbsp;</td>
                     </tr>
                   {% endfor %}
