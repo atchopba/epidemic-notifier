@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+ 
+  <head>
+    {% include 'inc/header.html' %}
+  </head>
+ 
+  <body>
+    
+    <div class="page-wrapper bg-dark p-t-100 p-b-50">
+      <div class="wrapper wrapper--w900">
+        
+        <form action="/personnes/diagnostic" method="POST" onsubmit="return validate_form_personne_diagnostic();">
+
+          <div class="card card-6">
+            <div class="card-heading">
+              <!-- CORPS DE LA PAGE  -->
+              {% include 'inc/header_menu.html' %}
+            </div>
+
+            <div class="card-body">
+              <div class="label-row">Diagnostic de personne </div>
+              
+              {% if error %}
+                <div style="color:red;">{{ error }}</div>
+              {% endif %}
+            
+              <div class="form-row">
+                <div class="name">Personne : </div>
+                <div  class="input--style-6">{{ personne.nom + ' '+ personne.prenom }}
+                  <input type="hidden" id="personne_id" name="personne_id" value="{{ personne.id }}" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                  <div class="name">Symptômes : </div>
+                  <div class="value">
+                    {% for s in symptomes %}
+                      <input style="width:5%;" type="checkbox" name="symptome_id" value="{{ s.id }}"> {{ s.libelle }} <br/>
+                    {% endfor %}
+                  </div>
+                </div>
+
+              <div class="form-row">
+                <div class="name">Date :</div>
+                <div class="value">
+                  <input class="input--style-6" type="text" id="date_debut" name="date_debut" value="{{ date_debut }}" placeholder="10/04/2020" autocomplete="false">
+                </div>
+              </div> 
+
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button class="btn btn--radius-2 btn--blue-2" id="btnvalid_diagnostic" type="submit">Valider</button>
+          </div>
+
+        </form>
+
+        <br/>
+        <!-- Liste -->
+        <div class="card card-6">
+          <div class="card-body">
+
+            <div class="label-row">Liste des sympt&ocirc;mes de {{ personne.nom }}</div>
+            <table width="100%">
+              <thead>
+                <td>ID</td>
+                <td>Date de d&eacute;but</td>
+                <td>Sympt&ocirc;mes</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </thead>
+              <tbody>
+                {% if pdiagnostics %}
+                  {% for pd in pdiagnostics %}
+                    <tr>
+                      <td>{{ pd.id }}</td>
+                      <td>{{ pd.date_debut }}</td>
+                      <td>
+                        {{ pd.symptome_id_1 }} 
+                        {% if pd.symptome_id_2 and pd.symptome_id_2 != "" %}
+                          <br/>{{ pd.symptome_id_2 }} 
+                          {% if pd.symptome_id_3 and pd.symptome_id_3 != "" %}
+                            <br/>{{ pd.symptome_id_3 }} 
+                            {% if pd.symptome_id_4 and pd.symptome_id_4 != "" %}
+                              <br/>{{ pd.symptome_id_4 }} 
+                              {% if pd.symptome_id_5 and pd.symptome_id_5 != "" %}
+                                <br/>{{ pd.symptome_id_5 }} 
+                              {% endif %}
+                            {% endif %}
+                          {% endif %}
+                        {% endif %}
+                        {{ pd.symptome_id_3 }} 
+                        {{ pd.symptome_id_4 }} 
+                        {{ pd.symptome_id_5 }}
+                      </td>
+                      <td>&nbsp;<a href="/personnes/viecondition/{{ pd.personne_id }}">Conditions de vie</a>&nbsp;</td>
+                      <td>&nbsp;<a href="/personnes/diagnostic/{{ pd.personne_id }}">Pr&eacute;sente signes</a></td>
+                      <td>&nbsp;<a href="javascript:;" onclick="javascript:confirm_delete('/personnes/diagnostic/delete/{{ pd.id }}')">Supprimer</a>&nbsp;</td></td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr><td colspan="6">Aucune donn&eacute;e!!</td></tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </body>
+
+</html>

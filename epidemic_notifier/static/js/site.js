@@ -281,6 +281,11 @@ function validate_form_login() {
  * @return boolean
  */
 function validate_form_personne_consultation() {
+    //
+    if ($("#personne_id").val() == "") {
+        alert("Il faut impérativement une personne renseignée!");
+        return false;
+    }
     // 
     if (!is_valid_date($("#date_consultation").val())) {
         alert("La date de consultation n'est pas valide!");
@@ -295,6 +300,11 @@ function validate_form_personne_consultation() {
  */
 function validate_form_pv_condition() {
     //
+    if ($("#personne_id").val() == "") {
+        alert("Il faut impérativement une personne renseignée!");
+        return false;
+    }
+    //
     if ($("input[name=has_enfant]").is(":checked") && ($("#nb_enfant").val().trim() == "" || parseInt($("#nb_enfant").val().trim()) < 1)) {
         alert("Veuillez renseigner le nombre d'enfants!");
         return false;
@@ -302,6 +312,24 @@ function validate_form_pv_condition() {
     //
     if ($("input[name=has_personne_agee]").is(":checked") && ($("#nb_personne_agee").val().trim() == "" || parseInt($("#nb_personne_agee").val().trim()) < 1)){
         alert("Veuillez renseigner le nombre de personne âgée!");
+        return false;
+    }
+    return true;
+}
+
+/**
+ * validate form personne symptome
+ * @return boolean
+ */
+function validate_form_personne_diagnostic() {
+    //
+    if ($("#personne_id").val() == "") {
+        alert("Il faut impérativement une personne renseignée!");
+        return false;
+    }
+    //
+    if ($("input[name=symptome_id]").is(":checked") && ($("input[name=symptome_id]:checked").length == 0 ||  $("input[name=symptome_id]:checked").length > 5)) {
+        alert("Il faut entre 1 et 5 symptômes!");
         return false;
     }
     return true;

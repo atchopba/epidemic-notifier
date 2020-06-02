@@ -37,6 +37,9 @@ PERSONNE_GUERI_2 = "biologique"
 def get_current_date_fr():
     return datetime.today().strftime("%d/%m/%Y")
 
+def get_current_datetime_fr():
+    return datetime.today().strftime("%d/%m/%Y %H:%M:%S")
+
 def get_current_date_en():
     return datetime.today().strftime("%Y/%m/%d")
 

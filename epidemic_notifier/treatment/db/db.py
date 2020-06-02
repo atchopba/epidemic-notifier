@@ -27,8 +27,10 @@ class DB(object):
         self.create_table_relations()
         self.create_table_personnes()
         self.create_table_type_consultations()
+        self.create_table_symptomes()
         self.create_table_personne_consultations()
         self.create_table_personne_vie_conditions()
+        self.create_table_personne_symptomes()
         self.create_table_type_tests()
         self.create_table_crp()
         self.create_table_tests()
@@ -76,11 +78,45 @@ class DB(object):
             has_been_in_contact_personne_risque text DEFAULT 'non'
             )''')
         
-    def create_table_signes(self):
-        self.cur.execute("DROP TABLE IF EXISTS signes")
-        self.cur.execute(''' CREATE TABLE signes (
+    def create_table_symptomes(self):
+        self.cur.execute("DROP TABLE IF EXISTS symptomes")
+        self.cur.execute(''' CREATE TABLE symptomes (
             id integer PRIMARY KEY,    
-            libelle text UNIQUE
+            libelle text UNIQUE,
+            gravite text DEFAULT 'non',
+            score NUMERIC(1, 7)
+            )''')
+        # symptômes graves
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('essouflement / difficultés à respirer', 'high', '0.2')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('sensations d''oppression / douleur au niveau de la poitrine', 'high', '0.2')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('perte d''élocution / perte de motricité', 'high', '0.2')")
+        # symptômes fréquents
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('fièvre', 'med', '0.075')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('toux sèche', 'med', '0.075')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('fatigue', 'med', '0.075')")
+        # symptômes moins fréquents
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('courbatures', 'low', '0.021875')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('maux de gorge', 'low', '0.021875')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('diarrhée', 'low', '0.021875')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('conjonctivite', 'low', '0.021875')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('maux de tête', 'low', '0.021875')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('perte de l''ordorat ou du goût', 'low', '0.021875')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('éruption cutanée', 'low', '0.021875')")
+        self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('décoloration des doigts/orteils', 'low', '0.021875')")
+        self.conn.commit()
+        
+    def create_table_personne_diagnostic(self):
+        self.cur.execute("DROP TABLE IF EXISTS personne_diagnostics")
+        self.cur.execute(''' CREATE TABLE personne_diagnostics (
+            id integer PRIMARY KEY,    
+            personne_id integer,
+            date_edit text,
+            symptome_id_1 integer,
+            symptome_id_2 integer,
+            symptome_id_3 integer,
+            symptome_id_4 integer,
+            symptome_id_5 integer,
+            date_debut text
             )''')
     
     def create_table_type_consultations(self):

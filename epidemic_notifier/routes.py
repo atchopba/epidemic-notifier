@@ -14,7 +14,7 @@ from flask_login import login_required, logout_user
 
 from .treatment.db.db import DB
 from .treatment.db.personne import Personne, TPersonne
-from .treatment.db.relation import Relation, TRelation
+from .treatment.db.relation import Relation
 from .treatment.db.contact_relation_personne import CRP, TCRP
 from .treatment.db.test import Test, TTest
 from .treatment.db.type_test import TypeTest, TTypeTest
@@ -22,6 +22,8 @@ from .treatment.db.notification import Notification
 from .treatment.db.type_consultation import TConsultation
 from .treatment.db.personne_consultation import PConsultation, TPConsultation
 from .treatment.db.personne_vie_condition import TPVCondition, PVCondition
+from .treatment.db.personne_diagnotic import PDiagnostic, TPDiagnostic
+from .treatment.db.symptome import Symptome
 from .treatment.db.personne_notification import PNotification
 from .treatment import notifier as notifier
 from .treatment.personne_graph import build_graph
@@ -132,6 +134,48 @@ def delete_consultation_personne(id_personne):
     PConsultation().delete(id_personne)
     return redirect("/personnes/consultation/"+ str(id_personne))
 
+@main_bp.route("/personnes/diagnostic/<int:id_personne>", methods=["GET"])
+@login_required
+def diagnostic_personne(id_personne):
+    personne = Personne().get_one(id_personne)
+    symptomes = Symptome().get_all()
+    pdiagnostics = PDiagnostic().get_by_personne_id(id_personne)
+    return render_template("myapp/personne_diagnostic.html", 
+                           personne=personne, 
+                           symptomes=symptomes, 
+                           date_debut=cm.get_current_date_fr(),
+                           pdiagnostics=pdiagnostics)
+
+def get_symptome_from_request(request_dict, index_):
+    try: 
+        symptome = request_dict[index_] 
+    except: 
+        symptome = None
+    return symptome
+
+@main_bp.route("/personnes/diagnostic", methods=["POST"])
+@login_required
+def add_diagnostic_personne():
+    personne_id = request.form["personne_id"]
+    date_debut = request.form["date_debut"]
+    dict_symptome = request.form.getlist("symptome_id")
+    s1 = get_symptome_from_request(dict_symptome, 0)
+    s2 = get_symptome_from_request(dict_symptome, 1)
+    s3 = get_symptome_from_request(dict_symptome, 2)
+    s4 = get_symptome_from_request(dict_symptome, 3)
+    s5 = get_symptome_from_request(dict_symptome, 4)
+    tpdiagnostic = TPDiagnostic(personne_id, date_debut, s1, s2, s3, s4, s5, cm.get_current_datetime_fr())
+    pdiagnostic_id = PDiagnostic().add(tpdiagnostic)
+    if pdiagnostic_id :
+        return redirect("/personnes/diagnostic/"+personne_id)
+    return render_template("/personnes/diagnostic/"+ personne_id, error=Config.ERROR_MSG_INSERT)
+
+@main_bp.route("/personnes/diagnostic/delete/<int:id_personne>")
+@login_required
+def delete_diagnostic_personne(id_personne):
+    PDiagnostic().delete(id_personne)
+    return redirect("/personnes/diagnostic/"+ str(id_personne))
+
 def get_request_checkbox_value(request_, field_):
     try:
         value = request_.form[field_]
@@ -172,7 +216,7 @@ def add_vie_condition_personne():
                 heure_ = request.form["heure_contact"]
                 crp_ = TCRP(personne_id, personne_id_2, id_relation, date_, heure_)
                 crp = CRP()
-                crp_id = crp.add(crp_)
+                crp.add(crp_)
         return redirect("/personnes/viecondition/"+personne_id)
     return render_template("/personnes/viecondition/"+ personne_id, error=Config.ERROR_MSG_INSERT)
 
