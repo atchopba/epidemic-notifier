@@ -23,17 +23,6 @@ NOTIF = ("Dû au resultat positif de {}, fait le {} proche de vous ({}), "
 CPersonne = namedtuple("CPersonne", "nb_personnes nb_p_gueris nb_p_suspects")
 CTest = namedtuple("CTest", "nb_t_tests nb_t_positifs nb_t_negatifs")
 
-SUSPECT_CHECKBOX = "suspect"
-SUSPECT_VALUE_POS = "oui"
-SUSPECT_VALUE_NEG = "non"
-
-P_SIGNE_CHECKBOX = "presente_signe"
-P_SIGNE_VALUE_POS = "oui"
-P_SIGNE_VALUE_NEG = "non"
-
-PERSONNE_GUERI_1 = "clinique"
-PERSONNE_GUERI_2 = "biologique"
-
 def get_current_date_fr():
     return datetime.today().strftime("%d/%m/%Y")
 

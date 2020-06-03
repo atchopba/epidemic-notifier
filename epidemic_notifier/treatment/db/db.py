@@ -31,7 +31,10 @@ class DB(object):
         self.create_table_personne_consultations()
         self.create_table_personne_vie_conditions()
         self.create_table_personne_symptomes()
-        self.create_table_type_tests()
+        self.create_table_test_types()
+        self.create_table_test_lieux()
+        self.create_table_guerison_types()
+        self.create_table_personne_guerisons()
         self.create_table_crp()
         self.create_table_tests()
         self.create_table_notifications()
@@ -154,38 +157,73 @@ class DB(object):
             UNIQUE (personne_id_1, personne_id_2, relation_id, date_contact, heure_contact)
             )''')
      
-    def create_table_type_tests(self):
+    def create_table_test_types(self):
         # test
-        self.cur.execute("DROP TABLE IF EXISTS type_tests")
-        self.cur.execute(''' CREATE TABLE type_tests (
+        self.cur.execute("DROP TABLE IF EXISTS test_types")
+        self.cur.execute(''' CREATE TABLE test_types (
             id integer PRIMARY KEY,    
             libelle string
             )''')
-        self.cur.execute("INSERT INTO type_tests (libelle) VALUES ('scanner/radio')")
-        self.cur.execute("INSERT INTO type_tests (libelle) VALUES ('test naso-pharingé')")
-        self.cur.execute("INSERT INTO type_tests (libelle) VALUES ('test salivaire')")
-        self.cur.execute("INSERT INTO type_tests (libelle) VALUES ('test sérologique')")
+        self.cur.execute("INSERT INTO test_types (libelle) VALUES ('scanner/radio')")
+        self.cur.execute("INSERT INTO test_types (libelle) VALUES ('test naso-pharingé')")
+        self.cur.execute("INSERT INTO test_types (libelle) VALUES ('test salivaire')")
+        self.cur.execute("INSERT INTO test_types (libelle) VALUES ('test sérologique')")
         self.conn.commit()
-        
+    
+    def create_table_test_lieux(self):
+        self.cur.execute("DROP TABLE IF EXISTS test_lieux")
+        self.cur.execute(''' CREATE TABLE test_lieux (
+            id integer PRIMARY KEY,    
+            libelle string
+            )''')
+        self.cur.execute("INSERT INTO test_lieux (libelle) VALUES ('centre de santé')")
+        self.cur.execute("INSERT INTO test_lieux (libelle) VALUES ('laboratoire')")
+        self.cur.execute("INSERT INTO test_lieux (libelle) VALUES ('lieu agrée')")
+        self.conn.commit()
         
     def create_table_tests(self):
         # test
         self.cur.execute("DROP TABLE IF EXISTS tests")
         self.cur.execute(''' CREATE TABLE tests (
             id integer PRIMARY KEY,  
-            type_test_id_1 int,
-            type_test_id_2 int,
-            type_test_id_3 int,
-            type_test_id_4 int,
             personne_id integer,
-            lieu_test text,
-            adresse_test text,
-            date_test string,
-            heure_test string,
-            date_resultat string,
-            heure_resultat string,
-            resultat int,
-            resultat_text text
+            test_type_id_1 integer,
+            test_type_id_2 integer,
+            test_type_id_3 integer,
+            test_type_id_4 integer,
+            test_lieu_id integer,
+            adresse_lieu_test text,
+            date_test text,
+            heure_test text,
+            date_resultat text,
+            heure_resultat text,
+            commentaires text,
+            resultat integer
+            )''')
+        
+    def create_table_guerison_types(self):
+        self.cur.execute("DROP TABLE IF EXISTS guerison_types")
+        self.cur.execute(''' CREATE TABLE guerison_types (
+            id integer PRIMARY KEY,  
+            libelle text)''')
+        self.cur.execute("INSERT INTO guerison_types (libelle) VALUES ('biologique')")
+        self.cur.execute("INSERT INTO guerison_types (libelle) VALUES ('clinique')")
+        self.cur.execute("INSERT INTO guerison_types (libelle) VALUES ('scannographique')")
+        self.conn.commit()
+    
+    def create_table_personne_guerisons(self):
+        self.cur.execute("DROP TABLE IF EXISTS personne_guerisons")
+        self.cur.execute(''' CREATE TABLE personne_guerisons (
+            id integer PRIMARY KEY,  
+            personne_id integer,
+            guerison_id integer,
+            date_guerison text,
+            is_isole text DEFAULT 'non',
+            is_sous_oxygene text DEFAULT 'non',
+            is_sous_antibiotique DEFAULT 'non',
+            is_hospitalisation text DEFAULY 'non',
+            has_scanner_controle text DEFAULT 'non',
+            date_edit text
             )''')
      
     def create_table_notifications(self):
@@ -205,9 +243,9 @@ class DB(object):
             notification_id integer,
             personne_id integer,
             personne_id_due integer,
-            texte string,
-            date_ string,
-            heure_ string
+            texte text,
+            date_ text,
+            heure_ text
             )''')
         
     def create_table_users(self):
@@ -215,15 +253,15 @@ class DB(object):
         self.cur.execute("DROP TABLE IF EXISTS users")
         self.cur.execute(''' CREATE TABLE users (
             id integer PRIMARY KEY,
-            login string,
-            mdp string,
-            name string,
-            email string UNIQUE,
-            profil string,
+            login text,
+            mdp text,
+            name text,
+            email text UNIQUE,
+            profil text,
             is_authenticated integer DEFAULT 1,
             is_active integer DEFAULT 1,
             is_anonymous integer DEFAULT 0,
-            db string
+            db text
             )''')
         self.cur.execute("insert into users(login, mdp, name, profil, email, db) values('medec1','medec1','medec1', 'medecin', 'medec1@hopital.fr', './epidemic_notifier/static/data/epidemic-c1.db')")
         self.cur.execute("insert into users(login, mdp, name, profil, email, db) values('medec2','medec2','medec2', 'medecin', 'medec2@hopital.fr', './epidemic_notifier/static/data/epidemic-c2.db')")

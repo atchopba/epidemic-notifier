@@ -23,12 +23,12 @@ def set_group(suspect_, teste_):
         else:
             group_ = "1"
     else:
-        if teste_ == 1:
+        if teste_ == "oui":
             if not (suspect_ == "oui"):
                 group_ = "2"
             else:
                 group_ = "3"
-        elif teste_ == 0:
+        elif teste_ == "non":
             if not (suspect_ == "oui"):
                 group_ = "4"
             else:

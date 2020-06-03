@@ -17,7 +17,8 @@ from .treatment.db.personne import Personne, TPersonne
 from .treatment.db.relation import Relation
 from .treatment.db.contact_relation_personne import CRP, TCRP
 from .treatment.db.test import Test, TTest
-from .treatment.db.type_test import TypeTest, TTypeTest
+from .treatment.db.test_type import TestType
+from .treatment.db.test_lieu import TestLieu
 from .treatment.db.notification import Notification
 from .treatment.db.type_consultation import TConsultation
 from .treatment.db.personne_consultation import PConsultation, TPConsultation
@@ -325,19 +326,38 @@ def home_test():
     personne_id = request.args.get("personne")
     personne = Personne().get_one(personne_id) if personne_id is not None else None
     tests = Test().get_all()
-    type_tests = TypeTest().get_all()
-    return render_template("myapp/test.html", personne=personne, tests=tests, type_tests=type_tests)
+    type_tests = TestType().get_all()
+    test_lieux = TestLieu().get_all()
+    presente_signe = "Non"
+    pdiagnostic = PDiagnostic().get_one(personne_id) if personne_id is not None else None
+    if pdiagnostic is not None:
+        presente_signe = "Oui"
+    return render_template("myapp/test.html", 
+                           personne=personne,
+                           presente_signe=presente_signe,
+                           tests=tests, 
+                           type_tests=type_tests,
+                           test_lieux=test_lieux)
 
 @main_bp.route("/tests", methods=["POST"])
 @login_required
 def add_test():
     personne_id = request.form["personne_id"]
+    dict_test_type = request.form.getlist("test_type_id")
+    test_type_id_1 = get_request_checkbox_value(dict_test_type, 0)
+    test_type_id_2 = get_request_checkbox_value(dict_test_type, 1)
+    test_type_id_3 = get_request_checkbox_value(dict_test_type, 2)
+    test_type_id_4 = get_request_checkbox_value(dict_test_type, 3)
+    test_lieu_id = request.form["test_lieu_id"]
+    adresse_lieu_test = request.form["adresse_lieu_test"]
     date_test = request.form["date_test"]
     heure_test = request.form["heure_test"]
     date_resultat = request.form["date_resultat"]
     heure_resultat = request.form["heure_resultat"]
+    commentaires = request.form["commentaires"]
+    date_edit = cm.get_current_datetime_fr()
     resultat = request.form["resultat"]
-    test = TTest(personne_id, date_test, heure_test, date_resultat, heure_resultat, resultat)
+    test = TTest(personne_id, test_type_id_1, test_type_id_2, test_type_id_3, test_type_id_4, test_lieu_id, adresse_lieu_test, date_test, heure_test, date_resultat, heure_resultat, commentaires, resultat, date_edit)
     test_id = Test().add(test)
     if test_id:
         return redirect("/tests")
