@@ -33,13 +33,13 @@
               </div>
 
               <div class="form-row">
-                  <div class="name">Symptômes : </div>
-                  <div class="value">
-                    {% for s in symptomes %}
-                      <input style="width:5%;" type="checkbox" name="symptome_id" value="{{ s.id }}"> {{ s.libelle }} <br/>
-                    {% endfor %}
-                  </div>
+                <div class="name">Symptômes : </div>
+                <div class="value">
+                  {% for s in symptomes %}
+                    <input style="width:5%;" type="checkbox" name="symptome_id" value="{{ s.id }}"> {{ s.libelle }} <br/>
+                  {% endfor %}
                 </div>
+              </div>
 
               <div class="form-row">
                 <div class="name">Date :</div>
