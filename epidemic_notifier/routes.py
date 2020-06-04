@@ -124,7 +124,7 @@ def add_consultation_personne():
     type_consultation_id = request.form["type_consultation_id"]
     date_consultation = request.form["date_consultation"]
     heure_consultation = request.form["heure_consultation"]
-    pconsultation_id = PConsultation().add(TPConsultation(type_consultation_id, personne_id, date_consultation, heure_consultation))
+    pconsultation_id = PConsultation().add(TPConsultation(type_consultation_id, personne_id, date_consultation, heure_consultation, cm.get_current_datetime_fr()))
     if pconsultation_id :
         return redirect("/personnes/consultation/"+personne_id)
     return render_template("/personnes/consultation/"+ personne_id, error=Config.ERROR_MSG_INSERT)

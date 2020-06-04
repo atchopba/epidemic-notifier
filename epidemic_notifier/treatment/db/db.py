@@ -143,7 +143,8 @@ class DB(object):
             type_consultation_id integer,
             personne_id integer,
             date_consultation string,
-            heure_consultation string
+            heure_consultation string,
+            date_edit text
             )''')
         
     def create_table_crp(self):
