@@ -204,8 +204,9 @@ def add_vie_condition_personne():
     nb_enfant = request.form["nb_enfant"]
     has_personne_agee = get_request_checkbox_value(request, "has_personne_agee")
     nb_personne_agee = request.form["nb_personne_agee"]
+    has_possibilite_isolement = get_request_checkbox_value(request, "has_possibilite_isolement")
     has_been_in_contact_personne_risque = get_request_checkbox_value(request, "has_been_in_contact_personne_risque")
-    tpvcondition = TPVCondition(personne_id, is_en_couple, has_enfant, nb_enfant, has_personne_agee, nb_personne_agee, has_been_in_contact_personne_risque)
+    tpvcondition = TPVCondition(personne_id, is_en_couple, has_enfant, nb_enfant, has_personne_agee, nb_personne_agee, has_possibilite_isolement, has_been_in_contact_personne_risque, cm.get_current_datetime_fr())
     pvcondition_id = PVCondition().add(tpvcondition)
     if pvcondition_id :
         if has_been_in_contact_personne_risque == "oui":
