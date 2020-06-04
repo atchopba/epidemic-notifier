@@ -172,7 +172,7 @@
                           {% endif %}
                         {% endif %} -->
                       </td>
-                      <td><a href="/crp?personne={{ r.p_id }}">Relation contacts</a></td>
+                      <td><a href="/crp?personne={{ r.p_id }}" title="personnes avec qui un contact a été fait">Contacts</a></td>
                       <td><a href="javascript:;" onclick="javascript:confirm_delete('/tests/delete/{{ r.id }}');">Supprimer</a></td>
                     </tr>
                   {% endfor %}
