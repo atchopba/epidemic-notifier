@@ -59,7 +59,14 @@
                     <input class="input--style-6" style="width:10%;" type="text" id="nb_personne_agee" name="nb_personne_agee" value="" placeholder="0" autocomplete="false">
                   </span>
                 </div>
-              </div> 
+              </div>
+               
+              <div class="form-row">
+                <div class="name"></div>
+                <div class="value">
+                    <input style="width:5%;" type="checkbox" id="has_possibilite_isolement" name="has_possibilite_isolement" value="oui" autocomplete="false"> A une possiblit&eacute; de s'isoler? &nbsp;
+                </div>
+              </div>
 
               <div class="form-row">
                 <div class="name"></div>
@@ -120,7 +127,8 @@
                 <td>ID</td>
                 <td>Vis en couple?</td>
                 <td>Nb d'enfant</td>
-                <td>Nb de personnes &acirc;g&eacute;es &agrave; la maison</td>
+                <td>Nb de pers. &acirc;g&eacute;es</td>
+                <td>Poss. d'isolement</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -133,6 +141,7 @@
                       <td>{{ pvc.is_en_couple }}</td>
                       <td>{{ pvc.nb_enfant }}</td>
                       <td>{{ pvc.nb_personne_agee }}</td>
+                      <td>{{ pvc.has_possibilite_isolement }}</td>
                       <td>&nbsp;<a href="/personnes/consultation/{{ pvc.personne_id }}">Consultation</a>&nbsp;</td>
                       <td>&nbsp;<a href="/personnes/diagnostic/{{ pvc.personne_id }}">Diagnostic</a></td>
                       <td>&nbsp;<a href="javascript:;" onclick="javascript:confirm_delete('/personnes/viecondition/delete/{{ pvc.id }}')">Supprimer</a>&nbsp;</td>

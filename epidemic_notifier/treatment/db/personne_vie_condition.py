@@ -13,16 +13,16 @@ from collections import namedtuple
 from epidemic_notifier.treatment.db.db import DB
 import sqlite3
 
-TPVCondition = namedtuple("TPVCondition", "personne_id is_en_couple has_enfant nb_enfant has_personne_agee nb_personne_agee has_been_in_contact_personne_risque")
-RPVCondition = namedtuple("RPVCondition", "id personne_id is_en_couple has_enfant nb_enfant has_personne_agee nb_personne_agee has_been_in_contact_personne_risque")
+TPVCondition = namedtuple("TPVCondition", "personne_id is_en_couple has_enfant nb_enfant has_personne_agee nb_personne_agee has_possibilite_isolement has_been_in_contact_personne_risque date_edit")
+RPVCondition = namedtuple("RPVCondition", "id personne_id is_en_couple has_enfant nb_enfant has_personne_agee nb_personne_agee has_possibilite_isolement has_been_in_contact_personne_risque date_edit")
 
 class PVCondition(DB):
     
     def add(self, pvcondition):
         r = (''' INSERT INTO personne_vie_conditions 
-             (personne_id, is_en_couple, has_enfant, nb_enfant, has_personne_agee, nb_personne_agee, has_been_in_contact_personne_risque) 
+             (personne_id, is_en_couple, has_enfant, nb_enfant, has_personne_agee, nb_personne_agee, has_possibilite_isolement, has_been_in_contact_personne_risque, date_edit) 
              VALUES 
-             (?, ?, ?, ?, ?, ?, ?) ''')
+             (?, ?, ?, ?, ?, ?, ?, ?, ?) ''')
         try:
             self.conn.execute(r, pvcondition)
             self.conn.commit()
@@ -34,12 +34,12 @@ class PVCondition(DB):
         r = "SELECT * FROM personne_vie_conditions WHERE personne_id={}".format(personne_id)
         self.cur.execute(r)
         rows = self.cur.fetchall()
-        return [RPVCondition(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]) for row in rows]
+        return [RPVCondition(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]) for row in rows]
     
     def get_all(self):
         self.cur.execute("SELECT * FROM personne_vie_conditions")
         rows = self.cur.fetchall()
-        return [RPVCondition(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]) for row in rows]
+        return [RPVCondition(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]) for row in rows]
 
     def delete(self, personne_id):
         return super().delete("personne_vie_conditions", personne_id)

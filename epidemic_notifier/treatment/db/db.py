@@ -78,7 +78,9 @@ class DB(object):
             nb_enfant int DEFAULT 0,
             has_personne_agee text DEFAULT 'non',
             nb_personne_agee int DEFAULT 0,
-            has_been_in_contact_personne_risque text DEFAULT 'non'
+            has_been_in_contact_personne_risque text DEFAULT 'non',
+            has_possibilite_isolement text DEFAULT 'non',
+            date_edit text
             )''')
         
     def create_table_symptomes(self):
