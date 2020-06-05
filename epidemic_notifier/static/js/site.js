@@ -173,7 +173,12 @@ function validate_form_personne_guerison() {
         return false;
     }
     //
-    if (!($('input[name=gueri]:checked').length > 0)) {
+    if (!is_valid_date($("#date_guerison").val())) {
+        alert("La date de guérison n'est pas valide!");
+        return false;
+    }
+    //
+    if (!($('input[name=guerison_type_id]:checked').length > 0)) {
         alert("Veuillez faire un choix sur la guérison!");
         return false;
     }

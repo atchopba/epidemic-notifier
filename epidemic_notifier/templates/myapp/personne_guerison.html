@@ -33,12 +33,31 @@
               </div>
 
               <div class="form-row">
-                  <div class="name">Guerison : </div>
-                  <div class="value">
-                    <input style="width:10%;" type="radio" id="gueri" name="gueri" value="1"> Clinique <br/>
-                    <input style="width:10%;" type="radio" id="gueri" name="gueri" value="2"> Biologique 
-                  </div>
+                <div class="name">Date de gu&eacute;rison :</div>
+                <div class="value">
+                  <input class="input--style-6" type="text" id="date_guerison" name="date_guerison" value="{{ date_guerison }}" placeholder="10/04/2020" autocomplete="false">
                 </div>
+              </div> 
+
+              <div class="form-row">
+                <div class="name">Gu&eacute;rison : </div>
+                <div class="value">
+                  {% for gt in guerison_types %}
+                    <input style="width:5%;" type="radio" name="guerison_type_id" value="{{ gt.id }}"> {{ gt.libelle }} <br/>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="name">Conditions de la gu&eacute;rison : </div>
+                <div class="value">
+                    <input style="width:5%;" type="checkbox" id="has_been_isole" name="has_been_isole" value="oui" autocomplete="false"> Etait en isolation? &nbsp;<br/>
+                    <input style="width:5%;" type="checkbox" id="has_been_sous_oxygene" name="has_been_sous_oxygene" value="oui" autocomplete="false"> Etait sous oxyg&egrave;ne? &nbsp;<br/>
+                    <input style="width:5%;" type="checkbox" id="has_been_sous_antibiotique" name="has_been_sous_antibiotique" value="oui" autocomplete="false"> Etait sous anti-biotique? &nbsp;<br/>
+                    <input style="width:5%;" type="checkbox" id="has_been_hospitalise" name="has_been_hospitalise" value="oui" autocomplete="false"> Etait hospitalis&eacute;? &nbsp;<br/>
+                    <input style="width:5%;" type="checkbox" id="has_scanner_controle" name="has_scanner_controle" value="oui" autocomplete="false"> A fait un scanner de contr&ocirc;le? &nbsp;<br/>
+                </div>
+              </div>
 
             </div>
           </div>
@@ -51,21 +70,16 @@
         <br/>
  
         <!-- Liste -->
-        <!--
+
         <div class="card card-6">
           <div class="card-body">
 
-            <div class="label-row">Liste de personnes</div>
-            {% if personnes %}
-              <br/>
-              <div class="label-row">Nombre de personnes enregistr&eacute;es: {{ nb_personnes }} </div>
-            {% endif %}
-            <br/>
-            {% include 'inc/list_personne.html' %}
+            <div class="label-row">Liste de personnes gu&eacute;ris</div>
+            
         
           </div>
         </div>
-        -->
+
       </div>
     </div>
 

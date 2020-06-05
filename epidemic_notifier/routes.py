@@ -24,6 +24,8 @@ from .treatment.db.type_consultation import TConsultation
 from .treatment.db.personne_consultation import PConsultation, TPConsultation
 from .treatment.db.personne_vie_condition import TPVCondition, PVCondition
 from .treatment.db.personne_diagnotic import PDiagnostic, TPDiagnostic
+from .treatment.db.personne_guerison import PGuerison, TPGuerison
+from .treatment.db.guerison_type import GuerisonType
 from .treatment.db.symptome import Symptome
 from .treatment.db.personne_notification import PNotification
 from .treatment import notifier as notifier
@@ -92,17 +94,27 @@ def search_personne():
 @login_required
 def guerison_personne(id_personne):
     personne = Personne().get_one(id_personne)
-    return render_template("myapp/personne_guerison.html", personne=personne)
+    guerison_types = GuerisonType().get_all()
+    return render_template("myapp/personne_guerison.html", 
+                           personne=personne,
+                           date_guerison=cm.get_current_date_fr(),
+                           guerison_types=guerison_types)
 
 @main_bp.route("/personnes/guerison", methods=["POST"])
 @login_required
 def set_guerison_personne():
-    id_ = request.form["personne_id"]
-    gueri_ = cm.PERSONNE_GUERI_1 if request.form["gueri"] == "1" else cm.PERSONNE_GUERI_2
-    update_ = Personne().update_gueri(id_, gueri_)
-    if update_ :
+    personne_id = request.form["personne_id"]
+    guerison_type_id = request.form["guerison_type_id"]
+    date_guerison = request.form["date_guerison"]
+    has_been_isole = get_request_checkbox_value(request, "has_been_isole")
+    has_been_sous_oxygene = get_request_checkbox_value(request, "has_been_sous_oxygene")
+    has_been_sous_antibiotique = get_request_checkbox_value(request, "has_been_sous_antibiotique")
+    has_been_hospitalise = get_request_checkbox_value(request, "has_been_hospitalise")
+    has_scanner_controle = get_request_checkbox_value(request, "has_scanner_controle")
+    personne_guerison_id = PGuerison().add(TPGuerison(personne_id, guerison_type_id, date_guerison, has_been_isole, has_been_sous_oxygene, has_been_sous_antibiotique, has_been_hospitalise, has_scanner_controle, cm.get_current_datetime_fr()))
+    if personne_guerison_id :
         return redirect("/tests")
-    return render_template("/personne/guerison/"+ id_, error=Config.ERROR_MSG_INSERT)
+    return render_template("/personne/guerison/"+ personne_id, error=Config.ERROR_MSG_INSERT)
 
 @main_bp.route("/personnes/consultation/<int:id_personne>", methods=["GET"])
 @login_required
@@ -327,6 +339,7 @@ def home_test():
     personne_id = request.args.get("personne")
     personne = Personne().get_one(personne_id) if personne_id is not None else None
     tests = Test().get_all()
+    print(tests)
     type_tests = TestType().get_all()
     test_lieux = TestLieu().get_all()
     presente_signe = "Non"

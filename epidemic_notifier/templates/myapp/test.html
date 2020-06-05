@@ -157,20 +157,20 @@
                       <td></td>
                       <td>
                         {% if r.date_resultat %}
-                          {% if r.resultat == '1' %} Positif
+                          {% if r.resultat == 'oui' %} Positif
                           {% else %} Négatif
                           {% endif %}
                         {% endif %}
                       </td>
-                      <td> <!--
+                      <td>
                         {% if r.date_resultat %}
-                          {% if r.resultat == '1' %}
-                            {% if r.p_gueri == '' or r.p_gueri == None %} <a href="/personnes/guerison/{{ r.p_id }}">Gu&eacute;rison</a>
-                            {% else %} {{ r.p_gueri }}
+                          {% if r.resultat == 'oui' %}
+                            {% if r.gueri == '' or r.gueri == 'non' or r.gueri == None %} <a href="/personnes/guerison/{{ r.personne_id }}">Gu&eacute;rison</a>
+                            {% else %} {{ r.gueri }}
                             {% endif %} 
                           {% else %} Pas besoin !
                           {% endif %}
-                        {% endif %} -->
+                        {% endif %}
                       </td>
                       <td><a href="/crp?personne={{ r.p_id }}" title="personnes avec qui un contact a été fait">Contacts</a></td>
                       <td><a href="javascript:;" onclick="javascript:confirm_delete('/tests/delete/{{ r.id }}');">Supprimer</a></td>

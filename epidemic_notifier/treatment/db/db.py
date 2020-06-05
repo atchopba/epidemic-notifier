@@ -221,10 +221,10 @@ class DB(object):
             personne_id integer,
             guerison_id integer,
             date_guerison text,
-            is_isole text DEFAULT 'non',
-            is_sous_oxygene text DEFAULT 'non',
-            is_sous_antibiotique DEFAULT 'non',
-            is_hospitalisation text DEFAULY 'non',
+            has_been_isole text DEFAULT 'non',
+            has_been_sous_oxygene text DEFAULT 'non',
+            has_been_sous_antibiotique DEFAULT 'non',
+            has_been_hospitalise text DEFAULY 'non',
             has_scanner_controle text DEFAULT 'non',
             date_edit text
             )''')
