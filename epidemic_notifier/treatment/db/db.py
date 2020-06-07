@@ -30,7 +30,7 @@ class DB(object):
         self.create_table_symptomes()
         self.create_table_personne_consultations()
         self.create_table_personne_vie_conditions()
-        self.create_table_personne_symptomes()
+        self.create_table_personne_diagnostics()
         self.create_table_test_types()
         self.create_table_test_lieux()
         self.create_table_guerison_types()
@@ -110,7 +110,7 @@ class DB(object):
         self.cur.execute("INSERT INTO symptomes (libelle, gravite, score) VALUES ('décoloration des doigts/orteils', 'low', '0.021875')")
         self.conn.commit()
         
-    def create_table_personne_diagnostic(self):
+    def create_table_personne_diagnostics(self):
         self.cur.execute("DROP TABLE IF EXISTS personne_diagnostics")
         self.cur.execute(''' CREATE TABLE personne_diagnostics (
             id integer PRIMARY KEY,    
