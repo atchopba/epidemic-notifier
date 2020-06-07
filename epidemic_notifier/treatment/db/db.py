@@ -115,13 +115,13 @@ class DB(object):
         self.cur.execute(''' CREATE TABLE personne_diagnostics (
             id integer PRIMARY KEY,    
             personne_id integer,
-            date_edit text,
+            date_debut text,
             symptome_id_1 integer,
             symptome_id_2 integer,
             symptome_id_3 integer,
             symptome_id_4 integer,
             symptome_id_5 integer,
-            date_debut text
+            date_edit text
             )''')
     
     def create_table_type_consultations(self):
