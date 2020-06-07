@@ -1,4 +1,4 @@
-#!/usr/bin/python
+        #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # __author__ = "Albin TCHOPBA"
 # __copyright__ = "Copyright 2020 Albin TCHOPBA and contributors"
@@ -13,42 +13,39 @@ from collections import namedtuple
 from epidemic_notifier.treatment.db.db import DB
 import sqlite3
 
-TPersonne = namedtuple("TPersonne", "nom prenom date_naiss num_telephone email")
-RPersonne = namedtuple("RPersonne", "id nom prenom date_naiss num_telephone email")
+TPersonne = namedtuple("TPersonne", "nom prenom date_naiss num_telephone email suspect")
+RPersonne = namedtuple("RPersonne", "id nom prenom date_naiss num_telephone email suspect")
 
 class Personne(DB):
     
     def add(self, personne):
-        r = ('''INSERT INTO personnes 
-             (nom, prenom, date_naiss, num_telephone, email) VALUES 
-             (?, ?, ?, ?, ?)''')
+        r = ("INSERT INTO personnes "
+             "(nom, prenom, date_naiss, num_telephone, email, suspect) VALUES "
+             "(?, ?, ?, ?, ?, ?)")
         try:
             self.conn.execute(r, personne)
             self.conn.commit()
             return self.get_last_row_id("personnes")
         except sqlite3.IntegrityError:
             return None
-    
+        
     def get_one(self, id_):
         self.cur.execute("SELECT  * FROM personnes WHERE id=? ORDER BY id ASC", str(id_))
         row = self.cur.fetchone()
         if (row != None):
-            return RPersonne(str(row[0]), row[1], row[2], row[3], row[4], row[5])
+            return RPersonne(str(row[0]), row[1], row[2], row[3], row[4], row[5], row[6])
         return None
-    
-    def get_r_personne(self, rows):
-       return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows] 
-    
+        
     def get_all(self):
         self.cur.execute("SELECT  * FROM personnes ORDER BY id ASC")
         rows = self.cur.fetchall()
-        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows] 
+        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
     def find_by_name(self, id_, name_):
         r = "SELECT * FROM personnes WHERE (nom LIKE '%{}%' OR prenom LIKE '%{}%') AND id is not {} ".format(name_, name_, id_)
         self.cur.execute(r)
         rows = self.cur.fetchall()
-        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows] 
+        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
     def find_by_name_in_crp(self, id_, name_):
         r = (''' 
@@ -66,13 +63,19 @@ class Personne(DB):
         ''').format(name_, name_, id_, id_, id_)
         self.cur.execute(r)
         rows = self.cur.fetchall()
-        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5]) for row in rows] 
+        return [RPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
     def delete(self, id_):
         return super().delete("personnes", id_)
     
     def get_count(self):
         return super().get_count("personnes")
+    
+    def update_gueri(self, id_, gueri_):
+        r = "UPDATE personnes SET gueri='{}' WHERE id={}".format(gueri_, id_)
+        return_ = self.cur.execute(r)
+        self.conn.commit()
+        return return_
     
     def get_count_suspect(self):
         r = "SELECT * FROM personnes WHERE suspect='1'"

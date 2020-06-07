@@ -1,4 +1,9 @@
 {
-    "nodes": [],
+    "nodes": [
+        {
+            "id": "dhghfd",
+            "group": "0"
+        }
+    ],
     "links": []
 }

@@ -20,11 +20,11 @@ RNotification = namedtuple("RNotification", "id date_ heure_")
 class Notification(DB):
     
     def add(self):
-        r = ('''INSERT INTO notifications 
-             (date_, heure_) 
-             VALUES (?, ?)''')
+        r = ("INSERT INTO notifications "
+             "(date_, heure_) "
+             "VALUES (?, ?)")
         try:
-            self.conn.execute(r, (cm.get_current_date_fr(), cm.get_current_timestamp()))
+            self.conn.execute(r, (cm.get_current_date_fr(), cm.get_current_time()))
             self.conn.commit()
             return self.get_last_row_id("notifications")
         except sqlite3.IntegrityError:

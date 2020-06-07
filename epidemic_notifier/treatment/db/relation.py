@@ -19,8 +19,8 @@ RRelation = namedtuple("RRelation", "id libelle")
 class Relation(DB):
     
     def add(self, relation):
-        r = ('''INSERT INTO relations 
-             (libelle) VALUES (?)''')
+        r = ("INSERT INTO relations "
+             "(libelle) VALUES (?)")
         try:
             self.conn.execute(r, relation)
             self.conn.commit()

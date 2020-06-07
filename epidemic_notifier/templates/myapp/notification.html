@@ -52,7 +52,7 @@
                         <td>{{ n.date_ }}</td>
                         <td>{{ n.heure_ }}</td>
                         <td>{{ n.nb_notifies }}</td>
-                        <td><a href="javascript:;" title="notifier les personnes!" onclick="javascript:confirm_delete('/notifications/delete/{{ n.id }}');">Supprimer</a></td>
+                        <td><a href="javascript:;" onclick="javascript:confirm_delete('notifications/delete/{{ n.id }}');">Supprimer</a></td>
                       </tr>
                     {% endfor %}
                   {% else %}

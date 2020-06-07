@@ -11,7 +11,6 @@
 
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import login_user, current_user
-from flask import current_app
 from .models import User
 from .treatment.db.user import EUser, TUser
 from . import login_manager
@@ -22,7 +21,6 @@ auth_bp = Blueprint("auth_bp",
                     template_folder="templates", 
                     static_folder="static")
 
-
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
@@ -30,12 +28,10 @@ def login():
     if request.method == "POST":
         login_ = request.form["login"]
         mdp_ = request.form["mdp"]
-        ruser = EUser().get_by_user(TUser(login_, mdp_, None))
-        if ruser:
+        ruser_ = EUser().get_by_user(TUser(login_, mdp_, None))
+        if ruser_:
             l_user = User()
-            l_user.id = ruser.login
-            dbclient = {"DATABASE_CLIENT" : ruser.db}
-            current_app.config.update(dbclient)
+            l_user.id = ruser_.login
             login_user(l_user)
             return redirect(url_for('main_bp.home'))
         else:
@@ -52,8 +48,6 @@ def load_user(user_id):
         ruser = EUser().get_by_login(user_id)
         user_ = User()
         user_.id = ruser.login
-        dbclient = {"DATABASE_CLIENT" : ruser.db}
-        current_app.config.update(dbclient)
         return user_ 
     return None
 
