@@ -154,7 +154,7 @@
                       <td>{{ r.date_test + ' ' + r.heure_test }}</td>
                       <td>{{ r.date_resultat + ' ' + r.heure_resultat }}</td>
                       <td></td>
-                      <td></td>
+                      <td>{{ r.presente_signe }}</td>
                       <td>
                         {% if r.date_resultat %}
                           {% if r.resultat == 'oui' %} Positif
