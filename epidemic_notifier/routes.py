@@ -40,6 +40,9 @@ main_bp = Blueprint('main_bp',
                     template_folder='templates',
                     static_folder='static')
 
+DEFAULT_OUI = "oui"
+DEFAULT_NON = "non"
+
 @main_bp.route("/logout")
 @login_required
 def logout():
@@ -193,7 +196,7 @@ def get_request_checkbox_value(request_, field_):
     try:
         value = request_.form[field_]
     except:
-        value = "non"
+        value = DEFAULT_NON
     return value
 
 @main_bp.route("/personnes/viecondition/<int:id_personne>", methods=["GET"])
@@ -221,7 +224,7 @@ def add_vie_condition_personne():
     tpvcondition = TPVCondition(personne_id, is_en_couple, has_enfant, nb_enfant, has_personne_agee, nb_personne_agee, has_possibilite_isolement, has_been_in_contact_personne_risque, cm.get_current_datetime_fr())
     pvcondition_id = PVCondition().add(tpvcondition)
     if pvcondition_id :
-        if has_been_in_contact_personne_risque == "oui":
+        if has_been_in_contact_personne_risque == DEFAULT_OUI:
             personne_id_2 = param_and_add_personne(request)
             # add crp
             if personne_id_2:
@@ -342,10 +345,10 @@ def home_test():
     print(tests)
     type_tests = TestType().get_all()
     test_lieux = TestLieu().get_all()
-    presente_signe = "Non"
+    presente_signe = DEFAULT_NON
     pdiagnostic = PDiagnostic().get_one(personne_id) if personne_id is not None else None
     if pdiagnostic is not None:
-        presente_signe = "Oui"
+        presente_signe = DEFAULT_OUI
     return render_template("myapp/test.html", 
                            personne=personne,
                            presente_signe=presente_signe,
