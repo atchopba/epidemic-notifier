@@ -12,11 +12,11 @@
 from collections import namedtuple
 from epidemic_notifier.treatment.db.db import DB
 
-RSymptome = namedtuple("RSymptome", "id libelle")
+RSymptome = namedtuple("RSymptome", "id libelle gravite score")
 
 class Symptome(DB):
     
     def get_all(self):
         self.cur.execute("SELECT  * FROM symptomes ORDER BY id ASC")
         rows = self.cur.fetchall()
-        return [RSymptome(row[0], row[1]) for row in rows] 
+        return [RSymptome(row[0], row[1], row[2], row[3]) for row in rows] 
