@@ -44,7 +44,7 @@ class PNotification(DB):
         return [RPNotification(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
     def delete(self, id_):
-        return super().delete("_personne_notifications", id_)
+        return super().delete("personne_notifications", id_)
     
     def get_notification_nb_pnotification(self, notification_id):
         r = "SELECT COUNT(*) FROM personne_notifications WHERE notification_id={}".format(notification_id) #?"
