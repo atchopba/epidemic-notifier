@@ -12,16 +12,16 @@
 from flask import Blueprint, render_template, redirect, url_for, request, make_response
 from flask_login import login_required, logout_user
 
-from .treatment.db.db import DB
-from .treatment.db.personne import Personne, TPersonne
-from .treatment.db.relation import Relation, TRelation
-from .treatment.db.contact_relation_personne import CRP, TCRP
-from .treatment.db.test import Test, TTest
-from .treatment.db.notification import Notification
-from .treatment.db.personne_notification import PNotification
-from .treatment import notifier as notifier
-from .treatment.personne_graph import build_graph
-from .treatment import common as cm
+from .core.db.db import DB
+from .core.db.personne import Personne, TPersonne
+from .core.db.relation import Relation, TRelation
+from .core.db.contact_relation_personne import CRP, TCRP
+from .core.db.test import Test, TTest
+from .core.db.notification import Notification
+from .core.db.personne_notification import PNotification
+from .core import notifier as notifier
+from .core.personne_graph import build_graph
+from .core import common as cm
 from config import Config
 import json
 
