@@ -52,5 +52,5 @@ class PConsultation(DB):
         rows = self.cur.fetchall()
         return [RPConsultation(row[0], row[1], row[2], row[3], row[4], row[5], row[6]) for row in rows]
     
-    def delete(self, personne_id):
-        return super().delete("personne_consultations", personne_id)
+    def delete(self, pc_id):
+        return super().delete("personne_consultations", pc_id)

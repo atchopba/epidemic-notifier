@@ -121,6 +121,7 @@ class DB(object):
             symptome_id_3 integer,
             symptome_id_4 integer,
             symptome_id_5 integer,
+            calcul_score NUMERIC(1, 10),
             date_edit text
             )''')
     

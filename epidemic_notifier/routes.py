@@ -93,10 +93,10 @@ def search_personne():
     resp.headers["Access-Control-Allow-Origin"] = '*'
     return resp
 
-@main_bp.route("/personnes/guerison/<int:id_personne>", methods=["GET"])
+@main_bp.route("/personnes/guerison", methods=["GET"])
 @login_required
-def guerison_personne(id_personne):
-    personne = Personne().get_one(id_personne)
+def guerison_personne():
+    personne = Personne().get_one(request.args.get("personne"))
     guerison_types = GuerisonType().get_all()
     return render_template("myapp/personne_guerison.html", 
                            personne=personne,
@@ -117,14 +117,15 @@ def set_guerison_personne():
     personne_guerison_id = PGuerison().add(TPGuerison(personne_id, guerison_type_id, date_guerison, has_been_isole, has_been_sous_oxygene, has_been_sous_antibiotique, has_been_hospitalise, has_scanner_controle, cm.get_current_datetime_fr()))
     if personne_guerison_id :
         return redirect("/tests")
-    return render_template("/personne/guerison/"+ personne_id, error=Config.ERROR_MSG_INSERT)
+    return render_template("/personne/guerison?personne="+ personne_id, error=Config.ERROR_MSG_INSERT)
 
-@main_bp.route("/personnes/consultation/<int:id_personne>", methods=["GET"])
+@main_bp.route("/personnes/consultation", methods=["GET"])
 @login_required
-def consultation_personne(id_personne):
-    personne = Personne().get_one(id_personne)
+def consultation_personne():
+    personne_id = request.args.get("personne")
+    personne = Personne().get_one(personne_id)
     type_consultations = TConsultation().get_all()
-    pconsultations = PConsultation().get_by_personne_id(id_personne)
+    pconsultations = PConsultation().get_by_personne_id(personne_id)
     return render_template("myapp/personne_consultation.html", 
                            personne=personne, 
                            type_consultations=type_consultations, 
@@ -141,24 +142,27 @@ def add_consultation_personne():
     heure_consultation = request.form["heure_consultation"]
     pconsultation_id = PConsultation().add(TPConsultation(type_consultation_id, personne_id, date_consultation, heure_consultation, cm.get_current_datetime_fr()))
     if pconsultation_id :
-        return redirect("/personnes/consultation/"+personne_id)
-    return render_template("/personnes/consultation/"+ personne_id, error=Config.ERROR_MSG_INSERT)
+        return redirect("/personnes/consultation?personne="+personne_id)
+    return render_template("/personnes/consultation?personne="+ personne_id, error=Config.ERROR_MSG_INSERT)
 
-@main_bp.route("/personnes/consultation/delete/<int:id_personne>")
+@main_bp.route("/personnes/consultation/delete/<int:consultation_id>")
 @login_required
-def delete_consultation_personne(id_personne):
-    PConsultation().delete(id_personne)
-    return redirect("/personnes/consultation/"+ str(id_personne))
+def delete_consultation_personne(consultation_id):
+    PConsultation().delete(consultation_id)
+    personne_id = request.args.get("personne")
+    return redirect("/personnes/consultation/"+ str(personne_id))
 
-@main_bp.route("/personnes/diagnostic/<int:id_personne>", methods=["GET"])
+@main_bp.route("/personnes/diagnostic", methods=["GET"])
 @login_required
-def diagnostic_personne(id_personne):
-    personne = Personne().get_one(id_personne)
+def diagnostic_personne():
+    personne_id = request.args.get("personne")
+    personne = Personne().get_one(personne_id)
     symptomes = Symptome().get_all()
-    pdiagnostics = PDiagnostic().get_by_personne_id(id_personne)
+    pdiagnostics = PDiagnostic().get_by_personne_id(personne_id)
     return render_template("myapp/personne_diagnostic.html", 
                            personne=personne, 
-                           symptomes=symptomes, 
+                           symptomes=symptomes,
+                           suspect_score_min=Config.SUSPECT_SCORE_MIN,
                            date_debut=cm.get_current_date_fr(),
                            pdiagnostics=pdiagnostics)
 
@@ -180,17 +184,19 @@ def add_diagnostic_personne():
     s3 = get_symptome_from_request(dict_symptome, 2)
     s4 = get_symptome_from_request(dict_symptome, 3)
     s5 = get_symptome_from_request(dict_symptome, 4)
-    tpdiagnostic = TPDiagnostic(personne_id, date_debut, s1, s2, s3, s4, s5, cm.get_current_datetime_fr())
+    suspicion = cm.compute_suspect([s1, s2, s3, s4, s5], Symptome().get_all(), Config.SUSPECT_SCORE_MIN)
+    tpdiagnostic = TPDiagnostic(personne_id, date_debut, s1, s2, s3, s4, s5, suspicion.score, cm.get_current_datetime_fr())
     pdiagnostic_id = PDiagnostic().add(tpdiagnostic)
     if pdiagnostic_id :
-        return redirect("/personnes/diagnostic/"+personne_id)
-    return render_template("/personnes/diagnostic/"+ personne_id, error=Config.ERROR_MSG_INSERT)
+        return redirect("/personnes/diagnostic?personne="+personne_id)
+    return render_template("/personnes/diagnostic?personne="+ personne_id, error=Config.ERROR_MSG_INSERT)
 
-@main_bp.route("/personnes/diagnostic/delete/<int:id_personne>")
+@main_bp.route("/personnes/diagnostic/delete/<int:diagnostic_id>")
 @login_required
-def delete_diagnostic_personne(id_personne):
-    PDiagnostic().delete(id_personne)
-    return redirect("/personnes/diagnostic/"+ str(id_personne))
+def delete_diagnostic_personne(diagnostic_id):
+    PDiagnostic().delete(diagnostic_id)
+    personne_id = request.args.get("personne")
+    return redirect("/personnes/diagnostic?personne="+ str(personne_id))
 
 def get_request_checkbox_value(request_, field_):
     try:
@@ -199,11 +205,12 @@ def get_request_checkbox_value(request_, field_):
         value = DEFAULT_NON
     return value
 
-@main_bp.route("/personnes/viecondition/<int:id_personne>", methods=["GET"])
+@main_bp.route("/personnes/viecondition", methods=["GET"])
 @login_required
-def vie_condition_personne(id_personne):
-    personne = Personne().get_one(id_personne)
-    pvconditions = PVCondition().get_by_personne_id(id_personne)
+def vie_condition_personne():
+    personne_id = request.args.get("personne")
+    personne = Personne().get_one(personne_id)
+    pvconditions = PVCondition().get_by_personne_id(personne_id)
     relations = Relation().get_all()
     return render_template("myapp/personne_vie_condition.html", 
                            personne=personne,
@@ -234,14 +241,15 @@ def add_vie_condition_personne():
                 crp_ = TCRP(personne_id, personne_id_2, id_relation, date_, heure_)
                 crp = CRP()
                 crp.add(crp_)
-        return redirect("/personnes/viecondition/"+personne_id)
-    return render_template("/personnes/viecondition/"+ personne_id, error=Config.ERROR_MSG_INSERT)
+        return redirect("/personnes/viecondition?personne="+personne_id)
+    return render_template("/personnes/viecondition?personne="+ personne_id, error=Config.ERROR_MSG_INSERT)
 
-@main_bp.route("/personnes/viecondition/delete/<int:id_personne>")
+@main_bp.route("/personnes/viecondition/delete/<int:viecondition_id>")
 @login_required
-def delete_vie_condition_personne(id_personne):
-    PVCondition().delete(id_personne)
-    return redirect("/personnes/viecondition/"+str(id_personne))
+def delete_vie_condition_personne(viecondition_id):
+    PVCondition().delete(viecondition_id)
+    personne_id = request.args.get("personne")
+    return redirect("/personnes/viecondition?personne="+str(personne_id))
 
 def param_and_add_personne(request):
     nom = request.form["nom"]

@@ -68,6 +68,7 @@
                 <td>ID</td>
                 <td>Date de d&eacute;but</td>
                 <td>Sympt&ocirc;mes</td>
+                <td>Suspect ?</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -96,9 +97,10 @@
                         {{ pd.symptome_id_4 }} 
                         {{ pd.symptome_id_5 }}
                       </td>
-                      <td>&nbsp;<a href="/personnes/viecondition/{{ pd.personne_id }}" title="conditions de vie">Cond. de vie</a>&nbsp;</td>
-                      <td>&nbsp;<a href="/personnes/diagnostic/{{ pd.personne_id }}" title="diagnostic">Diagnostic</a></td>
-                      <td>&nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/diagnostic/delete/{{ pd.id }}')">Supprimer</a>&nbsp;</td></td>
+                      <td>{% if pd.calcul_score >= suspect_score_min %} Oui {% else %} Non {% endif %}</td>
+                      <td>&nbsp;<a href="/personnes/viecondition?personne={{ pd.personne_id }}" title="conditions de vie">Cond. de vie</a>&nbsp;</td>
+                      <td>&nbsp;<a href="/personnes/diagnostic?personne={{ pd.personne_id }}" title="diagnostic">Diagnostic</a></td>
+                      <td>&nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/diagnostic/delete/{{ pd.id }}?personne={{ pd.personne_id }}')">Supprimer</a>&nbsp;</td></td>
                     </tr>
                   {% endfor %}
                 {% else %}

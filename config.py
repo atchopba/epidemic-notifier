@@ -26,10 +26,10 @@ class Config:
     
     ERROR_MSG_INSERT = "Veuillez recommencer!"
     
+    SUSPECT_SCORE_MIN = 0.6
+    
     FILE_NOTIF_SMS = "./epidemic_notifier/templates/model/notification.sms.model"
     FILE_NOTIF_EMAIL = "./epidemic_notifier/templates/model/notification.email.model"
-    
-    PATH_GRAPH = "./epidemic_notifier/static/__temp__/graph/graph.json"
 
     FLASK_APP = "wsgi.py"
     FLASK_ENV = environ.get("FLASK_ENV")

@@ -41,5 +41,5 @@ class PGuerison(DB):
         rows = self.cur.fetchall()
         return [RPGuerison(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]) for row in rows]
 
-    def delete(self, personne_id):
-        return super().delete("personne_guerisons", personne_id)
+    def delete(self, pg_id):
+        return super().delete("personne_guerisons", pg_id)

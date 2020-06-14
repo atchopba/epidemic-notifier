@@ -1,4 +1,9 @@
 {
-    "nodes": [],
+    "nodes": [
+        {
+            "id": "tagne_1",
+            "group": "3"
+        }
+    ],
     "links": []
 }

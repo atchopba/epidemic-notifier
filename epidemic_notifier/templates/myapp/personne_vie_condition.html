@@ -142,9 +142,9 @@
                       <td>{{ pvc.nb_enfant }}</td>
                       <td>{{ pvc.nb_personne_agee }}</td>
                       <td>{{ pvc.has_possibilite_isolement }}</td>
-                      <td>&nbsp;<a href="/personnes/consultation/{{ pvc.personne_id }}" title="consultation">Consultation</a>&nbsp;</td>
-                      <td>&nbsp;<a href="/personnes/diagnostic/{{ pvc.personne_id }}" title="diagnostic">Diagnostic</a></td>
-                      <td>&nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/viecondition/delete/{{ pvc.id }}')">Supprimer</a>&nbsp;</td>
+                      <td>&nbsp;<a href="/personnes/consultation?personne={{ pvc.personne_id }}" title="consultation">Consultation</a>&nbsp;</td>
+                      <td>&nbsp;<a href="/personnes/diagnostic?personne={{ pvc.personne_id }}" title="diagnostic">Diagnostic</a></td>
+                      <td>&nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/viecondition/delete/{{ pvc.id }}?personne={{ pvc.personne_id }}')">Supprimer</a>&nbsp;</td>
                     </tr>
                   {% endfor %}
                 {% else %}

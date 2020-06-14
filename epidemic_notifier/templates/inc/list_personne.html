@@ -30,11 +30,11 @@
               <td>{{ p.presente_signe }}</td>
               <td>{{ p.nb_contact }}</td>
               <td>&nbsp;<a href="/crp?personne={{ p.id }}" title="personnes avec qui un contact a été fait">Contacts</a>&nbsp;</td>
-              <td>&nbsp;<a href="/personnes/consultation/{{ p.id }}" title="consultation">Consultation</a>&nbsp;</td>
-              <td>&nbsp;<a href="/personnes/viecondition/{{ p.id }}" title="conditions de vie">Cond. de vie</a>&nbsp;</td>
-              <td>&nbsp;<a href="/personnes/diagnostic/{{ p.id }}" title="diagnostic">Diagnostic</a>&nbsp;</td>
+              <td>&nbsp;<a href="/personnes/consultation?personne={{ p.id }}" title="consultation">Consultation</a>&nbsp;</td>
+              <td>&nbsp;<a href="/personnes/viecondition?personne={{ p.id }}" title="conditions de vie">Cond. de vie</a>&nbsp;</td>
+              <td>&nbsp;<a href="/personnes/diagnostic?personne={{ p.id }}" title="diagnostic">Diagnostic</a>&nbsp;</td>
               <td>&nbsp;<a href="/tests?personne={{ p.id }}" title="test">Test</a>&nbsp;</td>
-              <td>&nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('personnes/delete/{{ p.id }}')">Supprimer</a>&nbsp;</td>
+              <td>&nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/delete/{{ p.id }}')">Supprimer</a>&nbsp;</td>
             </tr>
           {% endfor %}
         {% else %}
