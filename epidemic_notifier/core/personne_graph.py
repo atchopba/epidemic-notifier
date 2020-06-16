@@ -14,7 +14,7 @@ import json
 from epidemic_notifier.core.db.test import Test
 from epidemic_notifier.core.db.contact_relation_personne import CRP
 
-from config import Config
+PATH_GRAPH = "./epidemic_notifier/static/__temp__/graph/graph.json"
 
 def set_group(suspect_, teste_):
     if teste_ == None:
@@ -57,9 +57,9 @@ def get_links_graph():
     return crp_dict
 
 def build_graph():
-    if os.path.exists(Config.PATH_GRAPH):
-        os.remove(Config.PATH_GRAPH)
-    with open(Config.PATH_GRAPH, "w") as outfile: 
+    if os.path.exists(PATH_GRAPH):
+        os.remove(PATH_GRAPH)
+    with open(PATH_GRAPH, "w") as outfile: 
           json.dump({
                 "nodes": get_nodes_graph(),
                 "links": get_links_graph()
