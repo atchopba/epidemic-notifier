@@ -13,7 +13,7 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import login_user, current_user
 from flask import current_app
 from .models import User
-from .treatment.db.user import EUser, TUser
+from .core.db.user import EUser, TUser
 from . import login_manager
 
 #

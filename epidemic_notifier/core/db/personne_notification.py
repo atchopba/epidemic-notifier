@@ -10,8 +10,8 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.treatment.db.db import DB
-from epidemic_notifier.treatment.db.notification import Notification
+from epidemic_notifier.core.db.db import DB
+from epidemic_notifier.core.db.notification import Notification
 import sqlite3
 
 TPNotification = namedtuple("TPNotification", "notification_id personne_id personne_id_due texte date_ heure_")

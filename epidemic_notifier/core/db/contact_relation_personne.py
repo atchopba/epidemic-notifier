@@ -10,8 +10,8 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.treatment.db.db import DB
-from epidemic_notifier.treatment.db.personne import Personne
+from epidemic_notifier.core.db.db import DB
+from epidemic_notifier.core.db.personne import Personne
 import sqlite3
 
 TCRP = namedtuple("TCRP", "personne_id_1 personne_id_2 relation_id date_contact heure_contact")

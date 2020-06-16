@@ -9,10 +9,10 @@
 # __email__ = "Albin TCHOPBA <atchopba @ gmail dot com"
 # __status__ = "Production"
 
-from epidemic_notifier.treatment import common as cm
-from epidemic_notifier.treatment.db.test import Test
-from epidemic_notifier.treatment.db.contact_relation_personne import CRP
-from epidemic_notifier.treatment.db.personne_notification import TPNotification, PNotification
+from epidemic_notifier.core import common as cm
+from epidemic_notifier.core.db.test import Test
+from epidemic_notifier.core.db.contact_relation_personne import CRP
+from epidemic_notifier.core.db.personne_notification import TPNotification, PNotification
 from config import Config
 
 import json

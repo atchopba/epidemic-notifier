@@ -10,13 +10,13 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.treatment.db.db import DB
+from epidemic_notifier.core.db.db import DB
 
-RSymptome = namedtuple("RSymptome", "id libelle gravite score")
+RTLieu = namedtuple("RTLieu", "id libelle")
 
-class Symptome(DB):
+class TestLieu(DB):
     
     def get_all(self):
-        self.cur.execute("SELECT  * FROM symptomes ORDER BY id ASC")
+        self.cur.execute("SELECT  * FROM test_lieux ORDER BY id ASC")
         rows = self.cur.fetchall()
-        return [RSymptome(row[0], row[1], row[2], row[3]) for row in rows] 
+        return [RTLieu(row[0], row[1]) for row in rows] 

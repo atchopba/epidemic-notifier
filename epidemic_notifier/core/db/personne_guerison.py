@@ -10,7 +10,7 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.treatment.db.db import DB
+from epidemic_notifier.core.db.db import DB
 import sqlite3
 
 TPGuerison = namedtuple("TPGuerison", "personne_id guerison_id date_guerison has_been_isole has_been_sous_oxygene has_been_sous_antibiotique has_been_hospitalise has_scanner_controle date_edit")

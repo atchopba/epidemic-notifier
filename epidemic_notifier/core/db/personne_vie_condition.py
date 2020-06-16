@@ -10,7 +10,7 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.treatment.db.db import DB
+from epidemic_notifier.core.db.db import DB
 import sqlite3
 
 TPVCondition = namedtuple("TPVCondition", "personne_id is_en_couple has_enfant nb_enfant has_personne_agee nb_personne_agee has_possibilite_isolement has_been_in_contact_personne_risque date_edit")

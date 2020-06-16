@@ -12,25 +12,25 @@
 from flask import Blueprint, render_template, redirect, url_for, request, make_response
 from flask_login import login_required, logout_user
 
-from .treatment.db.db import DB
-from .treatment.db.personne import Personne, TPersonne
-from .treatment.db.relation import Relation
-from .treatment.db.contact_relation_personne import CRP, TCRP
-from .treatment.db.test import Test, TTest
-from .treatment.db.test_type import TestType
-from .treatment.db.test_lieu import TestLieu
-from .treatment.db.notification import Notification
-from .treatment.db.type_consultation import TConsultation
-from .treatment.db.personne_consultation import PConsultation, TPConsultation
-from .treatment.db.personne_vie_condition import TPVCondition, PVCondition
-from .treatment.db.personne_diagnotic import PDiagnostic, TPDiagnostic
-from .treatment.db.personne_guerison import PGuerison, TPGuerison
-from .treatment.db.guerison_type import GuerisonType
-from .treatment.db.symptome import Symptome
-from .treatment.db.personne_notification import PNotification
-from .treatment import notifier as notifier
-from .treatment.personne_graph import build_graph
-from .treatment import common as cm
+from .core.db.db import DB
+from .core.db.personne import Personne, TPersonne
+from .core.db.relation import Relation
+from .core.db.contact_relation_personne import CRP, TCRP
+from .core.db.test import Test, TTest
+from .core.db.test_type import TestType
+from .core.db.test_lieu import TestLieu
+from .core.db.notification import Notification
+from .core.db.type_consultation import TConsultation
+from .core.db.personne_consultation import PConsultation, TPConsultation
+from .core.db.personne_vie_condition import TPVCondition, PVCondition
+from .core.db.personne_diagnotic import PDiagnostic, TPDiagnostic
+from .core.db.personne_guerison import PGuerison, TPGuerison
+from .core.db.guerison_type import GuerisonType
+from .core.db.symptome import Symptome
+from .core.db.personne_notification import PNotification
+from .core import notifier as notifier
+from .core.personne_graph import build_graph
+from .core import common as cm
 from config import Config
 import json
 
