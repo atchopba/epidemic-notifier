@@ -11,6 +11,7 @@
 
 from collections import namedtuple
 from epidemic_notifier.core.db.db import DB
+from config import Config
 import sqlite3
 
 TPDiagnostic = namedtuple("TPDiagnostic", "personne_id date_debut symptome_id_1 symptome_id_2 symptome_id_3 symptome_id_4 symptome_id_5 calcul_score date_edit")
@@ -30,11 +31,25 @@ class PDiagnostic(DB):
             return None
     
     def get_one(self, id_):
-        self.cur.execute("SELECT  * FROM personne_diagnostics WHERE id=? ORDER BY id ASC", str(id_))
+        self.cur.execute("SELECT  * FROM personne_diagnostics WHERE id=? ORDER BY id DESC", str(id_))
         row = self.cur.fetchone()
         if (row != None):
             return RPDiagnostic(str(row[0]), row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9])
         return None
+    
+    def get_last_by_personne(self, personne_id):
+        self.cur.execute("SELECT  * FROM personne_diagnostics WHERE personne_id=? ORDER BY id DESC", str(personne_id))
+        row = self.cur.fetchone()
+        if (row != None):
+            return RPDiagnostic(str(row[0]), row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9])
+        return None
+    
+    def get_personne_diagnostic_prop(self, personne_id):
+        DiagProp = namedtuple("DiagProp", "presente_signe suspect")
+        pd = self.get_last_by_personne(personne_id)
+        presente_signe = "oui" if pd is not None else "non"
+        suspect = "oui" if pd is not None and pd.calcul_score >= Config.SUSPECT_SCORE_MIN else "non"
+        return DiagProp(presente_signe, suspect)   
     
     def get_all(self):
         self.cur.execute("SELECT  * FROM personne_diagnostics ORDER BY id ASC")

@@ -1,44 +1,46 @@
 <table width="100%">
-      <thead>
-        <td>ID</td>
-        <td>Nom</td>
-        <td>Prénom</td>
-        <td>Date de naissance</td>
-        <td>Numéro de téléphone</td>
-        <td>@mail</td>
-        <td>cas suspect?</td>
-        <td>Pr&eacute;sente signe?</td>
-        <td>NB contact</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </thead>
-      <tbody>
-        {% if personnes %}
-          {% for p in personnes %}
-            <tr>
-              <td>{{ p.id }}</td>
-              <td>{{ p.nom }}</td>
-              <td>{{ p.prenom }}</td>
-              <td>{{ p.date_naiss }}</td>
-              <td>{{ p.num_telephone }}</td>
-              <td>{{ p.email }}</td>
-              <td>{{ p.suspect }}</td>
-              <td>{{ p.presente_signe }}</td>
-              <td>{{ p.nb_contact }}</td>
-              <td>&nbsp;<a href="/crp?personne={{ p.id }}" title="personnes avec qui un contact a été fait">Contacts</a>&nbsp;</td>
-              <td>&nbsp;<a href="/personnes/consultation?personne={{ p.id }}" title="consultation">Consultation</a>&nbsp;</td>
-              <td>&nbsp;<a href="/personnes/viecondition?personne={{ p.id }}" title="conditions de vie">Cond. de vie</a>&nbsp;</td>
-              <td>&nbsp;<a href="/personnes/diagnostic?personne={{ p.id }}" title="diagnostic">Diagnostic</a>&nbsp;</td>
-              <td>&nbsp;<a href="/tests?personne={{ p.id }}" title="test">Test</a>&nbsp;</td>
-              <td>&nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/delete/{{ p.id }}')">Supprimer</a>&nbsp;</td>
-            </tr>
-          {% endfor %}
-        {% else %}
-          <tr><td colspan="15">Aucune donn&eacute;e!!</td></tr>
-        {% endif %}
-      </tbody>
-    </table>
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Nom</td>
+      <td>Prénom</td>
+      <td>Date de naissance</td>
+      <td>Numéro de téléphone</td>
+      <td>@mail</td>
+      <td>cas suspect?</td>
+      <td>Pr&eacute;sente signe?</td>
+      <td>NB contact</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    {% if personnes %}
+      {% for p in personnes %}
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.nom }}</td>
+          <td>{{ p.prenom }}</td>
+          <td>{{ p.date_naiss }}</td>
+          <td>{{ p.num_telephone }}</td>
+          <td>{{ p.email }}</td>
+          <td>{{ p.suspect }}</td>
+          <td>{{ p.presente_signe }}</td>
+          <td>{{ p.nb_contact }}</td>
+          <td>&nbsp;<a href="/crp?personne={{ p.id }}" title="personnes avec qui un contact a été fait">Contacts</a>&nbsp;</td>
+          <td>&nbsp;<a href="/personnes/consultation?personne={{ p.id }}" title="consultation">Consultation</a>&nbsp;</td>
+          <td>&nbsp;<a href="/personnes/viecondition?personne={{ p.id }}" title="conditions de vie">Cond. de vie</a>&nbsp;</td>
+          <td>&nbsp;<a href="/personnes/diagnostic?personne={{ p.id }}" title="diagnostic">Diagnostic</a>&nbsp;</td>
+          <td>&nbsp;<a href="/tests?personne={{ p.id }}" title="test">Test</a>&nbsp;</td>
+          <td>&nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/delete/{{ p.id }}')">Supprimer</a>&nbsp;</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr><td colspan="15">Aucune donn&eacute;e!!</td></tr>
+    {% endif %}
+  </tbody>
+</table>

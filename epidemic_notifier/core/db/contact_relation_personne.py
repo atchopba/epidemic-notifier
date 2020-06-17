@@ -12,11 +12,12 @@
 from collections import namedtuple
 from epidemic_notifier.core.db.db import DB
 from epidemic_notifier.core.db.personne import Personne
+from epidemic_notifier.core.db.personne_diagnotic import PDiagnostic
 import sqlite3
 
 TCRP = namedtuple("TCRP", "personne_id_1 personne_id_2 relation_id date_contact heure_contact")
 RCRP = namedtuple("RCRP", "id personne_id_1 personne_id_2 relation_id date_contact heure_contact")
-RCRPPersonne = namedtuple("RCRPPersonne", "id nom prenom date_naiss num_telephone email relation nb_contact")
+RCRPPersonne = namedtuple("RCRPPersonne", "id nom prenom date_naiss num_telephone email relation presente_signe suspect nb_contact")
 
 RCRPPersonneG = namedtuple("RCRPPersonneG", "id nom prenom date_naiss num_telephone email relation id_2 nom_2 prenom_2 nb_contact")
 
@@ -68,7 +69,8 @@ class CRP(DB):
             personnes = Personne().get_all()
             p_crp_dict = []
             for p in personnes:
-                p_crp = RCRPPersonne(p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, "", self.get_personne_nb_contact(p.id))
+                diag_prop = PDiagnostic().get_personne_diagnostic_prop(p.id)
+                p_crp = RCRPPersonne(p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, "", diag_prop.presente_signe, diag_prop.suspect, self.get_personne_nb_contact(p.id))
                 p_crp_dict.append(p_crp)
             return p_crp_dict
         else:
@@ -94,7 +96,11 @@ class CRP(DB):
             #
             rows_1 += rows_2
             #
-            return [RCRPPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6], self.get_personne_nb_contact(row[0])) for row in rows_1]
+            p_crp_dict = []
+            for row in rows_1:
+                diag_prop = PDiagnostic().get_personne_diagnostic_prop(row[0])
+                p_crp_dict.append(RCRPPersonne(row[0], row[1], row[2], row[3], row[4], row[5], row[6], diag_prop.presente_signe, diag_prop.suspect, self.get_personne_nb_contact(row[0])))
+            return p_crp_dict
         
     def find_for_graph(self):
         r = ('''
