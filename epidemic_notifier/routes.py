@@ -73,6 +73,30 @@ def home_personne():
     personnes = CRP().get_personnes_crp() #Personne().get_all() #
     return render_template("myapp/personne.html", personnes=personnes, nb_personnes=len(personnes))
 
+def param_and_add_personne(request):
+    nom = request.form["nom"]
+    prenom = request.form["prenom"]
+    date_naiss = request.form["date_naiss"]
+    num_telephone = request.form["num_telephone"]
+    email = request.form["email"]
+    personne = TPersonne(nom, prenom, date_naiss, num_telephone, email)
+    return Personne().add(personne)
+    
+@main_bp.route("/personnes", methods=["POST"])
+@login_required
+def add_personne():
+    personne_id = param_and_add_personne(request)
+    if personne_id is not None:
+        return redirect("/personnes")
+    return render_template("myapp/personne.html", error=Config.ERROR_MSG_INSERT)
+
+@main_bp.route("/personnes/delete/<int:id_personne>")
+@login_required
+def delete_personne(id_personne):
+    Personne().delete(id_personne)
+    CRP().delete_due_2_personne(id_personne)
+    return redirect("/personnes")
+
 @main_bp.route("/personnes/graph")
 @login_required
 def graph_personne():
@@ -251,29 +275,6 @@ def delete_vie_condition_personne(viecondition_id):
     personne_id = request.args.get("personne")
     return redirect("/personnes/viecondition?personne="+str(personne_id))
 
-def param_and_add_personne(request):
-    nom = request.form["nom"]
-    prenom = request.form["prenom"]
-    date_naiss = request.form["date_naiss"]
-    num_telephone = request.form["num_telephone"]
-    email = request.form["email"]
-    personne = TPersonne(nom, prenom, date_naiss, num_telephone, email)
-    return Personne().add(personne)
-    
-@main_bp.route("/personnes", methods=["POST"])
-@login_required
-def add_personne():
-    personne_id = param_and_add_personne(request)
-    if personne_id is not None:
-        return redirect("/personnes")
-    return render_template("myapp/personne.html", error=Config.ERROR_MSG_INSERT)
-
-@main_bp.route("/personnes/delete/<int:id_personne>")
-@login_required
-def delete_personne(id_personne):
-    Personne().delete(id_personne)
-    CRP().delete_due_2_personne(id_personne)
-    return redirect("/personnes")
 '''
 @main_bp.route("/relations")
 @login_required
