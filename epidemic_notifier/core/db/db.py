@@ -240,7 +240,6 @@ class DB(object):
             )''')
         
     def create_table_personne_notifications(self):
-        # notification
         self.cur.execute("DROP TABLE IF EXISTS personne_notifications")
         self.cur.execute(''' CREATE TABLE personne_notifications (
             id integer PRIMARY KEY,
@@ -253,7 +252,6 @@ class DB(object):
             )''')
         
     def create_table_users(self):
-        # notification
         self.cur.execute("DROP TABLE IF EXISTS users")
         self.cur.execute(''' CREATE TABLE users (
             id integer PRIMARY KEY,
