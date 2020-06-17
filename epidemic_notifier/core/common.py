@@ -85,8 +85,6 @@ def send_email(recipient, text_):
 def compute_suspect(dict_p_symptomes, dict_symptomes, score_):
     suspicion = namedtuple("suspicion", "score is_suspect")
     score = 0
-    print(dict_p_symptomes)
-    print(dict_symptomes)
     for p_symp in dict_p_symptomes:
         if p_symp is None:
             break
