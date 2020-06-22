@@ -310,9 +310,6 @@ $(document).ready(function(){
             $.ajax({
                 url: "/notifications/add",
                 type: "POST",
-                /*data: {
-                    q: search_text
-                },*/
                 success : function(data) {
                     alert("Notification réalisée avec succès !");
                     location.reload();
