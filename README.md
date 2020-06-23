@@ -73,10 +73,6 @@ Then, the home page.
 
 ![Page index](epidemic_notifier/static/images/04-personne.png)
 
-... add relationship between people.
-
-![Page index](epidemic_notifier/static/images/04-personne_relations.png)
-
 ... add diagnostic
 
 ![Page index](epidemic_notifier/static/images/04-personne_diagnostic.png)
@@ -91,7 +87,7 @@ Then, the home page.
 
 ... add test
 
-![Page index](epidemic_notifier/static/images/04-04-personne_test.png)
+![Page index](epidemic_notifier/static/images/04-personne_test.png)
 
 The "guerison" is to set how personne was healed
 
