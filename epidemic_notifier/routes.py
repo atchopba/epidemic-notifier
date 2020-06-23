@@ -10,7 +10,7 @@
 # __status__ = "Production"
 
 from flask import Blueprint, render_template, redirect, url_for, request, make_response
-from flask_login import login_required, logout_user
+from flask_login import login_required, logout_user, current_user
 
 from .core.db.db import DB
 from .core.db.personne import Personne, TPersonne
@@ -28,6 +28,7 @@ from .core.db.personne_guerison import PGuerison, TPGuerison
 from .core.db.guerison_type import GuerisonType
 from .core.db.symptome import Symptome
 from .core.db.personne_notification import PNotification
+from .core.db.user_historique import UserHistorique, TUserHistorique
 from .core import notifier as notifier
 from .core.personne_graph import build_graph
 from .core import common as cm
@@ -71,6 +72,9 @@ def db_create():
 @login_required
 def home_personne():
     personnes = CRP().get_personnes_crp() #Personne().get_all() #
+    #
+    tuh = TUserHistorique(current_user.id, None, Personne.ACTION_LIST, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return render_template("myapp/personne.html", personnes=personnes, nb_personnes=len(personnes))
 
 def param_and_add_personne(request):
@@ -87,14 +91,20 @@ def param_and_add_personne(request):
 def add_personne():
     personne_id = param_and_add_personne(request)
     if personne_id is not None:
+        #
+        tuh = TUserHistorique(current_user.id, personne_id, Personne.ACTION_INSERT, cm.get_current_date_fr(), cm.get_current_time())
+        UserHistorique().add(tuh)
         return redirect("/personnes")
     return render_template("myapp/personne.html", error=Config.ERROR_MSG_INSERT)
 
-@main_bp.route("/personnes/delete/<int:id_personne>")
+@main_bp.route("/personnes/delete/<int:personne_id>")
 @login_required
-def delete_personne(id_personne):
-    Personne().delete(id_personne)
-    CRP().delete_due_2_personne(id_personne)
+def delete_personne(personne_id):
+    Personne().delete(personne_id)
+    CRP().delete_due_2_personne(personne_id)
+    #
+    tuh = TUserHistorique(current_user.id, personne_id, Personne.ACTION_DELETE, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return redirect("/personnes")
 
 @main_bp.route("/personnes/graph")
@@ -122,6 +132,9 @@ def search_personne():
 def guerison_personne():
     personne = Personne().get_one(request.args.get("personne"))
     guerison_types = GuerisonType().get_all()
+    #
+    tuh = TUserHistorique(current_user.id, None, PGuerison.ACTION_LIST, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return render_template("myapp/personne_guerison.html", 
                            personne=personne,
                            date_guerison=cm.get_current_date_fr(),
@@ -139,7 +152,10 @@ def set_guerison_personne():
     has_been_hospitalise = get_request_checkbox_value(request, "has_been_hospitalise")
     has_scanner_controle = get_request_checkbox_value(request, "has_scanner_controle")
     personne_guerison_id = PGuerison().add(TPGuerison(personne_id, guerison_type_id, date_guerison, has_been_isole, has_been_sous_oxygene, has_been_sous_antibiotique, has_been_hospitalise, has_scanner_controle, cm.get_current_datetime_fr()))
-    if personne_guerison_id :
+    if personne_guerison_id:
+        #
+        tuh = TUserHistorique(current_user.id, personne_id, PGuerison.ACTION_INSERT, cm.get_current_date_fr(), cm.get_current_time())
+        UserHistorique().add(tuh)
         return redirect("/tests")
     return render_template("/personne/guerison?personne="+ personne_id, error=Config.ERROR_MSG_INSERT)
 
@@ -150,6 +166,9 @@ def consultation_personne():
     personne = Personne().get_one(personne_id)
     type_consultations = TConsultation().get_all()
     pconsultations = PConsultation().get_by_personne_id(personne_id)
+    #
+    tuh = TUserHistorique(current_user.id, personne_id, PConsultation.ACTION_LIST, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return render_template("myapp/personne_consultation.html", 
                            personne=personne, 
                            type_consultations=type_consultations, 
@@ -166,6 +185,9 @@ def add_consultation_personne():
     heure_consultation = request.form["heure_consultation"]
     pconsultation_id = PConsultation().add(TPConsultation(type_consultation_id, personne_id, date_consultation, heure_consultation, cm.get_current_datetime_fr()))
     if pconsultation_id :
+        #
+        tuh = TUserHistorique(current_user.id, personne_id, PConsultation.ACTION_INSERT, cm.get_current_date_fr(), cm.get_current_time())
+        UserHistorique().add(tuh)
         return redirect("/personnes/consultation?personne="+personne_id)
     return render_template("/personnes/consultation?personne="+ personne_id, error=Config.ERROR_MSG_INSERT)
 
@@ -174,6 +196,9 @@ def add_consultation_personne():
 def delete_consultation_personne(consultation_id):
     PConsultation().delete(consultation_id)
     personne_id = request.args.get("personne")
+    #
+    tuh = TUserHistorique(current_user.id, personne_id, PConsultation.ACTION_DELETE, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return redirect("/personnes/consultation/"+ str(personne_id))
 
 @main_bp.route("/personnes/diagnostic", methods=["GET"])
@@ -183,6 +208,9 @@ def diagnostic_personne():
     personne = Personne().get_one(personne_id)
     symptomes = Symptome().get_all()
     pdiagnostics = PDiagnostic().get_by_personne_id(personne_id)
+    #
+    tuh = TUserHistorique(current_user.id, personne_id, PDiagnostic.ACTION_LIST, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return render_template("myapp/personne_diagnostic.html", 
                            personne=personne, 
                            symptomes=symptomes,
@@ -212,6 +240,9 @@ def add_diagnostic_personne():
     tpdiagnostic = TPDiagnostic(personne_id, date_debut, s1, s2, s3, s4, s5, suspicion.score, cm.get_current_datetime_fr())
     pdiagnostic_id = PDiagnostic().add(tpdiagnostic)
     if pdiagnostic_id :
+        #
+        tuh = TUserHistorique(current_user.id, personne_id, PDiagnostic.ACTION_INSERT, cm.get_current_date_fr(), cm.get_current_time())
+        UserHistorique().add(tuh)
         return redirect("/personnes/diagnostic?personne="+personne_id)
     return render_template("/personnes/diagnostic?personne="+ personne_id, error=Config.ERROR_MSG_INSERT)
 
@@ -220,6 +251,9 @@ def add_diagnostic_personne():
 def delete_diagnostic_personne(diagnostic_id):
     PDiagnostic().delete(diagnostic_id)
     personne_id = request.args.get("personne")
+    #
+    tuh = TUserHistorique(current_user.id, personne_id, PDiagnostic.ACTION_DELETE, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return redirect("/personnes/diagnostic?personne="+ str(personne_id))
 
 def get_request_checkbox_value(request_, field_):
@@ -236,6 +270,9 @@ def vie_condition_personne():
     personne = Personne().get_one(personne_id)
     pvconditions = PVCondition().get_by_personne_id(personne_id)
     relations = Relation().get_all()
+    #
+    tuh = TUserHistorique(current_user.id, personne_id, PVCondition.ACTION_LIST, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return render_template("myapp/personne_vie_condition.html", 
                            personne=personne,
                            relations=relations,
@@ -265,6 +302,9 @@ def add_vie_condition_personne():
                 crp_ = TCRP(personne_id, personne_id_2, id_relation, date_, heure_)
                 crp = CRP()
                 crp.add(crp_)
+        #
+        tuh = TUserHistorique(current_user.id, personne_id, PVCondition.ACTION_INSERT, cm.get_current_date_fr(), cm.get_current_time())
+        UserHistorique().add(tuh)
         return redirect("/personnes/viecondition?personne="+personne_id)
     return render_template("/personnes/viecondition?personne="+ personne_id, error=Config.ERROR_MSG_INSERT)
 
@@ -273,6 +313,9 @@ def add_vie_condition_personne():
 def delete_vie_condition_personne(viecondition_id):
     PVCondition().delete(viecondition_id)
     personne_id = request.args.get("personne")
+    #
+    tuh = TUserHistorique(current_user.id, personne_id, PVCondition.ACTION_DELETE, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return redirect("/personnes/viecondition?personne="+str(personne_id))
 
 '''
@@ -307,6 +350,9 @@ def home_rcp():
     personne = Personne().get_one(personne_id)
     relations = Relation().get_all()
     personnes = CRP().get_personnes_crp(personne_id)
+    #
+    tuh = TUserHistorique(current_user.id, personne_id, CRP.ACTION_LIST, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return render_template("myapp/crp.html", personne=personne, relations=relations, personnes=personnes)
 '''
 @main_bp.route("/crp", methods=["POST"])
@@ -339,10 +385,13 @@ def add_rcp():
                            personnes=Personne().get_all(),
                            error=Config.ERROR_MSG_INSERT)
 '''
-@main_bp.route("/crp/delete/<int:id_crp>")
+@main_bp.route("/crp/delete/<int:crp_id>")
 @login_required
-def delete_crp(id_crp):
-    CRP().delete(id_crp)
+def delete_crp(crp_id):
+    CRP().delete(crp_id)
+    #
+    tuh = TUserHistorique(current_user.id, None, CRP.ACTION_DELETE, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return redirect("/crp")
 
 @main_bp.route("/tests", methods=["GET"])
@@ -358,6 +407,9 @@ def home_test():
     pdiagnostic = PDiagnostic().get_one(personne_id) if personne_id is not None else None
     if pdiagnostic is not None:
         presente_signe = DEFAULT_OUI
+    #
+    tuh = TUserHistorique(current_user.id, personne_id, Test.ACTION_LIST, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return render_template("myapp/test.html", 
                            personne=personne,
                            presente_signe=presente_signe,
@@ -386,20 +438,29 @@ def add_test():
     test = TTest(personne_id, test_type_id_1, test_type_id_2, test_type_id_3, test_type_id_4, test_lieu_id, adresse_lieu_test, date_test, heure_test, date_resultat, heure_resultat, commentaires, resultat, date_edit)
     test_id = Test().add(test)
     if test_id:
+        #
+        tuh = TUserHistorique(current_user.id, personne_id, Test.ACTION_INSERT, cm.get_current_date_fr(), cm.get_current_time())
+        UserHistorique().add(tuh)
         return redirect("/tests")
     else:
         return render_template("myapp/test.html", Personne().get_one(personne_id), tests=Test().get_all(), error=Config.ERROR_MSG_INSERT)
 
-@main_bp.route("/tests/delete/<int:id_test>")
+@main_bp.route("/tests/delete/<int:test_id>")
 @login_required
-def delete_test(id_test):
-    Test().delete(id_test)
+def delete_test(test_id):
+    Test().delete(test_id)
+    #
+    tuh = TUserHistorique(current_user.id, None, Test.ACTION_DELETE, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return redirect("/tests")
 
 @main_bp.route("/notifications")
 @login_required
 def home_notification():
     notifications = PNotification().get_notification_pnotifications() #Notification().get_all()
+    #
+    tuh = TUserHistorique(current_user.id, None, Notification.ACTION_LIST, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return render_template("myapp/notification.html", notifications=notifications)
 
 @main_bp.route("/notifications/add", methods=["POST"])
@@ -407,6 +468,9 @@ def home_notification():
 def add_notification():
     notification_id = Notification().add()
     if notification_id is not None:
+        #
+        tuh = TUserHistorique(current_user.id, None, Notification.ACTION_INSERT, cm.get_current_date_fr(), cm.get_current_time())
+        UserHistorique().add(tuh)
         #print("=> notification_id : ", notification_id) 
         resp = make_response(notifier.notifier_personne(notification_id))
         resp.status_code = 200
@@ -417,8 +481,11 @@ def add_notification():
     #return render_template("myapp/notification.html", error=ERROR_MSG)
     return resp
     
-@main_bp.route("/notifications/delete/<int:id_notification>")
+@main_bp.route("/notifications/delete/<int:notification_id>")
 @login_required
-def delete_notification(id_notification):
-    Notification().delete(id_notification)
+def delete_notification(notification_id):
+    Notification().delete(notification_id)
+    #
+    tuh = TUserHistorique(current_user.id, None, Notification.ACTION_DELETE, cm.get_current_date_fr(), cm.get_current_time())
+    UserHistorique().add(tuh)
     return redirect("/notifications")

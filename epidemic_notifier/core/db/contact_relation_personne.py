@@ -10,7 +10,7 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.core.db.db import DB
+from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
 from epidemic_notifier.core.db.personne import Personne
 from epidemic_notifier.core.db.personne_diagnotic import PDiagnostic
 import sqlite3
@@ -22,6 +22,10 @@ RCRPPersonne = namedtuple("RCRPPersonne", "id nom prenom date_naiss num_telephon
 RCRPPersonneG = namedtuple("RCRPPersonneG", "id nom prenom date_naiss num_telephone email relation id_2 nom_2 prenom_2 nb_contact")
 
 class CRP(DB):
+    
+    ACTION_INSERT = ACTION_INSERT + "contact_relation_personne"
+    ACTION_DELETE = ACTION_DELETE + "contact_relation_personne"
+    ACTION_LIST = ACTION_LIST + "contact_relation_personne"
     
     def add(self, crp):
         r = ('''INSERT INTO contact_relation_personnes 

@@ -10,13 +10,17 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.core.db.db import DB
+from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
 import sqlite3
 
 TPersonne = namedtuple("TPersonne", "nom prenom date_naiss num_telephone email")
 RPersonne = namedtuple("RPersonne", "id nom prenom date_naiss num_telephone email")
 
 class Personne(DB):
+    
+    ACTION_INSERT = ACTION_INSERT + "personne"
+    ACTION_DELETE = ACTION_DELETE + "personne"
+    ACTION_LIST = ACTION_LIST + "personne"
     
     def add(self, personne):
         r = ('''INSERT INTO personnes 

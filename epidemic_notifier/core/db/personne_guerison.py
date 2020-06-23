@@ -10,13 +10,17 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.core.db.db import DB
+from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
 import sqlite3
 
 TPGuerison = namedtuple("TPGuerison", "personne_id guerison_id date_guerison has_been_isole has_been_sous_oxygene has_been_sous_antibiotique has_been_hospitalise has_scanner_controle date_edit")
 RPGuerison = namedtuple("RPGuerison", "id personne_id guerison_id date_guerison has_been_isole has_been_sous_oxygene has_been_sous_antibiotique has_been_hospitalise has_scanner_controle date_edit")
 
 class PGuerison(DB):
+    
+    ACTION_INSERT = ACTION_INSERT + "personne_guerison"
+    ACTION_DELETE = ACTION_DELETE + "personne_guerison"
+    ACTION_LIST = ACTION_LIST + "personne_guerison"
     
     def add(self, pguerison):
         r = (''' INSERT INTO personne_guerisons 
