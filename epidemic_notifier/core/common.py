@@ -88,3 +88,14 @@ def send_email(recipient, text_):
             )
     except:
         print("erreur lors de l'envoi de mail")
+
+def compute_suspect(dict_p_symptomes, dict_symptomes, score_):
+    suspicion = namedtuple("suspicion", "score is_suspect")
+    score = 0
+    for p_symp in dict_p_symptomes:
+        if p_symp is None:
+            break
+        for s in dict_symptomes:
+            if p_symp == str(s.id):
+                score += s.score
+    return suspicion(score, score >= score_)

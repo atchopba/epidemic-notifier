@@ -26,6 +26,8 @@ class Config:
     
     ERROR_MSG_INSERT = "Veuillez recommencer!"
     
+    SUSPECT_SCORE_MIN = 0.6
+    
     FILE_NOTIF_SMS = "./epidemic_notifier/templates/model/notification.sms.model"
     FILE_NOTIF_EMAIL = "./epidemic_notifier/templates/model/notification.email.model"
 

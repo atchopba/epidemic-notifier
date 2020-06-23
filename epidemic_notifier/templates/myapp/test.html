@@ -34,9 +34,39 @@
                   </div>
                 </div>
                 <div class="form-row">
-                  <div class="name">Cas suspect ? </div>
-                  <div class="name">{{ personne.suspect }}</div>
+                  <div class="name">Pr&eacute;sente des signes ? </div>
+                  <div class="name">{{ presente_signe }}</div>
                 </div>
+
+                <div class="form-row">
+                  <div class="name">Type de test : </div>
+                  <div class="value">
+                    {% for tt in type_tests %}
+                      <input style="width:5%;" type="checkbox" name="type_test_id" value="{{ tt.id }}"> {{ tt.libelle }} <br/>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="name">Type de lieu : </div>
+                  <div class="value">
+                    <select class="select-input" id="test_lieu_id" name="test_lieu_id">
+                      <option value=""></option>
+                      {% if test_lieux %}
+                        {% for tl in test_lieux %}
+                          <option value="{{ tl.id }}">{{ tl.libelle }}</option>
+                        {% endfor %}
+                      {% endif %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="name">Lieu du test : </div>
+                  <div class="value">
+                    <input type="text" class="input--style-6" id="adresse_lieu_test" name="adresse_lieu_test" placeholder="Adresse du lieu de test" autocomplete="false"/>
+                  </div>
+                </div>                
 
                 <div class="form-row">
                   <div class="name">Date du test : </div>
@@ -67,10 +97,17 @@
                 </div>
 
                 <div class="form-row">
-                  <div class="name">Résultat : </div>
+                  <div class="name">Commentaires : </div>
                   <div class="value">
-                    <input style="width:10%;" type="radio" id="resultat" name="resultat" value="0"> Négatif <br/>
-                    <input style="width:10%;" type="radio" id="resultat" name="resultat" value="1"> Positif 
+                    <textarea class="input--style-6" style="height:70px;" name="commentaires"autocomplete="false" rows="5"></textarea>
+                  </div>
+                </div>                
+
+                <div class="form-row">
+                  <div class="name">Verdict final : </div>
+                  <div class="value">
+                    <input style="width:5%;" type="radio" name="resultat" value="non"> Négatif <br/>
+                    <input style="width:5%;" type="radio" name="resultat" value="oui"> Positif 
                   </div>
                 </div>
 
@@ -102,6 +139,7 @@
                 <td>Date & heure test</td>
                 <td>Date & heure resultat</td>
                 <td>Cas suspect ?</td>
+                <td>Pr&eacute;sente signe ?</td>
                 <td>Résultat</td>
                 <td>Gu&eacute;ri?</td>
                 <td></td>
@@ -115,26 +153,27 @@
                       <td>{{ r.p_nom + ' ' + r.p_prenom }}</td>
                       <td>{{ r.date_test + ' ' + r.heure_test }}</td>
                       <td>{{ r.date_resultat + ' ' + r.heure_resultat }}</td>
-                      <td>{{ r.p_suspect }}</td>
+                      <td>{{ r.suspect }}</td>
+                      <td>{{ r.presente_signe }}</td>
                       <td>
                         {% if r.date_resultat %}
-                          {% if r.resultat == '1' %} Positif
+                          {% if r.resultat == 'oui' %} Positif
                           {% else %} Négatif
                           {% endif %}
                         {% endif %}
                       </td>
                       <td>
                         {% if r.date_resultat %}
-                          {% if r.resultat == '1' %}
-                            {% if r.p_gueri == '' or r.p_gueri == None %} <a href="personnes/guerison/{{ r.p_id }}">Gu&eacute;rison</a>
-                            {% else %} {{ r.p_gueri }}
+                          {% if r.resultat == 'oui' %}
+                            {% if r.gueri == '' or r.gueri == 'non' or r.gueri == None %} <a href="/personnes/guerison/{{ r.personne_id }}">Gu&eacute;rison</a>
+                            {% else %} {{ r.gueri }}
                             {% endif %} 
                           {% else %} Pas besoin !
                           {% endif %}
                         {% endif %}
                       </td>
-                      <td><a href="crp?personne={{ r.p_id }}">Relations</a></td>
-                      <td><a href="javascript:;" onclick="javascript:confirm_delete('tests/delete/{{ r.id }}');">Supprimer</a></td>
+                      <td><a href="/crp?personne={{ r.p_id }}" title="personnes avec qui un contact a été fait">Contacts</a></td>
+                      <td><a href="javascript:;" onclick="javascript:confirm_delete('/tests/delete/{{ r.id }}');">Supprimer</a></td>
                     </tr>
                   {% endfor %}
                 {% else %}
