@@ -71,7 +71,7 @@ Then, the home page.
 
 3. Tab "personnes" where you can manage people and ...
 
-![Page index](epidemic_notifier/static/images/03-personne.PNG)
+![Page index](epidemic_notifier/static/images/04-personne.PNG)
 
 ... add relationship between people.
 
