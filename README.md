@@ -71,7 +71,7 @@ Then, the home page.
 
 3. Tab "personnes" where you can manage people and ...
 
-![Page index](epidemic_notifier/static/images/03-personne.png)
+![Page index](epidemic_notifier/static/images/03-personne.PNG)
 
 ... add relationship between people.
 
@@ -79,19 +79,19 @@ Then, the home page.
 
 ... add diagnostic
 
-![Page index]((epidemic_notifier/static/images/04-personne_diagnostic.png)
+![Page index](epidemic_notifier/static/images/04-personne_diagnostic.png)
 
 ... add consultation
 
-![Page index]((epidemic_notifier/static/images/04-personne_consultation.png)
+![Page index](epidemic_notifier/static/images/04-personne_consultation.png)
 
 ... add life condition
 
-![Page index]((epidemic_notifier/static/images/04-personne_condition_vie.png)
+![Page index](epidemic_notifier/static/images/04-personne_condition_vie.png)
 
 ... add test
 
-![Page index]((epidemic_notifier/static/images/04-04-personne_test.png)
+![Page index](epidemic_notifier/static/images/04-04-personne_test.png)
 
 The "guerison" is to set how personne was healed
 
