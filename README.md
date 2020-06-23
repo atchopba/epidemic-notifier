@@ -1,17 +1,19 @@
 # Overview
 
-During an epidemic period, manage the people in contact and notify them when the test result is positive!
+During an epidemic period, manage the people in contact and notify them when the test result is positive! you also have the possibility of configuring symptoms, giving them scores and knowing automatically after a diagnosis whether a person is potentially sick or not.
 
 You can easily manage:
 - the database: reset data;
 - "relations";
-- "personnes" and you have a graph realized with the [D3.js v4 Force Directed Graph with Labels](https://bl.ocks.org/heybignick/3faf257bbbbc7743bb72310d03b86ee8) project;
+- "personnes" with "conditions de vie / consultation / contact / diagnostic". You have a graph realized with the [D3.js v4 Force Directed Graph with Labels](https://bl.ocks.org/heybignick/3faf257bbbbc7743bb72310d03b86ee8) project;
 - "tests" ;
 - "notifications".
 
 ## Benefits 
 
 * Grouping people data.
+
+* Possibility of estimating people's probabilities of illness based on the symptoms developed.
 
 * Notify people by sms/email when a positive test result is detected.
 
@@ -67,31 +69,39 @@ Then, the home page.
 
 ![Page index](epidemic_notifier/static/images/01-db.PNG)
 
-3. Tab "Relations" where you can manage people's relationship.
+3. Tab "personnes" where you can manage people and ...
 
-![Page index](epidemic_notifier/static/images/02-relation.PNG)
-
-4. Tab "personnes" where you can manage people and ...
-
-![Page index](epidemic_notifier/static/images/03-personne.PNG)
+![Page index](epidemic_notifier/static/images/03-personne.png)
 
 ... add relationship between people.
 
 ![Page index](epidemic_notifier/static/images/04-personne_relations.png)
 
+... add diagnostic
+
+![Page index]((epidemic_notifier/static/images/04-personne_diagnostic.png)
+
+... add consultation
+
+![Page index]((epidemic_notifier/static/images/04-personne_consultation.png)
+
+... add life condition
+
+![Page index]((epidemic_notifier/static/images/04-personne_condition_vie.png)
+
+... add test
+
+![Page index]((epidemic_notifier/static/images/04-04-personne_test.png)
+
 The "guerison" is to set how personne was healed
 
-![Page index](epidemic_notifier/static/images/07-guerison.PNG)
+![Page index](epidemic_notifier/static/images/04-personne_guerison.png)
 
-5. Tab "Graphe personnes" where you visualize relations between all personnes.
+4. Tab "Graphe personnes" where you visualize relations between all personnes.
 
 ![Page index](epidemic_notifier/static/images/05-graph.PNG)
 
-6. Tab "tests" where you can manage people's test.
-
-![Page index](epidemic_notifier/static/images/06-test.PNG)
-
-7. Tab "notifications" where you can trigger notifications and an email can be sent to people who have been in contact with a person who has tested positive...
+5. Tab "notifications" where you can trigger notifications and an email can be sent to people who have been in contact with a person who has tested positive...
 
 ![Page index](epidemic_notifier/static/images/08-notification.PNG)
 
