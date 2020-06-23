@@ -10,25 +10,28 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.core.db.db import DB
+from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
 from epidemic_notifier.core.db.personne import Personne
 from epidemic_notifier.core.db.personne_diagnotic import PDiagnostic
-
 import sqlite3
 
 TCRP = namedtuple("TCRP", "personne_id_1 personne_id_2 relation_id date_contact heure_contact")
 RCRP = namedtuple("RCRP", "id personne_id_1 personne_id_2 relation_id date_contact heure_contact")
 RCRPPersonne = namedtuple("RCRPPersonne", "id nom prenom date_naiss num_telephone email relation presente_signe suspect nb_contact")
 
-RCRPPersonneG = namedtuple("RCRPPersonneG", "id nom prenom date_naiss num_telephone email suspect relation id_2 nom_2 prenom_2 nb_contact")
+RCRPPersonneG = namedtuple("RCRPPersonneG", "id nom prenom date_naiss num_telephone email relation id_2 nom_2 prenom_2 nb_contact")
 
 class CRP(DB):
     
+    ACTION_INSERT = ACTION_INSERT + "contact_relation_personne"
+    ACTION_DELETE = ACTION_DELETE + "contact_relation_personne"
+    ACTION_LIST = ACTION_LIST + "contact_relation_personne"
+    
     def add(self, crp):
-        r = ("INSERT INTO contact_relation_personnes "
-             "(personne_id_1, personne_id_2, relation_id, date_contact, heure_contact) "
-             "VALUES "
-             "(?, ?, ?, ?, ?)")
+        r = ('''INSERT INTO contact_relation_personnes 
+             (personne_id_1, personne_id_2, relation_id, date_contact, heure_contact) 
+             VALUES 
+             (?, ?, ?, ?, ?)''')
         try:
             self.conn.execute(r, crp)
             self.conn.commit()
@@ -66,7 +69,6 @@ class CRP(DB):
         return row[0]
     
     def get_personnes_crp(self, personne_id=None):
-        #personnes = Personne().get_all() if personne_id is None else [Personne().get_one(personne_id)]
         if personne_id is None:
             personnes = Personne().get_all()
             p_crp_dict = []
@@ -77,7 +79,7 @@ class CRP(DB):
             return p_crp_dict
         else:
             r = ('''
-                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, p.suspect, r.libelle
+                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, r.libelle
                 FROM contact_relation_personnes crp 
                 JOIN personnes p ON p.id = crp.personne_id_1 
                 JOIN relations r on r.id = crp.relation_id 
@@ -87,7 +89,7 @@ class CRP(DB):
             rows_1 = self.cur.fetchall()
             #
             r = ('''
-                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, p.suspect, r.libelle
+                SELECT p.id, p.nom, p.prenom, p.date_naiss, p.num_telephone, p.email, r.libelle
                 FROM contact_relation_personnes crp 
                 JOIN personnes p ON p.id = crp.personne_id_2 
                 JOIN relations r on r.id = crp.relation_id 
@@ -107,7 +109,7 @@ class CRP(DB):
     def find_for_graph(self):
         r = ('''
             SELECT 
-            p_1.id, p_1.nom, p_1.prenom, p_1.date_naiss, p_1.num_telephone, p_1.email, p_1.suspect, crp.relation_id,
+            p_1.id, p_1.nom, p_1.prenom, p_1.date_naiss, p_1.num_telephone, p_1.email, crp.relation_id,
             p_2.id, p_2.nom, p_2.prenom 
             FROM contact_relation_personnes crp 
             JOIN personnes p_1 ON p_1.id = crp.personne_id_1
@@ -115,4 +117,4 @@ class CRP(DB):
         ''')
         self.cur.execute(r)
         rows = self.cur.fetchall()
-        return [RCRPPersonneG(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], self.get_personne_nb_contact(row[0])) for row in rows]
+        return [RCRPPersonneG(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], self.get_personne_nb_contact(row[0])) for row in rows]

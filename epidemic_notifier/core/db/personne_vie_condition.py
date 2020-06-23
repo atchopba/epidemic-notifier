@@ -10,13 +10,17 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.core.db.db import DB
+from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
 import sqlite3
 
 TPVCondition = namedtuple("TPVCondition", "personne_id is_en_couple has_enfant nb_enfant has_personne_agee nb_personne_agee has_possibilite_isolement has_been_in_contact_personne_risque date_edit")
 RPVCondition = namedtuple("RPVCondition", "id personne_id is_en_couple has_enfant nb_enfant has_personne_agee nb_personne_agee has_possibilite_isolement has_been_in_contact_personne_risque date_edit")
 
 class PVCondition(DB):
+    
+    ACTION_INSERT = ACTION_INSERT + "personne_vie_condition"
+    ACTION_DELETE = ACTION_DELETE + "personne_vie_condition"
+    ACTION_LIST = ACTION_LIST + "personne_vie_condition"
     
     def add(self, pvcondition):
         r = (''' INSERT INTO personne_vie_conditions 
@@ -31,13 +35,13 @@ class PVCondition(DB):
             return None
     
     def get_by_personne_id(self, personne_id):
-        r = "SELECT * FROM personne_vie_conditions WHERE personne_id={}".format(personne_id)
+        r = "SELECT id, personne_id, is_en_couple, has_enfant, nb_enfant, has_personne_agee, nb_personne_agee, has_possibilite_isolement, has_been_in_contact_personne_risque, date_edit FROM personne_vie_conditions WHERE personne_id={}".format(personne_id)
         self.cur.execute(r)
         rows = self.cur.fetchall()
         return [RPVCondition(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]) for row in rows]
     
     def get_all(self):
-        self.cur.execute("SELECT * FROM personne_vie_conditions")
+        self.cur.execute("SELECT id, personne_id, is_en_couple, has_enfant, nb_enfant, has_personne_agee, nb_personne_agee, has_possibilite_isolement, has_been_in_contact_personne_risque, date_edit FROM personne_vie_conditions")
         rows = self.cur.fetchall()
         return [RPVCondition(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]) for row in rows]
 

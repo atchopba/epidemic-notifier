@@ -173,7 +173,12 @@ function validate_form_personne_guerison() {
         return false;
     }
     //
-    if (!($('input[name=gueri]:checked').length > 0)) {
+    if (!is_valid_date($("#date_guerison").val())) {
+        alert("La date de guérison n'est pas valide!");
+        return false;
+    }
+    //
+    if (!($('input[name=guerison_type_id]:checked').length > 0)) {
         alert("Veuillez faire un choix sur la guérison!");
         return false;
     }
@@ -276,6 +281,65 @@ function validate_form_login() {
     return true;
 }
 
+/**
+ * validate form personne consultation
+ * @return boolean
+ */
+function validate_form_personne_consultation() {
+    //
+    if ($("#personne_id").val() == "") {
+        alert("Il faut impérativement une personne renseignée!");
+        return false;
+    }
+    // 
+    if (!is_valid_date($("#date_consultation").val())) {
+        alert("La date de consultation n'est pas valide!");
+        return false;
+    }
+    return true;
+}
+
+/**
+ * validate form personne vie condition
+ * @return boolean
+ */
+function validate_form_pv_condition() {
+    //
+    if ($("#personne_id").val() == "") {
+        alert("Il faut impérativement une personne renseignée!");
+        return false;
+    }
+    //
+    if ($("input[name=has_enfant]").is(":checked") && ($("#nb_enfant").val().trim() == "" || parseInt($("#nb_enfant").val().trim()) < 1)) {
+        alert("Veuillez renseigner le nombre d'enfants!");
+        return false;
+    }
+    //
+    if ($("input[name=has_personne_agee]").is(":checked") && ($("#nb_personne_agee").val().trim() == "" || parseInt($("#nb_personne_agee").val().trim()) < 1)){
+        alert("Veuillez renseigner le nombre de personne âgée!");
+        return false;
+    }
+    return true;
+}
+
+/**
+ * validate form personne symptome
+ * @return boolean
+ */
+function validate_form_personne_diagnostic() {
+    //
+    if ($("#personne_id").val() == "") {
+        alert("Il faut impérativement une personne renseignée!");
+        return false;
+    }
+    //
+    if ($("input[name=symptome_id]").is(":checked") && ($("input[name=symptome_id]:checked").length == 0 ||  $("input[name=symptome_id]:checked").length > 5)) {
+        alert("Il faut entre 1 et 5 symptômes!");
+        return false;
+    }
+    return true;
+}
+
 
 $(document).ready(function(){
     
@@ -301,7 +365,8 @@ $(document).ready(function(){
 
     // bouton commencer notification
     $("#btnnotif").click(function() {
-
+        alert("Not working yet!");
+        return;
         if (confirm("Etes-vous sûr?")) {
 
             $("#box_searching").show();
@@ -376,6 +441,31 @@ $(document).ready(function(){
             $("#personne_id_2").val("");
             $("#new_personne").show();
         } else if ($("#personne_id_2").val().trim() !== "") {
+            $("#new_personne").hide();
+        }
+    });
+
+    // in page personne vie condition
+    $('#has_enfant').change(function() {
+        if($(this).is(":checked")) {
+            $("#exist_enfant").show();
+        } else {
+            $("#exist_enfant").hide();
+        }
+    });
+
+    $('#has_personne_agee').change(function() {
+        if($(this).is(":checked")) {
+            $("#exist_personne_agee").show();
+        } else {
+            $("#exist_personne_agee").hide();
+        }
+    });
+
+    $("#has_been_in_contact_personne_risque").change(function() {
+        if($(this).is(":checked")) {
+            $("#new_personne").show();
+        } else {
             $("#new_personne").hide();
         }
     });

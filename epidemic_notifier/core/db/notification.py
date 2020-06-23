@@ -10,7 +10,7 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.core.db.db import DB
+from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
 from epidemic_notifier.core import common as cm
 import sqlite3
 
@@ -19,12 +19,16 @@ RNotification = namedtuple("RNotification", "id date_ heure_")
 
 class Notification(DB):
     
+    ACTION_INSERT = ACTION_INSERT + "notification"
+    ACTION_DELETE = ACTION_DELETE + "notification"
+    ACTION_LIST = ACTION_LIST + "notification"
+    
     def add(self):
-        r = ("INSERT INTO notifications "
-             "(date_, heure_) "
-             "VALUES (?, ?)")
+        r = ('''INSERT INTO notifications 
+             (date_, heure_) 
+             VALUES (?, ?)''')
         try:
-            self.conn.execute(r, (cm.get_current_date_fr(), cm.get_current_time()))
+            self.conn.execute(r, (cm.get_current_date_fr(), cm.get_current_timestamp()))
             self.conn.commit()
             return self.get_last_row_id("notifications")
         except sqlite3.IntegrityError:

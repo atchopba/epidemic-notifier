@@ -12,6 +12,10 @@
 import sqlite3
 from flask import current_app
 
+ACTION_INSERT = "insertion "
+ACTION_DELETE = "suppression "
+ACTION_LIST = "liste de "
+
 class DB(object):
     
     def __init__(self):
@@ -40,6 +44,7 @@ class DB(object):
         self.create_table_notifications()
         self.create_table_personne_notifications()
         self.create_table_users()
+        self.create_table_user_historiques()
         return True
     
     def create_table_relations(self):
@@ -202,7 +207,8 @@ class DB(object):
             date_resultat text,
             heure_resultat text,
             commentaires text,
-            resultat integer
+            resultat integer,
+            date_edit date
             )''')
         
     def create_table_guerison_types(self):
@@ -268,6 +274,17 @@ class DB(object):
         self.cur.execute("insert into users(login, mdp, name, profil, email, db) values('medec1','medec1','medec1', 'medecin', 'medec1@hopital.fr', './epidemic_notifier/static/data/epidemic-c1.db')")
         self.cur.execute("insert into users(login, mdp, name, profil, email, db) values('medec2','medec2','medec2', 'medecin', 'medec2@hopital.fr', './epidemic_notifier/static/data/epidemic-c2.db')")
         self.conn.commit()
+        
+    def create_table_user_historiques(self):
+        self.cur.execute("DROP TABLE IF EXISTS user_historiques")
+        self.cur.execute(''' CREATE TABLE user_historiques (
+            id integer PRIMARY KEY,
+            user_id text NOT NULL,
+            personne_id integer,
+            action text,
+            date_edit text,
+            heure_edit text
+            )''')
     
     def get_last_row_id(self, table_):
         cursor = self.cur.execute("SELECT max(id) FROM "+ table_)

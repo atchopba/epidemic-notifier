@@ -165,7 +165,7 @@
                       <td>
                         {% if r.date_resultat %}
                           {% if r.resultat == 'oui' %}
-                            {% if r.gueri == '' or r.gueri == 'non' or r.gueri == None %} <a href="/personnes/guerison/{{ r.personne_id }}">Gu&eacute;rison</a>
+                            {% if r.gueri == '' or r.gueri == 'non' or r.gueri == None %} <a href="/personnes/guerison?personne={{ r.personne_id }}">Gu&eacute;rison</a>
                             {% else %} {{ r.gueri }}
                             {% endif %} 
                           {% else %} Pas besoin !
