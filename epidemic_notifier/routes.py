@@ -318,29 +318,6 @@ def delete_vie_condition_personne(viecondition_id):
     UserHistorique().add(tuh)
     return redirect("/personnes/viecondition?personne="+str(personne_id))
 
-'''
-@main_bp.route("/relations")
-@login_required
-def home_relation():
-    relations = Relation().get_all()
-    return render_template("myapp/relation.html", relations=relations)
-    
-@main_bp.route("/relations", methods=["POST"])
-@login_required
-def add_relation():
-    libelle = request.form["libelle"]
-    relation = TRelation(libelle)
-    relation_id = Relation().add(relation)
-    if relation_id is not None:
-        return redirect("/relations")
-    return render_template("myapp/relation.html", error=Config.ERROR_MSG_INSERT)
-    
-@main_bp.route("/relations/delete/<int:id_relation>")
-@login_required
-def delete_relation(id_relation):
-    Relation().delete(id_relation)
-    return redirect("/relations")
-'''
 @main_bp.route("/crp", methods=["GET"])
 @login_required
 def home_rcp():
