@@ -99,7 +99,7 @@
                       </td>
                       <td>{% if pd.calcul_score >= suspect_score_min %} Oui <br/><span class="flash">!!!Urgent test!!!</span>{% else %} Non {% endif %}</td>
                       <td>&nbsp;<a href="/personnes/viecondition?personne={{ pd.personne_id }}" title="conditions de vie">Cond. de vie</a>&nbsp;</td>
-                      <td>&nbsp;<a href="/personnes/diagnostic?personne={{ pd.personne_id }}" title="diagnostic">Diagnostic</a></td>
+                      <td>&nbsp;<a href="/tests?personne={{ pd.personne_id }}" title="test">Test</a>&nbsp;</td>
                       <td>&nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/diagnostic/delete/{{ pd.id }}?personne={{ pd.personne_id }}')">Supprimer</a>&nbsp;</td></td>
                     </tr>
                   {% endfor %}
