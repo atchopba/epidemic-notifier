@@ -79,8 +79,20 @@ class Test(DB):
                 JOIN personnes p ON p.id = t.personne_id 
                 LEFT JOIN personne_diagnostics pd ON pd.personne_id = p.id
                 LEFT JOIN personne_guerisons pg ON pg.personne_id = p.id
-                WHERE t.resultat = 'oui' OR pd.calcul_score >= {}
+                WHERE pd.calcul_score >= {}
                 ORDER BY t.id ASC''').format(score_min)
+        self.cur.execute(r)
+        rows = self.cur.fetchall()
+        return [RTest(row[0], row[1], row[2], row[3], 'oui' if row[4] is not None else 'non', 'oui' if row[5] is not None else 'non', row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18]) for row in rows]
+    
+    def get_malades(self):
+        r = ('''SELECT t.id, p.id, p.nom, p.prenom, pd.calcul_score, pg.date_guerison, t.test_type_id_1, t.date_test, t.heure_test, t.date_resultat, t.heure_resultat, t.resultat 
+                FROM tests t 
+                JOIN personnes p ON p.id = t.personne_id 
+                LEFT JOIN personne_diagnostics pd ON pd.personne_id = p.id
+                LEFT JOIN personne_guerisons pg ON pg.personne_id = p.id
+                WHERE t.resultat = 'oui'
+                ORDER BY t.id ASC''')
         self.cur.execute(r)
         rows = self.cur.fetchall()
         return [RTest(row[0], row[1], row[2], row[3], 'oui' if row[4] is not None else 'non', 'oui' if row[5] is not None else 'non', row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18]) for row in rows]

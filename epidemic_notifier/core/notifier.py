@@ -18,8 +18,11 @@ from config import Config
 import json
 
 
-notif_sms = cm.load_file(Config.FILE_NOTIF_SMS)
-notif_email = cm.load_file(Config.FILE_NOTIF_EMAIL)
+notif_sm_sms = cm.load_file(Config.FILE_SM_NOTIF_SMS)
+notif_sm_email = cm.load_file(Config.FILE_SM_NOTIF_EMAIL)
+
+notif_m_sms = cm.load_file(Config.FILE_M_NOTIF_SMS)
+notif_m_email = cm.load_file(Config.FILE_M_NOTIF_EMAIL)
 
 path_root = "./__temp__/notif/"
 path_sms = path_root + "sms/" + cm.get_current_date_en() + "/"
@@ -33,6 +36,7 @@ def param_notif(notif, crp, p):
     notif = notif.replace("#DATE_TEST_DUE#", p.date_test)
     notif = notif.replace("#RELATION#", crp.relation)
     notif = notif.replace("#PERSONNE_INFORMED#", crp.nom +" "+ crp.prenom)
+    notif = notif.replace("#MALADIE#", Config.MALADIE)
     return notif
 
 def notifier_personne(notification_id):
@@ -40,8 +44,17 @@ def notifier_personne(notification_id):
     notif_dict = []
     
     # 1. selectionner les personnes avec le test positifs
-    personnes_dict = Test().get_supposes_malades(Config.SUSPECT_SCORE_MIN)
+    p_suppose_malades_dict = Test().get_supposes_malades(Config.SUSPECT_SCORE_MIN)
+    p_malades_dict = Test().get_malades()
+    
+    # appel de la fonction de notification
+    notif_dict.append(notify_personne(notif_m_sms, notif_m_email, p_suppose_malades_dict))
+    notif_dict.append(notify_personne(notif_sm_sms, notif_sm_email, p_malades_dict))
+    
+    return json.dumps(notif_dict)
 
+def notify_personne(notif_sms, notif_email, personnes_dict):
+    notif_dict = []
     # 2. pour chaque (1), selectionner les personnes avec qui il a été en "contact"
     for p in personnes_dict:
         
@@ -59,13 +72,13 @@ def notifier_personne(notification_id):
             # si un numéro de téléphone, un sms est envoyé
             if crp.num_telephone is not None and crp.num_telephone != "":
                 notif_ = param_notif(notif_sms, crp, p)
-                print(notif_)
+                #print(notif_)
                 cm.write_file(path_sms + str(crp.id) + ".txt", notif_)
             
             # si une @mail est rensigné, un email est envoyé
             if crp.email is not None and crp.email != "":
                 notif_ = param_notif(notif_email, crp, p)
-                print("email\n : " + notif_)
+                #print("email\n : " + notif_)
                 cm.write_file(path_email + str(crp.id) + ".html", notif_)
                 # envoie du mail
                 cm.send_email(crp.email, notif_)
@@ -77,4 +90,4 @@ def notifier_personne(notification_id):
             # ajout de l'id de la nouvelle notification personne
             notif_dict.append(id_notif)
     
-    return json.dumps(notif_dict)
+    return notif_dict
