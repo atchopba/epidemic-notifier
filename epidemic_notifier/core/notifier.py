@@ -53,7 +53,7 @@ def notifier_personne(notification_id):
     
     return json.dumps(notif_dict)
 
-def notify_personne(notif_sms, notif_email, personnes_dict):
+def notify_personne(notification_id, notif_sms, notif_email, personnes_dict):
     notif_dict = []
     # 2. pour chaque (1), selectionner les personnes avec qui il a été en "contact"
     for p in personnes_dict:
