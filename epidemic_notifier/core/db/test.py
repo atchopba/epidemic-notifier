@@ -118,9 +118,9 @@ class Test(DB):
         return self.get_count_r(r)
     
     def get_count_positif(self):
-        r = "SELECT DISTINCT personne_id FROM tests WHERE resultat='1'"
+        r = "SELECT DISTINCT personne_id FROM tests WHERE resultat='oui'"
         return self.get_count_r(r)
     
     def get_count_negatif(self):
-        r = "SELECT DISTINCT personne_id FROM tests WHERE resultat='0'"
+        r = "SELECT DISTINCT personne_id FROM tests WHERE resultat='non'"
         return self.get_count_r(r)

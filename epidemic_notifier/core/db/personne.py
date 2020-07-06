@@ -11,6 +11,9 @@
 
 from collections import namedtuple
 from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
+from epidemic_notifier.core.db.personne_guerison import PGuerison
+from epidemic_notifier.core.db.personne_diagnotic import PDiagnostic
+from config import Config
 import sqlite3
 
 TPersonne = namedtuple("TPersonne", "nom prenom date_naiss num_telephone email")
@@ -79,9 +82,12 @@ class Personne(DB):
         return super().get_count("personnes")
     
     def get_count_suspect(self):
-        r = "SELECT * FROM personnes WHERE suspect='1'"
+        r = (''' SELECT * FROM personne_diagnostics pd
+             JOIN personnes p ON p.id = pd.personne_id 
+             WHERE calcul_score >= {}''').format(Config.SUSPECT_SCORE_MIN)
         return self.get_count_r(r)
     
     def get_count_gueri(self):
-        r = "SELECT * FROM personnes WHERE gueri IS NOT NULL or gueri=''"
+        r = (''' SELECT * FROM personne_guerisons pg
+             JOIN personnes p ON p.id = pg.personne_id ''')
         return self.get_count_r(r)

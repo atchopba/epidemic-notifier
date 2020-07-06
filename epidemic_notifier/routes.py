@@ -53,7 +53,7 @@ def logout():
 @main_bp.route("/")
 @login_required
 def home():
-    cpersonne_ = cm.CPersonne(Personne().get_count(), 0, 0)
+    cpersonne_ = cm.CPersonne(Personne().get_count(), Personne().get_count_gueri(), Personne().get_count_suspect())
     ctest_ = cm.CTest(Test().get_count(), Test().get_count_positif(), Test().get_count_negatif())
     return render_template("myapp/index.html", cpersonne=cpersonne_, ctest=ctest_)
 
