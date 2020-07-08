@@ -129,9 +129,7 @@
                 <td>Nb d'enfant</td>
                 <td>Nb de pers. &acirc;g&eacute;es</td>
                 <td>Poss. d'isolement</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td width="34%"></td>
               </thead>
               <tbody>
                 {% if pvconditions %}
@@ -142,9 +140,14 @@
                       <td>{{ pvc.nb_enfant }}</td>
                       <td>{{ pvc.nb_personne_agee }}</td>
                       <td>{{ pvc.has_possibilite_isolement }}</td>
-                      <td>&nbsp;<a href="/personnes/consultation?personne={{ pvc.personne_id }}" title="consultation">Consultation</a>&nbsp;</td>
-                      <td>&nbsp;<a href="/personnes/diagnostic?personne={{ pvc.personne_id }}" title="diagnostic">Diagnostic</a></td>
-                      <td>&nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/viecondition/delete/{{ pvc.id }}?personne={{ pvc.personne_id }}')">Supprimer</a>&nbsp;</td>
+                      <td>
+                        &nbsp;<a href="/crp?personne={{ pvc.id }}" title="personnes avec qui un contact a été fait"><img src="{{ url_for('static', filename='icones/contacts.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="/personnes/consultation?personne={{ pvc.id }}" title="consultation"><img src="{{ url_for('static', filename='icones/consultation.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="/personnes/viecondition?personne={{ pvc.id }}" title="conditions de vie"><img src="{{ url_for('static', filename='icones/cond-vie.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="/personnes/diagnostic?personne={{ pvc.id }}" title="diagnostic"><img src="{{ url_for('static', filename='icones/diagnostic.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="/tests?personne={{ pvc.id }}" title="test"><img src="{{ url_for('static', filename='icones/test.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/viecondition/delete/{{ pvc.id }}?personne={{ pvc.personne_id }}')"><img src="{{ url_for('static', filename='icones/supprimer.png') }}" /></a>&nbsp;
+                      </td>
                     </tr>
                   {% endfor %}
                 {% else %}

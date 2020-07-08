@@ -143,7 +143,6 @@
                 <td>Résultat</td>
                 <td>Gu&eacute;ri?</td>
                 <td></td>
-                <td></td>
               </thead>
               <tbody>
                 {% if tests %}
@@ -172,12 +171,14 @@
                           {% endif %}
                         {% endif %}
                       </td>
-                      <td><a href="/crp?personne={{ r.p_id }}" title="personnes avec qui un contact a été fait">Contacts</a></td>
-                      <td><a href="javascript:;" onclick="javascript:confirm_delete('/tests/delete/{{ r.id }}');">Supprimer</a></td>
+                      <td>
+                        &nbsp;<a href="/crp?personne={{ r.p_id }}" title="personnes avec qui un contact a été fait"><img src="{{ url_for('static', filename='icones/contacts.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="javascript:;" onclick="javascript:confirm_delete('/tests/delete/{{ r.id }}');"><img src="{{ url_for('static', filename='icones/supprimer.png') }}" /></a>&nbsp;
+                      </td>
                     </tr>
                   {% endfor %}
                 {% else %}
-                  <tr><td colspan="8">Aucune donn&eacute;e!</td></tr>
+                  <tr><td colspan="9">Aucune donn&eacute;e!</td></tr>
                 {% endif %}
               </tbody>
             </table>
