@@ -11,8 +11,6 @@
 
 from collections import namedtuple
 from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
-from epidemic_notifier.core.db.personne_guerison import PGuerison
-from epidemic_notifier.core.db.personne_diagnotic import PDiagnostic
 from config import Config
 import sqlite3
 
