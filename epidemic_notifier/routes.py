@@ -23,7 +23,7 @@ from .core.db.notification import Notification
 from .core.db.type_consultation import TConsultation
 from .core.db.personne_consultation import PConsultation, TPConsultation
 from .core.db.personne_vie_condition import TPVCondition, PVCondition
-from .core.db.personne_diagnotic import PDiagnostic, TPDiagnostic
+from .core.db.personne_diagnostic import PDiagnostic, TPDiagnostic
 from .core.db.personne_guerison import PGuerison, TPGuerison
 from .core.db.guerison_type import GuerisonType
 from .core.db.symptome import Symptome
