@@ -11,10 +11,14 @@
 
 from collections import namedtuple
 from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
+from epidemic_notifier.core.db.personne_diagnostic import PDiagnostic
+from epidemic_notifier.core.db.personne_consultation import PConsultation
 import sqlite3
 
 TPGuerison = namedtuple("TPGuerison", "personne_id guerison_id date_guerison has_been_isole has_been_sous_oxygene has_been_sous_antibiotique has_been_hospitalise has_scanner_controle date_edit")
 RPGuerison = namedtuple("RPGuerison", "id personne_id guerison_id date_guerison has_been_isole has_been_sous_oxygene has_been_sous_antibiotique has_been_hospitalise has_scanner_controle date_edit")
+
+RPersonneGuerison = namedtuple("RPersonneGuerison", "id p_nom p_prenom presente_signe suspect consulte")
 
 class PGuerison(DB):
     
@@ -41,9 +45,20 @@ class PGuerison(DB):
         return [RPGuerison(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]) for row in rows]
     
     def get_all(self):
-        self.cur.execute("SELECT * FROM personne_guerisons")
+        r = (''' SELECT pg.id id, p.id p_id, p.nom p_nom, p.prenom p_prenom /*, pc.id pc_id */
+             FROM personne_guerisons pg 
+             LEFT JOIN personnes p ON p.id = pg.personne_id 
+             /* LEFT JOIN personne_diagnostics pd ON pd.personne_id = p.id */
+             /* LEFT JOIN personne_consultations pc ON pc.personne_id = p.id */
+             ''')
+        self.cur.execute(r)
         rows = self.cur.fetchall()
-        return [RPGuerison(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]) for row in rows]
+        pg_dict = []
+        for row in rows:
+            diag_prop = PDiagnostic().get_personne_diagnostic_prop(row[1])
+            p_consult = PConsultation().get_one(row[1])
+            pg_dict.append(RPersonneGuerison(row[0], row[2], row[3], diag_prop.presente_signe, diag_prop.suspect, "oui" if p_consult[0] is not None else "non"))
+        return pg_dict
 
     def delete(self, pg_id):
         return super().delete("personne_guerisons", pg_id)
