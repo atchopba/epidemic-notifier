@@ -138,7 +138,8 @@ def guerison_personne():
     return render_template("myapp/personne_guerison.html", 
                            personne=personne,
                            date_guerison=cm.get_current_date_fr(),
-                           guerison_types=guerison_types)
+                           guerison_types=guerison_types,
+                           pguerisons=PGuerison().get_all())
 
 @main_bp.route("/personnes/guerison", methods=["POST"])
 @login_required
