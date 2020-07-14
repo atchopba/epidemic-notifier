@@ -75,7 +75,39 @@
           <div class="card-body">
 
             <div class="label-row">Liste de personnes gu&eacute;ris</div>
-            
+            <table width="100%">
+              <thead>
+                <td>ID</td>
+                <td>Nom & Pr&eacute;nom</td>
+                <td>Pr&eacute;sente signe?</td>
+                <td>Suspect?</td>
+                <td>Consult&eacute;?</td>
+                <td width="34%"></td>
+              </thead>
+              <tbody>
+                {% if pguerisons %}
+                  {% for pg in pguerisons %}
+                    <tr>
+                      <td>{{ pg.id }}</td>
+                      <td>{{ pg.p_nom + " " + pg.p_prenom }}</td>
+                      <td>{{ pg.presente_signe }}</td>
+                      <td>{{ pg.suspect }}</td>
+                      <td>{{ pg.consulte }}</td>
+                      <td>
+                        &nbsp;<a href="/crp?personne={{ pg.id }}" title="personnes avec qui un contact a été fait"><img src="{{ url_for('static', filename='icones/contacts.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="/personnes/consultation?personne={{ pg.id }}" title="consultation"><img src="{{ url_for('static', filename='icones/consultation.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="/personnes/viecondition?personne={{ pg.id }}" title="conditions de vie"><img src="{{ url_for('static', filename='icones/cond-vie.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="/personnes/diagnostic?personne={{ pg.id }}" title="diagnostic"><img src="{{ url_for('static', filename='icones/diagnostic.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="/tests?personne={{ pg.id }}" title="test"><img src="{{ url_for('static', filename='icones/test.png') }}" /></a>&nbsp;
+                        &nbsp;<a href="javascript:;" title="supprimer" onclick="javascript:confirm_delete('/personnes/guerison/delete/{{ pg.id }}?personne={{ pg.personne_id }}')"><img src="{{ url_for('static', filename='icones/supprimer.png') }}" /></a>&nbsp;
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  {% else %}
+                    <tr><td colspan="6">Aucune donn&eacute;e!!</td></tr>
+                {% endif %}
+              </tbody>
+            </table>
         
           </div>
         </div>

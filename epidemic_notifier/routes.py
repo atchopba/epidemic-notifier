@@ -23,7 +23,7 @@ from .core.db.notification import Notification
 from .core.db.type_consultation import TConsultation
 from .core.db.personne_consultation import PConsultation, TPConsultation
 from .core.db.personne_vie_condition import TPVCondition, PVCondition
-from .core.db.personne_diagnotic import PDiagnostic, TPDiagnostic
+from .core.db.personne_diagnostic import PDiagnostic, TPDiagnostic
 from .core.db.personne_guerison import PGuerison, TPGuerison
 from .core.db.guerison_type import GuerisonType
 from .core.db.symptome import Symptome
@@ -138,7 +138,8 @@ def guerison_personne():
     return render_template("myapp/personne_guerison.html", 
                            personne=personne,
                            date_guerison=cm.get_current_date_fr(),
-                           guerison_types=guerison_types)
+                           guerison_types=guerison_types,
+                           pguerisons=PGuerison().get_all())
 
 @main_bp.route("/personnes/guerison", methods=["POST"])
 @login_required
@@ -331,37 +332,7 @@ def home_rcp():
     tuh = TUserHistorique(current_user.id, personne_id, CRP.ACTION_LIST, cm.get_current_date_fr(), cm.get_current_time())
     UserHistorique().add(tuh)
     return render_template("myapp/crp.html", personne=personne, relations=relations, personnes=personnes)
-'''
-@main_bp.route("/crp", methods=["POST"])
-@login_required
-def add_rcp():
-    personne_id_1 = request.form["personne_id_1"]
-    # test de l'id de la 2e personne
-    try:
-        personne_id_2 = int(request.form["personne_id_2"])
-    except ValueError:
-        personne_id_2 = param_and_add_personne(request)
-    # 
-    if personne_id_2 is not None:
-        #print("=> utilisateur ajouté : ", personne_id_2)
-        id_relation = request.form["id_relation"]
-        date_ = request.form["date_contact"]
-        heure_ = request.form["heure_contact"]
-        crp_ = TCRP(personne_id_1, personne_id_2, id_relation, date_, heure_)
-        crp = CRP()
-        crp_id = crp.add(crp_)
-        if crp_id:
-            #print("=> CRP_id : ", crp_id)
-            #crp.commit_trans()
-            return redirect("crp?personne="+str(personne_id_1))
-        #else:
-        #    print("=> CRP_id : None ", crp_id)
-    return render_template("myapp/crp.html", 
-                           personne=Personne().get_one(personne_id_1), 
-                           relations=Relation().get_all(), 
-                           personnes=Personne().get_all(),
-                           error=Config.ERROR_MSG_INSERT)
-'''
+
 @main_bp.route("/crp/delete/<int:crp_id>")
 @login_required
 def delete_crp(crp_id):
