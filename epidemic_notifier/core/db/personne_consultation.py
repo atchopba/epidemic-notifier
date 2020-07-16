@@ -34,7 +34,7 @@ class PConsultation(DB):
             return None
     
     def get_one(self, id_):
-        self.cur.execute("SELECT  * FROM personne_consultations WHERE id=? ORDER BY id ASC", str(id_))
+        self.cur.execute("SELECT  * FROM personne_consultations WHERE id=? ORDER BY id DESC", str(id_))
         row = self.cur.fetchone()
         if (row != None):
             return RPConsultation(str(row[0]), row[1], "", row[2], row[3], row[4], row[5])
