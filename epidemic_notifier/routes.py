@@ -419,14 +419,11 @@ def add_notification():
         #
         tuh = TUserHistorique(current_user.id, None, Notification.ACTION_INSERT, cm.get_current_date_fr(), cm.get_current_time())
         UserHistorique().add(tuh)
-        #print("=> notification_id : ", notification_id) 
         resp = make_response(notifier.notifier_personne(notification_id))
         resp.status_code = 200
         resp.headers["Access-Control-Allow-Origin"] = '*'
-        #return redirect("/notifications")
     else:
-        print("=> notification_id : RIEN")
-    #return render_template("myapp/notification.html", error=ERROR_MSG)
+        pass
     return resp
     
 @main_bp.route("/notifications/delete/<int:notification_id>")
