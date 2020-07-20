@@ -17,6 +17,9 @@ import sqlite3
 TPDiagnostic = namedtuple("TPDiagnostic", "personne_id date_debut symptome_id_1 symptome_id_2 symptome_id_3 symptome_id_4 symptome_id_5 calcul_score date_edit")
 RPDiagnostic = namedtuple("RPDiagnostic", "id personne_id date_debut symptome_id_1 symptome_id_2 symptome_id_3 symptome_id_4 symptome_id_5 calcul_score date_edit")
 
+DEFAULT_OUI = "oui"
+DEFAULT_NON = "non"
+
 class PDiagnostic(DB):
     
     ACTION_INSERT = ACTION_INSERT + "personne_diagnostic"
@@ -51,8 +54,8 @@ class PDiagnostic(DB):
     def get_personne_diagnostic_prop(self, personne_id):
         DiagProp = namedtuple("DiagProp", "presente_signe suspect")
         pd = self.get_last_by_personne(personne_id)
-        presente_signe = "oui" if pd is not None else "non"
-        suspect = "oui" if pd is not None and pd.calcul_score >= Config.SUSPECT_SCORE_MIN else "non"
+        presente_signe = DEFAULT_OUI if pd is not None else DEFAULT_NON
+        suspect = DEFAULT_OUI if pd is not None and pd.calcul_score >= Config.SUSPECT_SCORE_MIN else DEFAULT_NON
         return DiagProp(presente_signe, suspect)   
     
     def get_all(self):
