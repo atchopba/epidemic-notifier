@@ -16,20 +16,23 @@ from epidemic_notifier.core.db.contact_relation_personne import CRP
 
 PATH_GRAPH = "./epidemic_notifier/static/__temp__/graph/graph.json"
 
+DEFAULT_OUI = "oui"
+DEFAULT_NON = "non"
+
 def set_group(suspect_, teste_):
     if teste_ == None:
-        if not (suspect_ == "oui"):
+        if not (suspect_ == DEFAULT_OUI):
             group_ = "0"
         else:
             group_ = "1"
     else:
-        if teste_ == "oui":
-            if not (suspect_ == "oui"):
+        if teste_ == DEFAULT_OUI:
+            if not (suspect_ == DEFAULT_OUI):
                 group_ = "2"
             else:
                 group_ = "3"
-        elif teste_ == "non":
-            if not (suspect_ == "oui"):
+        elif teste_ == DEFAULT_NON:
+            if not (suspect_ == DEFAULT_OUI):
                 group_ = "4"
             else:
                 group_ = "5"

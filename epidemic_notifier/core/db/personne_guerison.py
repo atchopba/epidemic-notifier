@@ -20,6 +20,9 @@ RPGuerison = namedtuple("RPGuerison", "id personne_id guerison_id date_guerison 
 
 RPersonneGuerison = namedtuple("RPersonneGuerison", "id p_nom p_prenom presente_signe suspect consulte")
 
+DEFAULT_OUI = "oui"
+DEFAULT_NON = "non"
+
 class PGuerison(DB):
     
     ACTION_INSERT = ACTION_INSERT + "personne_guerison"
@@ -57,7 +60,7 @@ class PGuerison(DB):
         for row in rows:
             diag_prop = PDiagnostic().get_personne_diagnostic_prop(row[1])
             p_consult = PConsultation().get_one(row[1])
-            pg_dict.append(RPersonneGuerison(row[0], row[2], row[3], diag_prop.presente_signe, diag_prop.suspect, "oui" if p_consult[0] is not None else "non"))
+            pg_dict.append(RPersonneGuerison(row[0], row[2], row[3], diag_prop.presente_signe, diag_prop.suspect, DEFAULT_OUI if p_consult[0] is not None else DEFAULT_NON))
         return pg_dict
 
     def delete(self, pg_id):
