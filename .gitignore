@@ -1,4 +1,4 @@
 
-*.pyc
 .env
-__temp__/*
+*.pyc
+__temp__/notif/*
