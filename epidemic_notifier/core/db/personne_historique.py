@@ -13,7 +13,6 @@ from collections import namedtuple
 from epidemic_notifier.core.db.db import DB
 import sqlite3
 
-TPersonneHistorique = namedtuple("TPersonneHistorique", "user_id personne_id action date_edit heure_edit")
 RPersonneHistorique = namedtuple("RPersonneHistorique", "id user_id personne_id action date_edit heure_edit")
 
 class PersonneHistorique(DB):
