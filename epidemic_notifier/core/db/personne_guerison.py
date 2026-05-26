@@ -13,7 +13,6 @@ from collections import namedtuple
 from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
 from epidemic_notifier.core.db.personne_diagnostic import PDiagnostic
 from epidemic_notifier.core.db.personne_consultation import PConsultation
-import sqlite3
 
 TPGuerison = namedtuple("TPGuerison", "personne_id guerison_id date_guerison has_been_isole has_been_sous_oxygene has_been_sous_antibiotique has_been_hospitalise has_scanner_controle date_edit")
 RPGuerison = namedtuple("RPGuerison", "id personne_id guerison_id date_guerison has_been_isole has_been_sous_oxygene has_been_sous_antibiotique has_been_hospitalise has_scanner_controle date_edit")
