@@ -13,7 +13,6 @@ from collections import namedtuple
 from epidemic_notifier.core.db.db import DB
 import sqlite3
 
-TRelation = namedtuple("TRelation", "libelle")
 RRelation = namedtuple("RRelation", "id libelle")
 
 class Relation(DB):
