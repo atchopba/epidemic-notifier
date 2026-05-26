@@ -11,7 +11,6 @@
 
 import os
 import json
-from epidemic_notifier.core.db.test import Test
 from epidemic_notifier.core.db.contact_relation_personne import CRP
 
 PATH_GRAPH = "./epidemic_notifier/static/__temp__/graph/graph.json"
