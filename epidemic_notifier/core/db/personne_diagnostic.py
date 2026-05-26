@@ -10,7 +10,6 @@
 # __status__ = "Production"
 
 from collections import namedtuple
-from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
 from config import Config
 import sqlite3
 
