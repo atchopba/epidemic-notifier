@@ -12,7 +12,6 @@
 from collections import namedtuple
 from epidemic_notifier.core.db.db import DB, ACTION_DELETE, ACTION_INSERT, ACTION_LIST
 from epidemic_notifier.core import common as cm
-import sqlite3
 
 TNotification = namedtuple("TNotification", "date_ heure_")
 RNotification = namedtuple("RNotification", "id date_ heure_")
