@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# __author__ = "Albin TCHOPBA"
 # __copyright__ = "Copyright 2020 Albin TCHOPBA and contributors"
 # __credits__ = ["Albin TCHOPBA and contributors"]
 # __license__ = "GPL"
