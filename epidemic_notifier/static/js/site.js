@@ -1,3 +1,12 @@
+   if (url === null || url === undefined) { return; }
+   if (str_date_1 === null || str_date_1 === undefined) { return; }
+   if (str_date_2 === null || str_date_2 === undefined) { return; }
+   if (str_date === null || str_date === undefined) { return; }
+   if (dateString === null || dateString === undefined) { return; }
+   if (heure === null || heure === undefined) { return; }
+   if (email === null || email === undefined) { return; }
+   if (str_ === null || str_ === undefined) { return; }
+   if (numphone === null || numphone === undefined) { return; }
 /**
  * confirmation de la suppression 
  * @param url 
