@@ -39,12 +39,16 @@ class EUser(DB):
         r = "SELECT * FROM users WHERE login='{}'".format(login_)
         cursor = self.cur.execute(r)
         row = cursor.fetchone()
+        if login_ is None:
+            return None
         if row:
             return RUser(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9])
         return None
     
     def get_by_user(self, u_):
         r = "SELECT * FROM users WHERE login='{}' AND mdp='{}'".format(u_.login, u_.mdp)
+        if u_ is None or u_.login is None or u_.mdp is None:
+            return None
         cursor = self.cur.execute(r)
         row = cursor.fetchone()
         if row:
