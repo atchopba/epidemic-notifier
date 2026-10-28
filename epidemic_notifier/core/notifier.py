@@ -17,7 +17,6 @@ from config import Config
 
 import json
 
-
 notif_sm_sms = cm.load_file(Config.FILE_SM_NOTIF_SMS)
 notif_sm_email = cm.load_file(Config.FILE_SM_NOTIF_EMAIL)
 
