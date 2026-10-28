@@ -220,7 +220,6 @@ class DB(object):
         self.cur.execute("INSERT INTO guerison_types (libelle) VALUES ('clinique')")
         self.cur.execute("INSERT INTO guerison_types (libelle) VALUES ('scannographique')")
         self.conn.commit()
-    
     def create_table_personne_guerisons(self):
         self.cur.execute("DROP TABLE IF EXISTS personne_guerisons")
         self.cur.execute(''' CREATE TABLE personne_guerisons (
